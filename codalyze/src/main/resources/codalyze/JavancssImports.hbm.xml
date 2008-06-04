@@ -8,7 +8,6 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <timestamp name="timestamp" column="timestamp" />
         <property name="date" type="date">
             <column name="date" length="10" />
         </property>

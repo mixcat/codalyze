@@ -20,6 +20,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import codalyze.entity.JavancssImports;
+
 public class JavancssImporterTest {
 
     private static JdbcTemplate jdbcTemplate;
@@ -27,23 +29,20 @@ public class JavancssImporterTest {
     private static Date date;
 
     private String metadata = "metadata";
+	private static SessionFactory sessionFactory;
 
     @BeforeClass
     public static void befeoreClass() throws IOException {
         ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:test-context.xml");
         jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");   
-        File file = ctx.getResource("classpath:database-schema-hsql.sql").getFile();
-        FileReader rd = new FileReader(file);
-        char[] buf = new char[(int)file.length()];
-        rd.read(buf);
-       
-        SessionFactory sf = (SessionFactory) ctx.getBean("sessionFactory");
-        sf.openSession();
-        
-        String string = new String(buf);
-        //jdbcTemplate.update(string);
-        importer = new JavancssImporter(jdbcTemplate);
+        importer = (JavancssImporter) ctx.getBean("javancssImporter");
         date = new Date();
+    }
+    
+    @Test
+    public void testTest() {
+    	JavancssImports javancssImports = new JavancssImports();
+    	//sessionFactory.openSession().save(javancssImports);
     }
 
     @Test
@@ -92,15 +91,13 @@ public class JavancssImporterTest {
         try {
             importer.importReport(report, date, metadata);
             fail();
-        } catch (Exception e) {
-           
-        }
+        } catch (Exception e) {}
     }
    
     @Test
     public void testInsertIncompletePackageThrowsExceptionAndRollback() throws Exception {
         int count = count("javancss_packages");
-        Document report = getReport("<javancss><packages><package>" + getPackage("pkg") + "<name></name></package></packages></javancss>");
+        Document report = getReport("<javancss><packages>" + getPackage("pkg") + "<package><name></name></package></packages></javancss>");
         try {
             importer.importReport(report, date, metadata);
             fail();
