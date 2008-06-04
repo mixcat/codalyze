@@ -18,7 +18,7 @@
     	</constructor-arg>    
   	</bean>
   	
-	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
 		lazy-init="false">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mappingResources">
@@ -31,8 +31,8 @@
 		</property>
 		<property name="hibernateProperties">
 			 <props>
-		        <prop key="hibernate.default_schema">${hibernate.default_schema}</prop>
-		        <prop key="hbm2ddl.auto">create</prop>
+		        <!-- prop key="hibernate.default_schema">metrics</prop> -->
+		        <prop key="hibernate.hbm2ddl.auto">create</prop>
       		</props>
 		</property>
 	</bean>

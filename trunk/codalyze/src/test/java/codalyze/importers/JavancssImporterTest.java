@@ -13,6 +13,7 @@ import java.util.Date;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
+import org.hibernate.SessionFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -36,8 +37,11 @@ public class JavancssImporterTest {
         char[] buf = new char[(int)file.length()];
         rd.read(buf);
        
+        SessionFactory sf = (SessionFactory) ctx.getBean("sessionFactory");
+        sf.openSession();
+        
         String string = new String(buf);
-        jdbcTemplate.update(string);
+        //jdbcTemplate.update(string);
         importer = new JavancssImporter(jdbcTemplate);
         date = new Date();
     }

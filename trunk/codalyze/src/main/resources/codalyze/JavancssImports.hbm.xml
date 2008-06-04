@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 04-Jun-2008 16:26:21 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 04-Jun-2008 17:49:40 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
-    <class name="codalyze.JavancssImports" table="javancss_imports" catalog="metrics">
+    <class name="codalyze.entity.JavancssImports" table="javancss_imports">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
