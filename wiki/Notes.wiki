@@ -1,0 +1,20 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
+jncss run path
+
+{{{
+C:\jenv\tools\javancss\bin>"C:\Program Files\Java\jdk1.6.0_04\bin\"java -classpath C:\jenv\tools\javancss\lib\javancss.jar;C:\jenv\tools\javancss\lib\ccl.j
+ar;C:\jenv\tools\javancss\lib\jhbasic.jar;. javancss.Main -recursive -all -xml -out C:\javancss-meetingtracker-trunk-20080604.xml C:\development\...\
+}}}
