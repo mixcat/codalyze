@@ -78,6 +78,20 @@
   <classpathentry kind="var" path="M2_REPO/org/eigenbase/util/property/eigenbase-properties/1.1.0/eigenbase-properties-1.1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eigenbase/util/resgen/eigenbase-resgen/1.1.0/eigenbase-resgen-1.1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eigenbase/xom/eigenbase-xom/1.1.0/eigenbase-xom-1.1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate/3.2.6.ga/hibernate-3.2.6.ga.jar" sourcepath="M2_REPO/org/hibernate/hibernate/3.2.6.ga/hibernate-3.2.6.ga-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/development/alphametrics/build/M2_REPO/org/hibernate/hibernate/3.2.6.ga/hibernate-3.2.6.ga-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar" sourcepath="M2_REPO/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/development/alphametrics/build/M2_REPO/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar"/>
+  <classpathentry kind="var" path="M2_REPO/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/antlr/antlr/2.7.6/antlr-2.7.6.jar" sourcepath="M2_REPO/antlr/antlr/2.7.6/antlr-2.7.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/cglib/cglib/2.1_3/cglib-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib/2.1_3/cglib-2.1_3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-test/2.5/spring-test-2.5.jar" sourcepath="M2_REPO/org/springframework/spring-test/2.5/spring-test-2.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/saxpath/saxpath/1.0-FCS/saxpath-1.0-FCS.jar" sourcepath="M2_REPO/saxpath/saxpath/1.0-FCS/saxpath-1.0-FCS-sources.jar">
     <attributes>
