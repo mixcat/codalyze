@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04-Jun-2008 16:26:21 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="codalyze.JavancssFunctions" table="javancss_functions" catalog="metrics">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="1024" />
+        </property>
+        <property name="ncss" type="java.lang.Integer">
+            <column name="ncss" />
+        </property>
+        <property name="ccn" type="java.lang.Integer">
+            <column name="ccn" />
+        </property>
+        <property name="javadocs" type="java.lang.Integer">
+            <column name="javadocs" />
+        </property>
+        <property name="importId" type="int">
+            <column name="import_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

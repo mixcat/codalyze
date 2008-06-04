@@ -17,6 +17,25 @@
        		<ref bean="dataSource" />
     	</constructor-arg>    
   	</bean>
+  	
+	<bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		lazy="false">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>product.hbm.xml</value>
+				<value>codalyze/JavancssImports.hbm.xml</value>
+				<value>codalyze/JavancssFunctions.hbm.xml</value>
+				<value>codalyze/JavancssPackages.hbm.xml</value>
+				<value>codalyze/JavancssObjects.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>hibernate.dialect=org.hibernate.dialect.HSQLDialect</value>
+			<value>hbm2ddl.auto</value>
+		</property>
+	</bean>
 	
 	
 </beans>
