@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<bean id="modrianTemplate" class="codalyze.mondrian.MondrianTemplate">
+		<property name="connectString" value="Provider=mondrian;Jdbc=jdbc:mysql://localhost/metrics;JdbcDrivers=com.mysql.jdbc.Driver;JdbcUser=root;JdbcPassword=root;Catalog=C:\\Metrics.xml"/>
+	</bean>
+	
+</beans>
