@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="metrics" match-name="javancss_imports"/>
+  <table-filter match-catalog="metrics" match-name="javancss_packages"/>
+  <table-filter match-catalog="metrics" match-name="javancss_objects"/>
+  <table-filter match-catalog="metrics" match-name="javancss_functions"/>
+</hibernate-reverse-engineering>

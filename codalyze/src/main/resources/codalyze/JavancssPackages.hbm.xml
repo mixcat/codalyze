@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04-Jun-2008 16:26:21 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="codalyze.JavancssPackages" table="javancss_packages" catalog="metrics">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="1024" />
+        </property>
+        <property name="classes" type="java.lang.Integer">
+            <column name="classes" />
+        </property>
+        <property name="functions" type="java.lang.Integer">
+            <column name="functions" />
+        </property>
+        <property name="ncss" type="java.lang.Integer">
+            <column name="ncss" />
+        </property>
+        <property name="javadocs" type="java.lang.Integer">
+            <column name="javadocs" />
+        </property>
+        <property name="javadocLines" type="java.lang.Integer">
+            <column name="javadoc_lines" />
+        </property>
+        <property name="singleCommentLines" type="java.lang.Integer">
+            <column name="single_comment_lines" />
+        </property>
+        <property name="multiCommentLines" type="java.lang.Integer">
+            <column name="multi_comment_lines" />
+        </property>
+        <property name="importId" type="int">
+            <column name="import_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
