@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -14,6 +12,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.hibernate.SessionFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +24,9 @@ import codalyze.entity.JavancssImports;
 
 public class JavancssImporterTest {
 
+	public static void main(String[] args) {
+		System.out.println("porco");
+	}
     private static JdbcTemplate jdbcTemplate;
     private static JavancssImporter importer;
     private static Date date;
@@ -113,6 +116,11 @@ public class JavancssImporterTest {
         InputStream javaNcssXmlReport = new ByteArrayInputStream(xmlReport.getBytes());
         Document report = new SAXReader().read(javaNcssXmlReport);
         return report;
+    }
+    
+    @Before
+    public void setUp() {
+    	sessionFactory.getCurrentSession().beginTransaction();
     }
    
     public String getPackage(String name) {

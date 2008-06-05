@@ -28,7 +28,7 @@ public class JavancssImporter {
 	
 	@SuppressWarnings("unchecked")
 	public int importReport(final Document xmlReport, final Date date, final String metadata) {
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		JavancssImports imports = new JavancssImports(date,metadata);
 		session.save(imports);
 		for (Node node : (List<Node>) xmlReport.selectNodes("//packages/package")) {
