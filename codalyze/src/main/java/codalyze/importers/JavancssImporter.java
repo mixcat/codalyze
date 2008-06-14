@@ -3,10 +3,13 @@ package codalyze.importers;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import codalyze.entity.JavancssFunctions;
@@ -14,9 +17,11 @@ import codalyze.entity.JavancssImports;
 import codalyze.entity.JavancssObjects;
 import codalyze.entity.JavancssPackages;
 
-@Transactional
+@Transactional(propagation=Propagation.REQUIRES_NEW,rollbackFor=RuntimeException.class)
+@TransactionConfiguration(defaultRollback=false)
 public class JavancssImporter {
 
+	Logger log = Logger.getLogger(JavancssImporter.class);
 	private SessionFactory sessionFactory;
 
 	public JavancssImporter(SessionFactory sessionFactory) {
@@ -27,10 +32,12 @@ public class JavancssImporter {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public int importReport(final Document xmlReport, final Date date, final String metadata) {
 		Session session = sessionFactory.getCurrentSession();
 		JavancssImports imports = new JavancssImports(date,metadata);
 		session.save(imports);
+		int packages=0;
 		for (Node node : (List<Node>) xmlReport.selectNodes("//packages/package")) {
 			session.save(new JavancssPackages(
 				imports,
@@ -43,7 +50,9 @@ public class JavancssImporter {
 				value(node, "single_comment_lines"),
 				value(node, "multi_comment_lines")
 			));
+			packages++;
 		}
+		log.info("Packages section. Imported " + packages + " records.");
 		
 		for (Node node : (List<Node>) xmlReport.selectNodes("//objects/object")) {
 			session.save(new JavancssObjects(
@@ -76,6 +85,7 @@ public class JavancssImporter {
 
 	private int value(Node node, String xpath) {
 		Node selectedNode = node.selectSingleNode(xpath);
+		//if (selectedNode==null) throw new RuntimeException("No value");
 		return (selectedNode != null) ? Integer.parseInt(selectedNode.getStringValue()) : null;
 	}
 
