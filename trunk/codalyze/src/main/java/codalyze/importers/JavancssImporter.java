@@ -8,8 +8,6 @@ import org.dom4j.Document;
 import org.dom4j.Node;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import codalyze.entity.JavancssFunctions;
@@ -17,8 +15,6 @@ import codalyze.entity.JavancssImports;
 import codalyze.entity.JavancssObjects;
 import codalyze.entity.JavancssPackages;
 
-@Transactional(propagation=Propagation.REQUIRES_NEW,rollbackFor=RuntimeException.class)
-@TransactionConfiguration(defaultRollback=false)
 public class JavancssImporter {
 
 	Logger log = Logger.getLogger(JavancssImporter.class);
@@ -53,7 +49,7 @@ public class JavancssImporter {
 			packages++;
 		}
 		log.info("Packages section. Imported " + packages + " records.");
-		
+		int objects = 0;
 		for (Node node : (List<Node>) xmlReport.selectNodes("//objects/object")) {
 			session.save(new JavancssObjects(
 				imports,
@@ -63,8 +59,11 @@ public class JavancssImporter {
 				value(node, "classes"),
 				value(node, "javadocs")
 			));
+			objects++;
 		}
+		log.info("Objects section. Imported " + objects + " records.");
 		
+		int functions = 0;
 		for (Node node : (List<Node>) xmlReport.selectNodes("//functions/function")) {
 			session.save(new JavancssFunctions(
 				imports,
@@ -73,7 +72,9 @@ public class JavancssImporter {
 				value(node, "ccn"),
 				value(node, "javadocs")
 			));
+			functions++;
 		}
+		log.info("Functions section. Imported " + functions + " records.");
 
 		return 0;
 	}

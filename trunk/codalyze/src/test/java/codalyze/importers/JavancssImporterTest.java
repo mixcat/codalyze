@@ -58,7 +58,7 @@ public class JavancssImporterTest extends AbstractTransactionalJUnit4SpringConte
         } catch (Exception e) {
         	e.printStackTrace();
         }
-        JavancssPackages object = (JavancssPackages) sessionFactory.getCurrentSession().load(JavancssPackages.class, 1);
+        JavancssPackages object = (JavancssPackages) sessionFactory.getCurrentSession().load(JavancssPackages.class, 1L);
         System.out.println("-----------");
         System.out.println(object);
         assertEquals(count+3, count("javancss_packages") + count("javancss_objects") + count("javancss_functions"));
@@ -89,18 +89,6 @@ public class JavancssImporterTest extends AbstractTransactionalJUnit4SpringConte
         assertEquals(count+1, count("javancss_functions"));
     }
     
-    @Test
-    public void testInsertIncompletePackageThrowsExceptionAndRollback() throws Exception {
-        int count = count("javancss_packages");
-        Document report = getReport("<javancss><packages>" + getPackage("pkg") + "<package><name></name></package></packages></javancss>");
-        try {
-            importer.importReport(report, date, metadata);
-            fail();
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-        assertEquals(count, count("javancss_packages"));
-    }
     
     @Test
     public void testInsertIncompletePackageThrowsException() throws Exception {
