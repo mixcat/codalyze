@@ -29,6 +29,9 @@ public class JavancssPackages implements java.io.Serializable {
 	private Integer multiCommentLines;
 	private JavancssImports javancssImport;
 
+	public JavancssPackages() {
+		
+	}
 
 	public JavancssPackages(JavancssImports imports, String name,
 			int classes, int functions, int ncss, int javadocs, int javadocLines,

@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
+import javax.transaction.TransactionManager;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
@@ -19,45 +21,52 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import codalyze.entity.JavancssImports;
+import codalyze.entity.JavancssPackages;
 
-public class JavancssImporterTest {
+@ContextConfiguration(locations="classpath:test-context.xml")
+@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+@TransactionConfiguration(defaultRollback=true)
+public class JavancssImporterTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-	public static void main(String[] args) {
-		System.out.println("porco");
-	}
-    private static JdbcTemplate jdbcTemplate;
-    private static JavancssImporter importer;
-    private static Date date;
-
+    private static Date date = new Date();
     private String metadata = "metadata";
-	private static SessionFactory sessionFactory;
 
-    @BeforeClass
-    public static void befeoreClass() throws IOException {
-        ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:test-context.xml");
-        jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");   
-        importer = (JavancssImporter) ctx.getBean("javancssImporter");
-        date = new Date();
-    }
-    
-    @Test
-    public void testTest() {
-    	JavancssImports javancssImports = new JavancssImports();
-    	//sessionFactory.openSession().save(javancssImports);
-    }
-
+    private SessionFactory sessionFactory;
+	private JavancssImporter importer;
+	
+	@Before
+	public void setUp() {
+		importer = (JavancssImporter) applicationContext.getBean("javancssImporter");
+		sessionFactory = (SessionFactory) applicationContext.getBean("sessionFactory");
+	
+	}
+	
     @Test
     public void testInsertComplete() throws Exception {
         int count = count("javancss_packages") + count("javancss_objects") + count("javancss_functions");
         Document report = getReport("<javancss><packages>" + getPackage("pkg") + "</packages><objects>"+getObject("obj")+"</objects><functions>"+getFunction("func")+"</functions></javancss>");
-        int reportId = importer.importReport(report, date, metadata);
+        try {
+			
+        	int reportId = importer.importReport(report, date, metadata);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        JavancssPackages object = (JavancssPackages) sessionFactory.getCurrentSession().load(JavancssPackages.class, 1);
+        System.out.println("-----------");
+        System.out.println(object);
         assertEquals(count+3, count("javancss_packages") + count("javancss_objects") + count("javancss_functions"));
     }
    
     @Test
     public void testInsertPackage() throws Exception {
+    	
         int count = count("javancss_packages");
         Document report = getReport("<javancss><packages>" + getPackage("pkg") + "</packages><objects>"+getObject("obj")+"</objects></javancss>");
         int reportId = importer.importReport(report, date, metadata);
@@ -79,6 +88,30 @@ public class JavancssImporterTest {
         int reportId = importer.importReport(report, date, metadata);
         assertEquals(count+1, count("javancss_functions"));
     }
+    
+    @Test
+    public void testInsertIncompletePackageThrowsExceptionAndRollback() throws Exception {
+        int count = count("javancss_packages");
+        Document report = getReport("<javancss><packages>" + getPackage("pkg") + "<package><name></name></package></packages></javancss>");
+        try {
+            importer.importReport(report, date, metadata);
+            fail();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        assertEquals(count, count("javancss_packages"));
+    }
+    
+    @Test
+    public void testInsertIncompletePackageThrowsException() throws Exception {
+    	Document report = getReport("<javancss><packages><package><name></name></package></packages></javancss>");
+    	try {
+    		importer.importReport(report, date, metadata);
+    		fail();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
    
     @Test
     public void testInsertZeroPackage() throws Exception {
@@ -88,28 +121,8 @@ public class JavancssImporterTest {
         assertEquals(count, count("javancss_packages"));
     }
    
-    @Test
-    public void testInsertIncompletePackageThrowsException() throws Exception {
-        Document report = getReport("<javancss><packages><package><name></name></package></packages></javancss>");
-        try {
-            importer.importReport(report, date, metadata);
-            fail();
-        } catch (Exception e) {}
-    }
-   
-    @Test
-    public void testInsertIncompletePackageThrowsExceptionAndRollback() throws Exception {
-        int count = count("javancss_packages");
-        Document report = getReport("<javancss><packages>" + getPackage("pkg") + "<package><name></name></package></packages></javancss>");
-        try {
-            importer.importReport(report, date, metadata);
-            fail();
-        } catch (Exception e) {}
-        assertEquals(count, count("javancss_packages"));
-    }
-   
     private int count(String table) {
-        return jdbcTemplate.queryForInt("SELECT count(*) from " + table);
+        return simpleJdbcTemplate.queryForInt("SELECT count(*) from " + table);
     }
    
     private Document getReport(String xmlReport) throws DocumentException {
@@ -118,11 +131,6 @@ public class JavancssImporterTest {
         return report;
     }
     
-    @Before
-    public void setUp() {
-    	sessionFactory.getCurrentSession().beginTransaction();
-    }
-   
     public String getPackage(String name) {
         return  "<package>"
         + "<name>"+name+"</name>"
