@@ -9,10 +9,10 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/metrics</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">metrics</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-        <mapping resource="codalyze/JavancssImports.hbm.xml" />
-        <mapping resource="codalyze/JavancssFunctions.hbm.xml" />
-        <mapping resource="codalyze/JavancssPackages.hbm.xml" />
-        <mapping resource="codalyze/JavancssObjects.hbm.xml" />
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <mapping class="codalyze.entity.JavancssImports"/>
+        <mapping class="codalyze.entity.JavancssPackages"/>
+        <mapping class="codalyze.entity.JavancssObjects"/>
+        <mapping class="codalyze.entity.JavancssFunctions"/>      
     </session-factory>
 </hibernate-configuration>

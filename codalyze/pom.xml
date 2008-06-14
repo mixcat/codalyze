@@ -25,6 +25,11 @@
 			<version>3.2.1.ga</version>
 		</dependency>
 		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
 			<version>2.5.2</version>
@@ -158,6 +163,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 			<version>3.2.6.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
@@ -219,7 +230,7 @@
 					<components>
 						<component>
 							<name>hbm2ddl</name>
-							<implementation>jdbcconfiguration</implementation>
+							<implementation>annotationconfiguration</implementation>
 							<outputDirectory>src/main/resources</outputDirectory>
 						</component>
 						<component>
@@ -230,8 +241,51 @@
 					<componentProperties>
 						<drop>true</drop>
 						<configurationfile>/src/main/resources/hibernate.cfg.xml</configurationfile>
+						<outputfilename>target/javancss.sql</outputfilename>
+						<export>true</export>
+						<jdk5>true</jdk5>
+						<format>true</format>
 					</componentProperties>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>codalyze.cli.ImporterJavancssCLI</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<mainClass>codalyze.cli.ImporterJavancssCLI</mainClass>
+								</manifest>
+							</archive>
+							<classifier>client</classifier>
+							<includes>
+								<include>**/cli/*</include>
+								<include>**/importers/*</include>
+								<include>**/entity/*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<extensions>
