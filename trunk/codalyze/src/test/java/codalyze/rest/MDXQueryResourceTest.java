@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import codalyze.mondrian.MondrianTemplate;
-import codalyze.rest.MDXQueryResource;
+import codalyze.ui.web.controllers.MDXQueryController;
 
 
 public class MDXQueryResourceTest {
 
-	private MDXQueryResource resource;
+	private MDXQueryController resource;
 	private MondrianTemplate template;
 
 	@Test
@@ -27,7 +27,7 @@ public class MDXQueryResourceTest {
 	
 	@Before
 	public void setUp() {
-		resource = new MDXQueryResource();
+		resource = new MDXQueryController();
 		template = createMock(MondrianTemplate.class);
 		resource.mondrianTemplate = template;
 	}
