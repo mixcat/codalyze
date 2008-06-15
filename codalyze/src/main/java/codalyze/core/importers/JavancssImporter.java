@@ -1,4 +1,4 @@
-package codalyze.importers;
+package codalyze.core.importers;
 
 import java.util.Date;
 import java.util.List;

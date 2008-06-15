@@ -1,4 +1,4 @@
-package codalyze.cli;
+package codalyze.ui.cli;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,8 @@ import org.dom4j.io.SAXReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import codalyze.importers.JavancssImporter;
+import codalyze.core.importers.JavancssImporter;
+
 
 public class ImporterJavancssCLI {
 

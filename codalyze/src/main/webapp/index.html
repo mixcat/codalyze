@@ -2,14 +2,100 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Insert title here</title>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="index.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+	<script src="jquery.pack.js"></script>
+	<script src="index.js"></script>
+	
+	<!--CSS file (default YUI Sam Skin) -->
+	<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css">
+	
+	<!-- Dependencies -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
+	
+	<!-- OPTIONAL: JSON Utility -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
+	
+	<!-- OPTIONAL: Connection (enables XHR) -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
+	
+	<!-- OPTIONAL: Drag Drop (enables resizeable or reorderable columns) -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/dragdrop/dragdrop-min.js"></script>
+	
+	<!-- Source files -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta.js"></script>
+	
+	<!-- Dependencies -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/charts/charts-experimental-min.js"></script>
+	
+	<style type="text/css">
+		#sql-query-result-chart
+		{
+			width: 300px;
+			height: 350px;
+		}
+	
+		.chart_title
+		{
+			display: block;
+			font-size: 1.2em;
+			font-weight: bold;
+			margin-bottom: 0.4em;
+		}
+		
+		.action-link {
+			color:blue;
+			text-decoration:underline;
+			cursor:pointer;
+		}
+		
+		.hidden {
+			display:none;
+		}
+		
+		.error {
+			border: 1px dotted red;
+		}
+		
+		#saved-queries li {
+			color:blue;
+			text-decoration:underline;
+			cursor:pointer;
+		}
+	
+	</style>
+	 
 </head>
-<body>
-<input type="text" id="query" size="80"/><button id="submit-query">Submit</button>
-<pre id="query-result">
-</pre>
+<body class="yui-skin-sam">
+	
+	<div id="sql-query">
+		
+		<ul id="saved-queries"></ul>
+		<input type="text" id="sql-query-mode" value="mode-transient"/>
+		
+		<span class="mode-edit mode-create">
+			<label for="sql-query-title-edit">Enter title:</label>
+			<input type="text" id="sql-query-title-edit"/>
+		</span>
+		<span id="sql-query-abort-create" class="action-link mode-create">X</span>
+		<span id="sql-query-title-display mode-display"></span>
+		<div>
+			<textarea class="mode-transient mode-create mode-edit" rows="5" cols="80" id="sql-query-edit"></textarea>
+			<p class="mode-display" id="sql-query-display"></p>	
+		</div>
+		<button id="create-sql-query" class="mode-create">Save</button>
+		<button id="update-sql-query" class="mode-edit">Save (update)</button>
+		<button id="execute-sql-query" class="mode-edit mode-display mode-transient">Execute</button>
+		<a id="sql-query-save-as" class="action-link mode-transient">Save this query</a>
+		<a id="sql-query-enable-edit" class="action-link mode-display">Edit this query</a>
+		<a class="action-link mode-edit mode-display" id="sql-query-create-new">Create new query</a>	
+	</div>
+	
+	<div id="sql-query-result-table"></div>
+	<div id="sql-query-result-chart"></div>
+	<pre id="sql-query-result-raw"></pre>
+	
 </body>
 </html>
