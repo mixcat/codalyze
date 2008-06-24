@@ -3,9 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Insert title here</title>
+	<title>codalyze</title>
 	<script src="jquery.pack.js"></script>
-	<script src="index.js"></script>
+	<script src="js/index.js"></script>
 	
 	<!--CSS file (default YUI Sam Skin) -->
 	<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css">
@@ -70,10 +70,13 @@
 </head>
 <body class="yui-skin-sam">
 	
+	
+	
 	<div id="sql-query">
+		<input type="text" id="sql-query-mode" value="mode-transient"/>
+		<input type="text" id="sql-query-id"/>
 		
 		<ul id="saved-queries"></ul>
-		<input type="text" id="sql-query-mode" value="mode-transient"/>
 		
 		<span class="mode-edit mode-create">
 			<label for="sql-query-title-edit">Enter title:</label>
@@ -96,6 +99,8 @@
 	<div id="sql-query-result-table"></div>
 	<div id="sql-query-result-chart"></div>
 	<pre id="sql-query-result-raw"></pre>
+	
+	<div id="application-error"></div>
 	
 </body>
 </html>
