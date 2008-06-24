@@ -2,6 +2,8 @@ package codalyze.core.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,8 +72,15 @@ public class SQLQueryDaoTest extends AbstractTransactionalJUnit4SpringContextTes
 		assertEquals(query, queryDao.findByTitle(title));
 	}
 	
+	@Test
 	public void testShouldfindAll() {
-		
+		queryDao.save(query);
+		SQLQuery queryTwo = new SQLQueryBuilder("newQuery","newTitle").toQuery();
+		queryDao.save(queryTwo);
+		List<SQLQuery> all = queryDao.findAll();
+		assertEquals(2, all.size());
+		assertTrue(all.contains(query));
+		assertTrue(all.contains(queryTwo));
 	}
 	
 	@Test
@@ -107,9 +116,8 @@ public class SQLQueryDaoTest extends AbstractTransactionalJUnit4SpringContextTes
 	@Test
 	public void testShouldNotUpdateDuplicatetitle() {
 		queryDao.save(query);
-		SQLQuery clone = new SQLQuery();
-		clone.setQuery("newQuery");
-		clone.setTitle("newTitle");
+		SQLQuery clone = new SQLQueryBuilder("newQuery","newTitle").toQuery();
+
 		queryDao.save(clone);
 		Long id = clone.getId();
 		reset();

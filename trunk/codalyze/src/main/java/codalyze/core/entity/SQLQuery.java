@@ -19,11 +19,6 @@ public class SQLQuery extends PersistentObject {
 	
 	public SQLQuery() {
 	}
-	
-	public SQLQuery(String query, String title) {
-		this.query = query;
-		this.title = title;
-	}
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {

@@ -1,5 +1,9 @@
 package codalyze.ui.web.controllers;
 
+import codalyze.core.dao.SQLQueryDao;
+import codalyze.core.entity.SQLQuery;
+import codalyze.ui.web.validators.CreateQueryValidator;
+
 import java.util.List;
 
 import javax.ws.rs.ConsumeMime;
@@ -13,10 +17,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.log4j.Logger;
 
-import codalyze.core.dao.SQLQueryDao;
-import codalyze.core.entity.SQLQuery;
-import codalyze.ui.web.validators.CreateQueryValidator;
-
 import com.sun.jersey.spi.resource.Inject;
 import com.sun.jersey.spi.resource.Singleton;
 
@@ -29,6 +29,10 @@ public class SQLQueryController extends FormController {
 
 	@Inject
 	private SQLQueryDao dao;
+	
+	public void setSQLQueryDao(SQLQueryDao dao) {
+		this.dao = dao;
+	}
 
 	public SQLQueryController() {
 		setCommandClass(SQLQuery.class);
