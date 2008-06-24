@@ -6,6 +6,7 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	
+	<import resource="dao-context.xml"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -38,11 +39,12 @@
 				<value>codalyze.entity.JavancssPackages</value>
 				<value>codalyze.entity.JavancssObjects</value>
 				<value>codalyze.entity.JavancssFunctions</value>
+				<value>codalyze.core.entity.SQLQuery</value>
 			</util:list>
 		</property>
 	</bean>
 	
-	<bean id="javancssImporter" class="codalyze.importers.JavancssImporter">
+	<bean id="javancssImporter" class="codalyze.core.importers.JavancssImporter">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
 
