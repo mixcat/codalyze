@@ -1,0 +1,39 @@
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|<<HTTP Method>> | <<URL>>                |<<Payload>>|<<Mime>>| <<Operation>>                   | <<Returned Value>>
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|GET             | /sql/\{title\}/execute |    --     | --     |execute an existing named query  | SQLQueryResult
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|GET             | /sql/                  |    --     | --     |load named queries               | List<SQLQuery>
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|POST            | /sql/execute		      | SQLQuery  | form   |execute an anonymous query       | SQLQueryResult
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|POST            | /sql/	              | SQLQuery  | form   |create a new named query         | SQLQuery
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+|PUT             | /sql/\{title\}         | SQLQuery  | form   |update an existing named query   | SQLQuery
+*----------------+------------------------+-----------+--------+---------------------------------+--------------------+
+   
+   * "form" means  application/x-www-form-urlencoded
+   * all responses are returned as mime "text/javascript"
+
+* Errors
+
+	Error signaling mechanism is relies on HTTP Response status.
+	The body of an error response can contain additional information about the error
+
+	If the request payload has been sent as <<application/x-www-form-urlencoded>> (a form), the server assumes it is coming from an 
+	intercative user interface, and in case of failure caused by input data, it will try to return errors bound to form elements
+	
+	{
+		title: "",
+		query: ""
+	}
+
+* Entities
+
+	* SQLQuery entity
+		* String title
+		* String query
+	  
+	* SQLQueryResult entity
+		* SQLQuery query
+		* List<Map> result
