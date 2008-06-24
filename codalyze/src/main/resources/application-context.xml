@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	
+	<import resource="dao-context.xml"/>
   	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -43,8 +44,6 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<bean id="sqlQueryDao" class="codalyze.core.dao.SQLQueryDao">
-		<constructor-arg ref="sessionFactory"/>
-	</bean>
+
 	
 </beans>
