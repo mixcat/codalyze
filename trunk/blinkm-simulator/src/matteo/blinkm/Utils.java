@@ -2,6 +2,10 @@ package matteo.blinkm;
 
 public class Utils {
 	public static String strCmd(char[] cmd) {
-		return cmd[0] +"," + cmd[1] + "," + cmd[2];
+		String r = "";
+		for (char c : cmd) {
+			r += (int)c + ",";
+		}
+		return r;
 	}
 }
