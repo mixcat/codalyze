@@ -182,6 +182,9 @@ public class Blinkm {
 
 		BlinkmCommand(char[] command) {
 			this.definition =  BlinkmCommandDef.getByChar((char)command[0]);
+			if (definition == null) {
+				throw new RuntimeException(((char)command[0]) + " is not a valid command");
+			}
 			this.payload = new char[command.length-1];
 			
 			for(int i=0; i<payload.length; i++)
