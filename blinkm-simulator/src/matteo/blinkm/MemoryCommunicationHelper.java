@@ -120,7 +120,7 @@ public class MemoryCommunicationHelper {
 		
 		
 		public char[] bytes() {
-			char[] rt = new char[2*SIZE +LINE_SIZE*lines.size()];
+			char[] rt = new char[3*SIZE +LINE_SIZE*lines.size()];
 			for (int i=0; i<rt.length; i++)
 				rt[i] = '*';
 			int offset = setCmd(addr, cmd, val, rt, 0);
@@ -135,6 +135,7 @@ public class MemoryCommunicationHelper {
 				System.out.println();
 				offset = setLine(addr, i, line.cmd(), rgb , rt, offset );
 			}
+			offset = setCmd(addr, BlinkmCommandDef.playScript, new char [] { 0, 0, 0 }, rt, offset);
 			return rt;
 		}
 	}
