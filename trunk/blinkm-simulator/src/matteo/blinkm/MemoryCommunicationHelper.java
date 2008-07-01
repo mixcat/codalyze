@@ -29,8 +29,8 @@ public class MemoryCommunicationHelper {
 		this.data = new ScriptBuilder(0, 0)
 			.cmd(goToRGB).val(255,255,255)
 			.line(1, fadeToRGB).val(Color.yellow)
-			.line(1, fadeToRGB).val(Color.cyan)
-			.line(1, BlinkmCommandDef.fadeToRGB).val(Color.cyan)
+			//.line(1, fadeToRGB).val(Color.cyan)
+			//.line(1, BlinkmCommandDef.fadeToRGB).val(Color.cyan)
 			.chars();
 	}
 	
@@ -52,7 +52,7 @@ public class MemoryCommunicationHelper {
 	public class ScriptBuilder {
 
 		private static final int SIZE = 9;
-		private static final int LINE_SIZE = 0;
+		private static final int LINE_SIZE = SIZE+4;
 		private ArrayList<LineBuilder> lines= new ArrayList<LineBuilder>();
 		private final char addr;
 		private BlinkmCommandDef cmd;
@@ -84,31 +84,37 @@ public class MemoryCommunicationHelper {
 			return this;
 		}
 
-		public void setCmd(char addr, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
+		public int setCmd(char addr, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
+			int start = offset; 
 			dest[offset] = addr;
-			dest[offset+1] =cmd.getCmd();
+			dest[++offset] = cmd.getCmd();
 			int i;
-			for (i = 2; i < val.length+2; i++) {
-				dest[i] = val[i-2];
+			for (i = ++offset; i < val.length+offset; i++) {
+				dest[i] = val[i-offset];
 			}
-			for (int j = i+1; j < SIZE-i; j++) {
-				dest[j] = 0;
+			for (int j = i+1; j < start+SIZE ; j++) {
+				dest[j] = 'x';
 			}
+			return start+SIZE;
+			
 		}
 		
-		public void setLine(char addr, int lineNo, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
+		public int setLine(char addr, int lineNo, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
 			dest[offset] = addr;
-			dest[offset+1] = writeScriptLine.getCmd();
-			dest[offset+2] = 0;
-			dest[offset+3] = (char) lineNo;
-			dest[offset+4] = cmd.getCmd();
-			setCmd(addr, cmd, val, dest, offset+4);
+			dest[++offset] = writeScriptLine.getCmd();
+			dest[++offset] = 0;
+			dest[++offset] = (char) lineNo;
+			dest[++offset] = cmd.getCmd();
+			offset = setCmd(addr, cmd, val, dest, ++offset);
+			return offset;
 		}
 		
 		public char[] bytes() {
-			char[] rt = new char[2*SIZE +SIZE*lines.size()];
-			setCmd(addr, cmd, val, rt, 0);
-			setCmd(addr, BlinkmCommandDef.setScriptLengthAndRepeats, new char [] { (char) lines.size(), 0 }, rt, SIZE);
+			char[] rt = new char[2*SIZE +LINE_SIZE*lines.size()];
+			for (int i=0; i<rt.length; i++)
+				rt[i] = '*';
+			int offset = setCmd(addr, cmd, val, rt, 0);
+			offset = setCmd(addr, BlinkmCommandDef.setScriptLengthAndRepeats, new char [] { (char) lines.size(), 0 }, rt, offset);
 			for (int i = 0; i<lines.size(); i++) {
 				LineBuilder line = lines.get(i);
 				Color color = line.val();
@@ -117,15 +123,10 @@ public class MemoryCommunicationHelper {
 					System.out.println((int)c +" ");
 				}
 				System.out.println();
-				setLine(addr, i, line.cmd(), rgb , rt, 2*SIZE+(LINE_SIZE*i) );
+				offset = setLine(addr, i, line.cmd(), rgb , rt, offset+1 );
 			}
-			
-			
 			return rt;
 		}
-		
-		
-		
 	}
 	
 	public class LineBuilder {
