@@ -28,9 +28,9 @@ public class MemoryCommunicationHelper {
 		
 		this.data = new ScriptBuilder(0, 0)
 			.cmd(goToRGB).val(255,255,255)
-			.line(1, fadeToRGB).val(Color.yellow)
-			//.line(1, fadeToRGB).val(Color.cyan)
-			//.line(1, BlinkmCommandDef.fadeToRGB).val(Color.cyan)
+			.line(100, fadeToRGB).val(Color.yellow)
+			//.line(20, fadeToRGB).val(Color.cyan)
+			//.line(50, BlinkmCommandDef.fadeToRGB).val(Color.cyan)
 			.chars();
 	}
 	
@@ -92,7 +92,7 @@ public class MemoryCommunicationHelper {
 			for (i = ++offset; i < val.length+offset; i++) {
 				dest[i] = val[i-offset];
 			}
-			for (int j = i+1; j < start+SIZE ; j++) {
+			for (int j = i; j < start+SIZE ; j++) {
 				dest[j] = 'x';
 			}
 			return start+SIZE;
@@ -105,7 +105,7 @@ public class MemoryCommunicationHelper {
 			dest[++offset] = 0;
 			dest[++offset] = (char) lineNo;
 			dest[++offset] = cmd.getCmd();
-			offset = setCmd(addr, cmd, val, dest, ++offset);
+			offset = setCmd(addr, cmd, val, dest, offset);
 			return offset;
 		}
 		
@@ -123,7 +123,7 @@ public class MemoryCommunicationHelper {
 					System.out.println((int)c +" ");
 				}
 				System.out.println();
-				offset = setLine(addr, i, line.cmd(), rgb , rt, offset+1 );
+				offset = setLine(addr, i, line.cmd(), rgb , rt, offset );
 			}
 			return rt;
 		}
