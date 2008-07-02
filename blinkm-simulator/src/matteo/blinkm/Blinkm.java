@@ -21,8 +21,8 @@ public class Blinkm {
 	private char activeScript;
 	private long currentScriptTick;
 	private boolean scriptIsRunning;
-	private char customScriptLength = 50;
-	private char customScriptRepeats;
+	private int customScriptLength = 50;
+	private int customScriptRepeats;
 	private int currentScriptLine;
 	
 	Blinkm(byte addr, Cube cube) {
@@ -34,6 +34,7 @@ public class Blinkm {
 	void setCmd(char[] command) {
 		BlinkmCommand cmd = new BlinkmCommand(command);
 		char[] p = cmd.getPayload();
+		System.out.println(this.toString() + " receiving command " + cmd);
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p[0],p[1],p[2]);
@@ -60,9 +61,10 @@ public class Blinkm {
 			break;
 			
 			case writeScriptLine:
-				char id = p[0]; // skipped as only ediatable script is 0
+				char id = p[0]; // skipped as only editable script is 0
 				char line = p[1];
-				this.customScript[line] = new char[] { p[2], p[3], p[4], p[5], p[6] };
+				char ticks = p[2];
+				this.customScript[line] = new char[] { ticks, p[3], p[4], p[5], p[6] };
 			break;
 			
 			case playScript:
@@ -93,8 +95,7 @@ public class Blinkm {
 				char lineTicks = line[0];
 				
 				// currently executing line
-				if (currentScriptTick >= ticks && currentScriptTick < ticks+lineTicks  ) {
-					//System.out.println("tick " + currentScriptTick + " line:" + i + " ticks:" + ticks);
+				if (ticks <= currentScriptTick && currentScriptTick < ticks+lineTicks  ) {
 					
 					// first tick for this line
 					if (currentScriptTick == ticks) {
@@ -103,7 +104,7 @@ public class Blinkm {
 					
 					// last tick for this line
 					if (currentScriptTick == ticks+lineTicks-1) {
-						// if last command reset 
+						// if last script line, reset 
 						if (i == customScriptLength-1) {
 							currentScriptTick = 0;
 							break;
@@ -198,6 +199,15 @@ public class Blinkm {
 		public BlinkmCommandDef getDefintion() {
 			return definition;
 		}
+		
+		public String toString() {
+			String rt = this.definition.toString() + "[";
+			for (char c : payload) {
+				rt +=  c + ",";
+			}
+			return rt + "]";
+			
+		}
 
 	}
 		
@@ -250,7 +260,7 @@ public class Blinkm {
 		
 		@Override
 		public String toString() {
-			return "BlinkCommandDef<" + c + "/" + super.toString()+">";
+			return "cmd<" + c + "/" + super.toString()+">";
 		}
 
 		public char getCmd() {
