@@ -11,65 +11,62 @@ import java.util.logging.Logger;
 */
 public class Blinkm {
 	private Cube cube;
-	private ArrayList<BlinkmCommand> commands = new ArrayList<BlinkmCommand>(); 
 	private final byte addr;
 	private Color color = new Color(0,0,0);
 	private Color fadeToColor = null;
 	private char fadeSpeed = 1;
-	private Logger log;
 	private char[][] customScript = new char[49][];
 	private char activeScript;
 	private long currentScriptTick;
 	private boolean scriptIsRunning;
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
-	private int currentScriptLine;
 	
 	Blinkm(byte addr, Cube cube) {
 		this.addr = addr;
 		this.cube = cube;
-		log = Logger.getLogger(this.toString());
 	}
 	
-	void setCmd(char[] command) {
-		BlinkmCommand cmd = new BlinkmCommand(command);
-		char[] p = cmd.getPayload();
-		System.out.println(this.toString() + " receiving command " + cmd);
+	//TODO: add multiple script support
+	//TODO: add native scripts
+	
+	void setCmd(BlinkmCommand cmd) {
+		ArrayList<Character> p = cmd.getPayload();
 		switch (cmd.getDefintion()) {
 			case goToRGB:
-				this.color = new Color(p[0],p[1],p[2]);
+				this.color = new Color(p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case fadeToRGB:
-				this.fadeToColor = new Color(p[0],p[1],p[2]);
+				this.fadeToColor = new Color(p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case fadeToHSB:
-				this.fadeToColor = Color.getHSBColor(p[0], p[1], p[2]);
+				this.fadeToColor = Color.getHSBColor(p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case fadeToRandomRGB:
-				this.fadeToColor = getRandomRGBColor(this.color, p[0], p[1], p[2]);
+				this.fadeToColor = getRandomRGBColor(this.color, p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case fadeToRandomHSB:
-				this.fadeToColor = getRandomHSBColor(this.color, p[0], p[1], p[2]);
+				this.fadeToColor = getRandomHSBColor(this.color, p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case setFadeSpeed:
-				this.fadeSpeed = p[0];
+				this.fadeSpeed = p.get(0);
 			break;
 			
 			case writeScriptLine:
-				char id = p[0]; // skipped as only editable script is 0
-				char line = p[1];
-				char ticks = p[2];
-				this.customScript[line] = new char[] { ticks, p[3], p[4], p[5], p[6] };
+				char id = p.get(0); // skipped as only editable script is 0
+				char line = p.get(1);
+				char ticks = p.get(2);
+				this.customScript[line] = new char[] { ticks, p.get(3),p.get(4),p.get(5),p.get(6) };
 			break;
 			
 			case playScript:
 				this.scriptIsRunning = true;
-				this.activeScript = p[0];
+				this.activeScript = p.get(0);
 				this.currentScriptTick = 0L;
 			break;
 			
@@ -78,8 +75,8 @@ public class Blinkm {
 			break;
 			
 			case setScriptLengthAndRepeats:
-				this.customScriptLength = p[1];
-				this.customScriptRepeats = p[2];
+				this.customScriptLength = p.get(1);
+				this.customScriptRepeats = p.get(2);
 			break;
 			
 		}
@@ -99,7 +96,8 @@ public class Blinkm {
 					
 					// first tick for this line
 					if (currentScriptTick == ticks) {
-						setCmd(new char[] { line[1], line[2], line[3], line[4] });
+						BlinkmCommandDef def = BlinkmCommandDef.getByChar(line[1]);
+						setCmd(new BlinkmCommand(def, new char[] { line[2], line[3], line[4] }));
 					}
 					
 					// last tick for this line
@@ -111,11 +109,8 @@ public class Blinkm {
 						}
 					}
 					currentScriptTick++;
-					
 					break;
 				}
-				
-				
 				ticks += lineTicks;
 			}
 		}
@@ -177,95 +172,5 @@ public class Blinkm {
 		return "Blinkm<" +addr+ ">";
 	}
 
-	public class BlinkmCommand {
-		private final BlinkmCommandDef definition;
-		private final char[] payload;
 
-		BlinkmCommand(char[] command) {
-			this.definition =  BlinkmCommandDef.getByChar((char)command[0]);
-			if (definition == null) {
-				throw new RuntimeException(((char)command[0]) + " is not a valid command");
-			}
-			this.payload = new char[command.length-1];
-			
-			for(int i=0; i<payload.length; i++)
-				this.payload[i] = command[i+1];
-		}
-		
-		public char[] getPayload() {
-			return payload;
-		}
-
-		public BlinkmCommandDef getDefintion() {
-			return definition;
-		}
-		
-		public String toString() {
-			String rt = this.definition.toString() + "[";
-			for (char c : payload) {
-				rt +=  c + ",";
-			}
-			return rt + "]";
-			
-		}
-
-	}
-		
-	public enum BlinkmCommandDef {
-		
-		goToRGB ('n',3,0),
-		fadeToRGB ('c',3, 0),
-		fadeToHSB ('h',3, 0),
-		fadeToRandomRGB ('C',3, 0),
-		fadeToRandomHSB ('H',3, 0),
-		playScript ('p',3, 0),
-		stopScript ('o',0, 0),
-		setFadeSpeed ('f',1, 0),
-		setTimeAdjust ('t',1, 0),
-		getRGB ('g',0, 3),
-		writeScriptLine ('W',7, 0),
-		readScriptLine ('R',2, 5),
-		setScriptLengthAndRepeats ('L',3, 0),
-		setAddress ('A',4, 0),
-		getAddress ('a',0, 1),
-		getFirmwareVersion ('Z', 0, 1),
-		setStartupParameters ('B', 5, 0);
-		
-		int numArgs;
-		int numReturnValues;
-		private final char c;
-		
-		BlinkmCommandDef(char c, int numArgs, int numRetValues) {
-			this.c = c;
-			this.numArgs = numArgs;
-			this.numReturnValues = numRetValues;
-		}
-		
-		static BlinkmCommandDef getByChar(char c) {
-			for (BlinkmCommandDef def : BlinkmCommandDef.values()) {
-				if (def.is(c)) {
-					return def;
-				}
-			}
-			return null;
-		}
-		
-		public boolean is(char c) {
-			return this.c == c;
-		}
-
-		public int getNumArgs() {
-			return numArgs;
-		}
-		
-		@Override
-		public String toString() {
-			return "cmd<" + c + "/" + super.toString()+">";
-		}
-
-		public char getCmd() {
-			return c;
-		}
-		
-	}
 }

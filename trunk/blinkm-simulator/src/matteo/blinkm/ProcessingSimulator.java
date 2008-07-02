@@ -61,25 +61,40 @@ public class ProcessingSimulator extends PApplet {
 	 * 
 	 * @param receivedData
 	 */
+	//TODO: remove padding
 	private void dispatchReceivedCommands(Blinkm[] blinkms, char[] receivedData, char[] command) {
+		int relativePos = 0;
+		BlinkmCommandDef commandDef = null;
+		BlinkmCommand blinkmCommand = null;
 		for (int idx=0; idx<receivedData.length; idx++) {
-			if (idx%PACKET_SIZE == 0) {
+			if (relativePos == 0) {
 				addr = (byte) receivedData[idx]; 
 			}
-			else {
-				command[(idx%PACKET_SIZE)-ADDR_LEN] = receivedData[idx];
+			else if (relativePos == 1) {
+				commandDef = BlinkmCommandDef.getByChar(receivedData[idx]);
+				if (commandDef == null) {
+					throw new RuntimeException("command not found. idx: " + idx);
+				}
+				blinkmCommand = new BlinkmCommand(commandDef);
 			}
-
-			if (idx%PACKET_SIZE == PACKET_SIZE-1) {
+			else {
+				blinkmCommand.addPayload(receivedData[idx]);
+			}
+			
+			if (idx > 1 && relativePos == commandDef.getNumArgs()+1) {
+				relativePos = 0;
+				BlinkmCommand cmd = new BlinkmCommand(commandDef, command);
 				if (addr == 0) {
-					println("applying broadcast command: " + Utils.strCmd(command));
 					for(Blinkm blinkm : blinkms) {
-						blinkm.setCmd(command);
+						blinkm.setCmd(cmd);
 					}
 				}
 				else {
-					blinkms[(int)addr].setCmd(command);
+					blinkms[(int)addr].setCmd(cmd);
 				}
+			}
+			else {
+				relativePos++;
 			}
 		}
 	}
