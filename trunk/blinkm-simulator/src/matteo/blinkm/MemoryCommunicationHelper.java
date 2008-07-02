@@ -26,12 +26,23 @@ public class MemoryCommunicationHelper {
 		};
 		
 		
-		this.data = new ScriptBuilder(0, 0)
-			.cmd(goToRGB).val(255,255,255)
-			.line(1, fadeToRGB).val(Color.yellow)
-			.line(2, fadeToRGB).val(Color.cyan)
-			.line(5, BlinkmCommandDef.fadeToRGB).val(Color.cyan)
-			.chars();
+			
+		Script builder = new Script();
+		for (int i=0; i<100; i++) {
+			builder.script(i,0)
+				.line(155+i, fadeToRGB).val(Color.yellow)
+				.line(155+i, fadeToRGB).val(Color.cyan)
+				.line(155+i, BlinkmCommandDef.fadeToRGB).val(Color.red);
+		}
+		
+		ArrayList<Character> chars = builder.chars();
+		char[] rt = new char[chars.size()];
+		for(int i=0; i<rt.length; i++) {
+			rt[i] = chars.get(i);
+		}
+		this.data = rt;
+		
+		
 	}
 	
 	char[] scriptOne(char id) {
@@ -49,20 +60,41 @@ public class MemoryCommunicationHelper {
 		return copy;
 	}
 	
+	public class Script {
+		private ArrayList<ScriptBuilder> scripts = new ArrayList<ScriptBuilder>();
+		public ScriptBuilder script(int addr, int repeats) {
+			ScriptBuilder builder = new ScriptBuilder(this, addr, repeats);
+			scripts.add(builder);
+			return builder;
+		}
+		public ArrayList<Character> chars() {
+			ArrayList<Character> list = new ArrayList<Character>();
+			for (ScriptBuilder s : scripts) {
+				char[] chars = s.bytes();
+				for (char c : chars) {
+					list.add(c);
+				}
+			}
+			return list;
+		}
+	}
+	
 	public class ScriptBuilder {
 
 		private static final int SIZE = 9;
 		private static final int LINE_SIZE = 9;
 		private ArrayList<LineBuilder> lines= new ArrayList<LineBuilder>();
-		private final char addr;
+		private char addr;
 		private BlinkmCommandDef cmd;
 		private int ticks;
 		private char[] val;
-		private final char repeats;
+		private char repeats;
+		private final Script parent;
 
-		public ScriptBuilder(int addr, int repeats) {
+		public ScriptBuilder(Script parent, int addr, int repeats) {
 			this.repeats = (char) repeats;
 			this.addr = (char) addr;
+			this.parent = parent;
 		}
 
 		public LineBuilder line(int ticks, BlinkmCommandDef cmd) {
@@ -99,13 +131,13 @@ public class MemoryCommunicationHelper {
 			
 		}
 		
-		public int setLine(char addr, int lineNo, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
+		public int setLine(char addr, int lineNo, char ticks, BlinkmCommandDef cmd, char[] val, char[] dest, int offset) {
 			int start = offset; 
 			dest[offset] = addr;
 			dest[++offset] = writeScriptLine.getCmd();
 			dest[++offset] = 0;
 			dest[++offset] = (char) lineNo;
-			dest[++offset] = 0;
+			dest[++offset] = ticks;
 			dest[++offset] = cmd.getCmd();
 			int i;
 			for (i = ++offset; i < val.length+offset; i++) {
@@ -118,13 +150,12 @@ public class MemoryCommunicationHelper {
 		}
 		
 		
-		
 		public char[] bytes() {
-			char[] rt = new char[3*SIZE +LINE_SIZE*lines.size()];
+			char[] rt = new char[2*SIZE +LINE_SIZE*lines.size()];
 			for (int i=0; i<rt.length; i++)
 				rt[i] = '*';
-			int offset = setCmd(addr, cmd, val, rt, 0);
-			offset = setCmd(addr, BlinkmCommandDef.setScriptLengthAndRepeats, new char [] { (char) lines.size(), 0 }, rt, offset);
+			//int offset = setCmd(addr, cmd, val, rt, 0);
+			int offset = setCmd(addr, BlinkmCommandDef.setScriptLengthAndRepeats, new char [] { 3, 3 }, rt, 0);
 			for (int i = 0; i<lines.size(); i++) {
 				LineBuilder line = lines.get(i);
 				Color color = line.val();
@@ -133,9 +164,22 @@ public class MemoryCommunicationHelper {
 					System.out.println((int)c +" ");
 				}
 				System.out.println();
-				offset = setLine(addr, i, line.cmd(), rgb , rt, offset );
+				offset = setLine(addr, i, line.ticks(), line.cmd(),  rgb , rt, offset );
 			}
 			offset = setCmd(addr, BlinkmCommandDef.playScript, new char [] { 0, 0, 0 }, rt, offset);
+			return rt;
+		}
+
+		public ScriptBuilder script(int addr, int repeats) {
+			return parent.script(addr, repeats);
+		}
+
+		public char[] chars() {
+			ArrayList<Character> chars = parent.chars();
+			char[] rt = new char[chars.size()];
+			for(int i=0; i<rt.length; i++) {
+				rt[i] = chars.get(i);
+			}
 			return rt;
 		}
 	}
@@ -153,8 +197,16 @@ public class MemoryCommunicationHelper {
 			this.ticks = (char) ticks;
 		}
 
+		public ScriptBuilder script(int addr, int repeats) {
+			return parent.script(addr, repeats);
+		}
+
+		public char ticks() {
+			return ticks;
+		}
+
 		public char[] chars() {
-			return parent.bytes();
+			return parent.chars();
 			
 		}
 
@@ -174,6 +226,7 @@ public class MemoryCommunicationHelper {
 		public LineBuilder line(int ticks, BlinkmCommandDef cmd) {
 			return parent.line(ticks, cmd);
 		}
+		
 		
 	}
 	
