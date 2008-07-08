@@ -1,6 +1,8 @@
 package matteo.blinkm.graphics;
 
 import matteo.blinkm.Blinkm;
+import matteo.blinkm.console.LineSelector;
+import matteo.blinkm.console.LineSelector.Direction;
 
 public class Matrix {
 
@@ -25,6 +27,31 @@ public class Matrix {
 			
 		}
 		return matrix;
+	}
+
+	public static char[] merge(char[]...parts) {
+		int size = 0;
+		for (char[] part : parts) {
+			size += part.length;
+		}
+		char[] result = new char[size];
+		int c = 0;
+		for (int i=0; i<parts.length; i++) {
+			for (int j=0; j<parts[i].length; j++) {
+				result[c++] = parts[i][j];
+			}
+		}
+		return result;
+		
+	}
+
+	public static char[] square(char[][] matrix, int i, int j, int len) {
+		char[] t = LineSelector.select(matrix, i, j, Direction.east, len);
+		char[] r = LineSelector.select(matrix, i, j+len, Direction.south, len);
+		char[] b = LineSelector.select(matrix, i+len, j+len, Direction.west, len);
+		char[] l = LineSelector.select(matrix, i+len, j, Direction.north, len);
+		char[] square = Matrix.merge(t, r, b, l);
+		return square;
 	}
 
 }

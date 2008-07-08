@@ -36,9 +36,10 @@ public class MemoryCommunicationHelper {
 		int cols = 10;
 		int rows = 10;
 		char[][] matrix = Matrix.build(rows,cols);
-		int len = 2;
+		int len = 4;
 		Script lbuilder = new Script();
-		for (char c : LineSelector.select(matrix, 9, 9, Direction.north, len)) {
+
+		for (char c : Matrix.square(matrix, 3, 3, 2)) {
 			int ticks = 25;
 			lbuilder.script(0, c)
 				.line(ticks, fadeToRGB).val(Color.red)
@@ -50,7 +51,19 @@ public class MemoryCommunicationHelper {
 				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
 		
-		for (char c : LineSelector.select(matrix, 7, 9, Direction.east, len)) {
+		for (char c : Matrix.square(matrix, 1, 1, 5)) {
+			int ticks = 25;
+			lbuilder.script(0, c)
+			.line(ticks, fadeToRGB).val(Color.red)
+			.line(ticks, fadeToRGB).val(Color.orange)
+			.line(ticks, fadeToRGB).val(Color.yellow)
+			.line(ticks, fadeToRGB).val(Color.green)
+			.line(ticks, fadeToRGB).val(Color.blue)
+			.line(ticks, fadeToRGB).val(new Color(75,0,130))
+			.line(ticks, fadeToRGB).val(new Color(238,130,238));
+		}
+		/*
+		for (char c : LineSelector.select(matrix, 7, 9, Direction.south, len)) {
 			int ticks = 50;
 			lbuilder.script(0, c)
 				.line(ticks, fadeToRGB).val(Color.red)
@@ -62,7 +75,7 @@ public class MemoryCommunicationHelper {
 				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
 		
-		for (char c : LineSelector.select(matrix, 7, 7, Direction.east, len)) {
+		for (char c : LineSelector.select(matrix, 9, 9, Direction.west, len)) {
 			int ticks = 100;
 			lbuilder.script(0, c)
 				.line(ticks, fadeToRGB).val(Color.red)
@@ -74,7 +87,7 @@ public class MemoryCommunicationHelper {
 				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
 		
-		for (char c : LineSelector.select(matrix, 7, 7, Direction.south, len)) {
+		for (char c : LineSelector.select(matrix, 9, 7, Direction.north, len)) {
 			int ticks = 150;
 			lbuilder.script(0, c)
 				.line(ticks, fadeToRGB).val(Color.red)
@@ -85,7 +98,7 @@ public class MemoryCommunicationHelper {
 				.line(ticks, fadeToRGB).val(new Color(75,0,130))
 				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
-		
+		*/
 		ArrayList<Character> chars = lbuilder.chars();
 		char[] rt = new char[chars.size()];
 		for(int i=0; i<rt.length; i++) {
