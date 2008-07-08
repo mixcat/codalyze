@@ -105,11 +105,7 @@ public class ProcessingSimulator extends PApplet {
 					addr = (byte) receivedData[idx];
 				break;
 				case 1:
-					try {
 					blinkmCommand = new Command(receivedData[idx]);
-					} catch (RuntimeException e) {
-						break;
-					}
 					break;
 				default:
 					blinkmCommand.addPayload(receivedData[idx]);
@@ -134,7 +130,7 @@ public class ProcessingSimulator extends PApplet {
 		if (relativePos > 0) {
 			reminder = new char[relativePos];
 			for (int i=0;i<relativePos;i++) {
-				reminder[i] = receivedData[receivedData.length-relativePos];
+				reminder[i] = receivedData[receivedData.length-relativePos+i];
 			}
 			return reminder;
 		}
