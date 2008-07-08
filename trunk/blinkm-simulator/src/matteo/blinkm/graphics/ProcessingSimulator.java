@@ -26,11 +26,7 @@ public class ProcessingSimulator extends PApplet {
 	public void setup() {
 		size(600,600,P3D);
 		System.out.println("setup " + this);
-		 server = new Server(this, 5204); 
-		//super.frameRate(60);
-		//comm = new ProcessingSimulatorServer();
-		//new Thread(comm).start();
-		//comm = new MemoryCommunicationHelper();
+		server = new Server(this, 5204); 
 		leds = new Blinkm[100];
 		cmd = new char[PACKET_SIZE-ADDR_LEN];
 		for (int i=0; i<leds.length; i++) {
@@ -91,25 +87,20 @@ public class ProcessingSimulator extends PApplet {
 	/**
 	 * Cuts received data into commands and dispatches them to blinkms.
 	 * 
-	 * @param receivedData
+	 * @param rcv
 	 * @return 
 	 */
-	private char[] dispatchReceivedCommands(Blinkm[] blinkms, char[] receivedData, char[] command) {
-		int relativePos = 0;
+	private char[] dispatchReceivedCommands(Blinkm[] blinkms, char[] rcv, char[] command) {
+		int pos = 0;
 		Command blinkmCommand = null;
 		char[] reminder = null;
-		for (int idx=0; idx<receivedData.length; idx++) {
-
-			switch (relativePos) {
-				case 0:
-					addr = (byte) receivedData[idx];
-				break;
-				case 1:
-					blinkmCommand = new Command(receivedData[idx]);
-					break;
-				default:
-					blinkmCommand.addPayload(receivedData[idx]);
-			}
+		for (int idx=0; idx < rcv.length; idx++) {
+			if (pos == 0)
+				addr = (byte) rcv[idx];
+			else if (pos == 1)
+				blinkmCommand = new Command(rcv[idx]);
+			else
+				blinkmCommand.addPayload(rcv[idx]);
 
 			if (blinkmCommand != null && blinkmCommand.isComplete()) {
 				if (addr == 0) {
@@ -120,17 +111,17 @@ public class ProcessingSimulator extends PApplet {
 				else {
 					blinkms[(int)addr-1].setCmd(blinkmCommand);
 				}
-				relativePos = 0;
-				blinkmCommand = null;
+				pos = 0;
 				continue;
 			}
-			relativePos++;
-		
+			pos++;
 		}
-		if (relativePos > 0) {
-			reminder = new char[relativePos];
-			for (int i=0;i<relativePos;i++) {
-				reminder[i] = receivedData[receivedData.length-relativePos+i];
+		// if pos is positive, some chars have not been consumed
+		// and will be prepended to next reeption
+		if (pos > 0) {
+			reminder = new char[pos];
+			for (int i=0;i<pos;i++) {
+				reminder[i] = rcv[rcv.length-pos+i];
 			}
 			return reminder;
 		}
