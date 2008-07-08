@@ -1,7 +1,5 @@
 package matteo.blinkm.graphics;
 
-import matteo.blinkm.Blinkm;
-import matteo.blinkm.console.LineSelector;
 import matteo.blinkm.console.LineSelector.Direction;
 
 public class Matrix {

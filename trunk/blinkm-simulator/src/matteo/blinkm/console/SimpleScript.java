@@ -46,7 +46,9 @@ public class SimpleScript {
 		}
 	}
 	
-	
+	public ArrayList<Character> play(char repeats, char target) {
+		return play(repeats, new char[] {target});
+	}
 	public ArrayList<Character> play(char repeats, char...targets) {
 		char scriptId = 0;
 		ArrayList<Character> chars = new ArrayList<Character>();
