@@ -1,12 +1,14 @@
-package matteo.blinkm;
+package matteo.blinkm.console;
 
 import java.util.ArrayList;
 
-public class BlinkmCommand {
-	private final BlinkmCommandDef definition;
+import matteo.blinkm.Definition;
+
+public class Command {
+	private final Definition definition;
 	private final ArrayList<Character> payload;
 
-	BlinkmCommand(BlinkmCommandDef commandDef, char[] load) {
+	public Command(Definition commandDef, char[] load) {
 		this.definition =  commandDef;
 		this.payload =  new ArrayList<Character>();
 		for(char c: load) {
@@ -14,7 +16,7 @@ public class BlinkmCommand {
 		}
 	}
 	
-	public BlinkmCommand(BlinkmCommandDef commandDef) {
+	public Command(Definition commandDef) {
 		definition = commandDef;
 		payload = new ArrayList<Character>();
 	}
@@ -23,7 +25,7 @@ public class BlinkmCommand {
 		return payload;
 	}
 
-	public BlinkmCommandDef getDefintion() {
+	public Definition getDefintion() {
 		return definition;
 	}
 	

@@ -5,6 +5,9 @@ import java.awt.color.ColorSpace;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import matteo.blinkm.console.Command;
+import matteo.blinkm.graphics.Cube;
+
 /**
 	command name cmd char cmd byte # args # ret vals format
 	
@@ -22,16 +25,19 @@ public class Blinkm {
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
 	
-	Blinkm(byte addr, Cube cube) {
+	public Blinkm(byte addr, Cube cube) {
 		this.addr = addr;
 		this.cube = cube;
 	}
 	
 	//TODO: add multiple script support
 	//TODO: add native scripts
+	//TODO: matrix selectors to install same script on image of main matrix
+	//TODO: dynamic logging system
 	
-	void setCmd(BlinkmCommand cmd) {
+	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
+		//System.out.println(this + " setting Command " + cmd);
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p.get(0),p.get(1),p.get(2));
@@ -87,7 +93,7 @@ public class Blinkm {
 		if (this.scriptIsRunning) {
 			for (int i=0; i<this.customScriptLength; i++) {
 				char[] line = this.customScript[i];
-				if (line==null)
+				if (line==null) //TODO: add script length control
 					break;
 				char lineTicks = line[0];
 				
@@ -96,13 +102,12 @@ public class Blinkm {
 					
 					// first tick for this line
 					if (currentScriptTick == ticks) {
-						BlinkmCommandDef def = BlinkmCommandDef.getByChar(line[1]);
-						setCmd(new BlinkmCommand(def, new char[] { line[2], line[3], line[4] }));
+						Definition def = Definition.getByChar(line[1]);
+						setCmd(new Command(def, new char[] { line[2], line[3], line[4] }));
 					}
 					
-					// last tick for this line
+					// if last tick for this line, reset
 					if (currentScriptTick == ticks+lineTicks-1) {
-						// if last script line, reset 
 						if (i == customScriptLength-1) {
 							currentScriptTick = 0;
 							break;

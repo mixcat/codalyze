@@ -1,6 +1,6 @@
 package matteo.blinkm;
 
-public enum BlinkmCommandDef {
+public enum Definition {
 	
 	goToRGB ('n',3,0),
 	fadeToRGB ('c',3, 0),
@@ -24,14 +24,14 @@ public enum BlinkmCommandDef {
 	int numReturnValues;
 	private final char c;
 	
-	BlinkmCommandDef(char c, int numArgs, int numRetValues) {
+	Definition(char c, int numArgs, int numRetValues) {
 		this.c = c;
 		this.numArgs = numArgs;
 		this.numReturnValues = numRetValues;
 	}
 	
-	static BlinkmCommandDef getByChar(char c) {
-		for (BlinkmCommandDef def : BlinkmCommandDef.values()) {
+	public static Definition getByChar(char c) {
+		for (Definition def : Definition.values()) {
 			if (def.is(c)) {
 				return def;
 			}

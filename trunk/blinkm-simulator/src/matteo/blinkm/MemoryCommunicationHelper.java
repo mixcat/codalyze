@@ -2,8 +2,14 @@ package matteo.blinkm;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import static matteo.blinkm.BlinkmCommandDef.*;
+import matteo.blinkm.console.LineSelector;
+import matteo.blinkm.console.Script;
+import matteo.blinkm.console.LineSelector.Direction;
+import matteo.blinkm.graphics.Matrix;
+
+import static matteo.blinkm.Definition.*;
 public class MemoryCommunicationHelper {
 
 
@@ -27,13 +33,15 @@ public class MemoryCommunicationHelper {
 //				0, 'p', 0, 0, 0,    0,  0,   0,   0
 //		};
 		
-		
-			
-		Script builder = new Script();
-		for (int i=0; i<100; i++) {
-			int ticks = i%4*25+i%3*50+5;
-			builder.script(i,1)
-				.line(i, fadeToRGB).val(Color.red)
+		int cols = 10;
+		int rows = 10;
+		char[][] matrix = Matrix.build(rows,cols);
+		int len = 2;
+		Script lbuilder = new Script();
+		for (char c : LineSelector.select(matrix, 9, 9, Direction.north, len)) {
+			int ticks = 25;
+			lbuilder.script(0, c)
+				.line(ticks, fadeToRGB).val(Color.red)
 				.line(ticks, fadeToRGB).val(Color.orange)
 				.line(ticks, fadeToRGB).val(Color.yellow)
 				.line(ticks, fadeToRGB).val(Color.green)
@@ -42,10 +50,43 @@ public class MemoryCommunicationHelper {
 				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
 		
-		for (int i=0; i<100; i++) {
+		for (char c : LineSelector.select(matrix, 7, 9, Direction.east, len)) {
+			int ticks = 50;
+			lbuilder.script(0, c)
+				.line(ticks, fadeToRGB).val(Color.red)
+				.line(ticks, fadeToRGB).val(Color.orange)
+				.line(ticks, fadeToRGB).val(Color.yellow)
+				.line(ticks, fadeToRGB).val(Color.green)
+				.line(ticks, fadeToRGB).val(Color.blue)
+				.line(ticks, fadeToRGB).val(new Color(75,0,130))
+				.line(ticks, fadeToRGB).val(new Color(238,130,238));
 		}
 		
-		ArrayList<Character> chars = builder.chars();
+		for (char c : LineSelector.select(matrix, 7, 7, Direction.east, len)) {
+			int ticks = 100;
+			lbuilder.script(0, c)
+				.line(ticks, fadeToRGB).val(Color.red)
+				.line(ticks, fadeToRGB).val(Color.orange)
+				.line(ticks, fadeToRGB).val(Color.yellow)
+				.line(ticks, fadeToRGB).val(Color.green)
+				.line(ticks, fadeToRGB).val(Color.blue)
+				.line(ticks, fadeToRGB).val(new Color(75,0,130))
+				.line(ticks, fadeToRGB).val(new Color(238,130,238));
+		}
+		
+		for (char c : LineSelector.select(matrix, 7, 7, Direction.south, len)) {
+			int ticks = 150;
+			lbuilder.script(0, c)
+				.line(ticks, fadeToRGB).val(Color.red)
+				.line(ticks, fadeToRGB).val(Color.orange)
+				.line(ticks, fadeToRGB).val(Color.yellow)
+				.line(ticks, fadeToRGB).val(Color.green)
+				.line(ticks, fadeToRGB).val(Color.blue)
+				.line(ticks, fadeToRGB).val(new Color(75,0,130))
+				.line(ticks, fadeToRGB).val(new Color(238,130,238));
+		}
+		
+		ArrayList<Character> chars = lbuilder.chars();
 		char[] rt = new char[chars.size()];
 		for(int i=0; i<rt.length; i++) {
 			rt[i] = chars.get(i);

@@ -1,4 +1,4 @@
-package matteo.blinkm;
+package matteo.blinkm.graphics;
 
 public 	class Point3D {
 	float x, y, z;
