@@ -1,7 +1,12 @@
-package matteo.blinkm;
+package matteo.blinkm.graphics;
 
 
 import java.io.File;
+
+import matteo.blinkm.Blinkm;
+import matteo.blinkm.Definition;
+import matteo.blinkm.MemoryCommunicationHelper;
+import matteo.blinkm.console.Command;
 
 import processing.core.PApplet;
 
@@ -61,21 +66,20 @@ public class ProcessingSimulator extends PApplet {
 	 * 
 	 * @param receivedData
 	 */
-	//TODO: remove padding
 	private void dispatchReceivedCommands(Blinkm[] blinkms, char[] receivedData, char[] command) {
 		int relativePos = 0;
-		BlinkmCommandDef commandDef = null;
-		BlinkmCommand blinkmCommand = null;
+		Definition commandDef = null;
+		Command blinkmCommand = null;
 		for (int idx=0; idx<receivedData.length; idx++) {
 			if (relativePos == 0) {
 				addr = (byte) receivedData[idx]; 
 			}
 			else if (relativePos == 1) {
-				commandDef = BlinkmCommandDef.getByChar(receivedData[idx]);
+				commandDef = Definition.getByChar(receivedData[idx]);
 				if (commandDef == null) {
 					throw new RuntimeException("command not found. idx: " + idx);
 				}
-				blinkmCommand = new BlinkmCommand(commandDef);
+				blinkmCommand = new Command(commandDef);
 			}
 			else {
 				blinkmCommand.addPayload(receivedData[idx]);
@@ -83,14 +87,13 @@ public class ProcessingSimulator extends PApplet {
 			
 			if (idx > 1 && relativePos == commandDef.getNumArgs()+1) {
 				relativePos = 0;
-				BlinkmCommand cmd = new BlinkmCommand(commandDef, command);
 				if (addr == 0) {
 					for(Blinkm blinkm : blinkms) {
-						blinkm.setCmd(cmd);
+						blinkm.setCmd(blinkmCommand);
 					}
 				}
 				else {
-					blinkms[(int)addr].setCmd(cmd);
+					blinkms[(int)addr-1].setCmd(blinkmCommand);
 				}
 			}
 			else {

@@ -1,15 +1,17 @@
-package matteo.blinkm;
+package matteo.blinkm.console;
 
 import java.awt.Color;
 
-public class LineBuilder {
+import matteo.blinkm.Definition;
 
+public class LineBuilder {
+	//TODO: class Line and class Script
 	private final char ticks;
-	private final BlinkmCommandDef cmd;
+	private final Definition cmd;
 	private Color color;
 	private final ScriptBuilder parent;
 	
-	public LineBuilder(ScriptBuilder parent, int ticks, BlinkmCommandDef cmd) {
+	public LineBuilder(ScriptBuilder parent, int ticks, Definition cmd) {
 		this.parent = parent;
 		this.cmd = cmd;
 		this.ticks = (char) ticks;
@@ -23,7 +25,7 @@ public class LineBuilder {
 		return ticks;
 	}
 
-	public BlinkmCommandDef cmd() {
+	public Definition cmd() {
 		return cmd;
 	}
 	
@@ -36,7 +38,7 @@ public class LineBuilder {
 		return this;
 	}
 	
-	public LineBuilder line(int ticks, BlinkmCommandDef cmd) {
+	public LineBuilder line(int ticks, Definition cmd) {
 		return parent.line(ticks, cmd);
 	}
 }

@@ -1,6 +1,7 @@
-package matteo.blinkm;
+package matteo.blinkm.graphics;
 
 import java.awt.Color;
+
 
 import processing.core.PApplet;
 
@@ -9,7 +10,7 @@ public 	class Cube {
 	float w, h, d;
 	private final PApplet applet;
 
-	void draw(Color color) {
+	public void draw(Color color) {
 		applet.fill(color.getRGB());
 		for (int i=0; i<6; i++){
 			applet.beginShape(PApplet.QUADS);

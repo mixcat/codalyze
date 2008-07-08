@@ -1,10 +1,12 @@
-package matteo.blinkm;
+package matteo.blinkm.console;
 
-import static matteo.blinkm.BlinkmCommandDef.setScriptLengthAndRepeats;
-import static matteo.blinkm.BlinkmCommandDef.writeScriptLine;
+import static matteo.blinkm.Definition.setScriptLengthAndRepeats;
+import static matteo.blinkm.Definition.writeScriptLine;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import matteo.blinkm.Definition;
 
 public class ScriptBuilder {
 
@@ -20,7 +22,7 @@ public class ScriptBuilder {
 		this.parent = parent;
 	}
 
-	public LineBuilder line(int ticks, BlinkmCommandDef cmd) {
+	public LineBuilder line(int ticks, Definition cmd) {
 		LineBuilder lineBuilder = new LineBuilder(this, ticks, cmd);
 		lines.add(lineBuilder);
 		return lineBuilder;
@@ -34,7 +36,7 @@ public class ScriptBuilder {
 		return this;
 	}
 
-	public void setCmd(char addr, BlinkmCommandDef cmd, char[] val, ArrayList<Character> chars) {
+	public void setCmd(char addr, Definition cmd, char[] val, ArrayList<Character> chars) {
 		chars.add(addr);
 		chars.add(cmd.getCmd());
 		for (char character : val) {
@@ -42,7 +44,7 @@ public class ScriptBuilder {
 		}
 	}
 	
-	public void setLine(char addr, int lineNo, char ticks, BlinkmCommandDef cmd, char[] val, ArrayList<Character> chars) {
+	public void setLine(char addr, int lineNo, char ticks, Definition cmd, char[] val, ArrayList<Character> chars) {
 		chars.add(addr);
 		chars.add(writeScriptLine.getCmd());
 		chars.add((char) 0);
@@ -64,7 +66,7 @@ public class ScriptBuilder {
 			char[] rgb= new char[] { (char) color.getRed(), (char) color.getGreen(), (char) color.getBlue() };
 			setLine(addr, i, line.ticks(), line.cmd(),  rgb , chars );
 		}
-		setCmd(addr, BlinkmCommandDef.playScript, new char [] { 0, 0, 0 }, chars);
+		setCmd(addr, Definition.playScript, new char [] { 0, 0, 0 }, chars);
 		return chars;
 	}
 
