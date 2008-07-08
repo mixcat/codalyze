@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/dikappa/Downloads/processing-0135-expert/lib/core.jar"/>
-	<classpathentry kind="lib" path="/Users/dikappa/Downloads/processing-0135-expert/libraries/net/library/net.jar"/>
+	<classpathentry kind="lib" path="lib/processing-core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-net.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
