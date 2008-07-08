@@ -6,11 +6,10 @@ import matteo.blinkm.Definition;
 
 public class Command {
 	private final Definition definition;
-	private final ArrayList<Character> payload;
+	private final ArrayList<Character> payload = new ArrayList<Character>();
 
 	public Command(Definition commandDef, char[] load) {
 		this.definition =  commandDef;
-		this.payload =  new ArrayList<Character>();
 		for(char c: load) {
 			payload.add(c);
 		}
@@ -18,7 +17,13 @@ public class Command {
 	
 	public Command(Definition commandDef) {
 		definition = commandDef;
-		payload = new ArrayList<Character>();
+	}
+
+	public Command(char c) {
+		definition = Definition.getByChar(c);
+		if (definition == null) {
+			throw new RuntimeException("command not found. idx: " + c);
+		}
 	}
 
 	public ArrayList<Character> getPayload() {
@@ -40,6 +45,10 @@ public class Command {
 
 	public void addPayload(char c) {
 		payload.add(c);
+	}
+
+	public boolean isComplete() {
+		return (payload.size() == definition.getNumArgs());
 	}
 
 }
