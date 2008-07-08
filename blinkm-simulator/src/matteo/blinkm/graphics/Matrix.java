@@ -44,12 +44,24 @@ public class Matrix {
 		return result;
 		
 	}
+	
+	public static char[] line(char[][] matrix, int i, int j, Direction dir, int len) {
+		char[] line = new char[len];
+		for (int xi=0; xi<len; xi++) {
+			int x = i+xi*dir.y;
+			int y = j+xi*dir.x;
+			System.out.print(x+","+y+" ");
+			line[xi] = matrix[x][y];
+		}
+		System.out.println();
+		return line;
+	}
 
 	public static char[] square(char[][] matrix, int i, int j, int len) {
-		char[] t = LineSelector.select(matrix, i, j, Direction.east, len);
-		char[] r = LineSelector.select(matrix, i, j+len, Direction.south, len);
-		char[] b = LineSelector.select(matrix, i+len, j+len, Direction.west, len);
-		char[] l = LineSelector.select(matrix, i+len, j, Direction.north, len);
+		char[] t = Matrix.line(matrix, i, j, Direction.east, len);
+		char[] r = Matrix.line(matrix, i, j+len, Direction.south, len);
+		char[] b = Matrix.line(matrix, i+len, j+len, Direction.west, len);
+		char[] l = Matrix.line(matrix, i+len, j, Direction.north, len);
 		char[] square = Matrix.merge(t, r, b, l);
 		return square;
 	}

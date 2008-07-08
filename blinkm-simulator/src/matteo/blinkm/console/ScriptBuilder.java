@@ -15,7 +15,7 @@ public class ScriptBuilder {
 	private char[] val;
 	private char repeats;
 	private final Script parent;
-
+	
 	public ScriptBuilder(Script parent, int addr, int repeats) {
 		this.repeats = (char) repeats;
 		this.addr = (char) addr;
