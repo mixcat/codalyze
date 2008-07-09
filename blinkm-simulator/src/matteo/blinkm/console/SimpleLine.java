@@ -18,7 +18,7 @@ public class SimpleLine {
 	}
 
 	public SimpleScript script(int addr, int repeats) {
-		return parent.script(addr, repeats);
+		return null;//parent.script(addr, repeats);
 	}
 
 	public char ticks() {
@@ -39,10 +39,10 @@ public class SimpleLine {
 	}
 	
 	public SimpleLine line(int ticks, Definition cmd) {
-		return parent.line(ticks, cmd);
+		return null;// parent.line(ticks, cmd);
 	}
 	
 	public ScriptBuilder get() {
-		return parent;
+		return null;//parent;
 	}
 }
