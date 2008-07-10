@@ -11,7 +11,6 @@ import matteo.blinkm.graphics.Cube;
 	
 */
 public class Blinkm {
-	private Cube cube;
 	private final byte addr;
 	private Color color = new Color(0,0,0);
 	private Color fadeToColor = null;
@@ -24,9 +23,8 @@ public class Blinkm {
 	private int customScriptRepeats;
 	
 	//TODO: remove dependency from Cube, return color when asked
-	public Blinkm(byte addr, Cube cube) {
+	public Blinkm(byte addr) {
 		this.addr = addr;
-		this.cube = cube;
 	}
 	
 	//TODO: add multiple script support
@@ -175,10 +173,5 @@ public class Blinkm {
 	public String toString() {
 		return "Blinkm<" +addr+ ">";
 	}
-
-	public Cube getCube() {
-		return cube;
-	}
-
 
 }
