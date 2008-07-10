@@ -35,6 +35,7 @@ public class Blinkm {
 	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
 		System.out.println(this + " setting Command " + cmd);
+		cmd.validate();
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p.get(0),p.get(1),p.get(2));
