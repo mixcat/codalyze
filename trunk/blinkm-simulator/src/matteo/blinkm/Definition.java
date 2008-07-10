@@ -55,6 +55,13 @@ public enum Definition {
 	public char getCmd() {
 		return c;
 	}
+
+	public void validate(char[] payload) {
+		if (payload.length != numArgs) {
+			throw new RuntimeException(this + ": payload is " + payload.length +" chars. Must be " + numArgs );
+		}
+		
+	}
 	
 }
 

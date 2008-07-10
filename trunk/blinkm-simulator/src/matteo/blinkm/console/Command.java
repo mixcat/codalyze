@@ -51,5 +51,13 @@ public class Command {
 		return (payload.size() == definition.getNumArgs());
 	}
 
+	public void validate () {
+		char[] rt = new char[payload.size()];
+		for (int i = 0; i <payload.size(); i++) {
+			rt[i] = payload.get(i);
+		}
+		this.definition.validate(rt);
+	}
+
 }
 	
