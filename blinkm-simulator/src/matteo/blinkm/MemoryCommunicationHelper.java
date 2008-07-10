@@ -22,7 +22,7 @@ public class MemoryCommunicationHelper {
 			.line(255, fadeToRGB, Color.blue);
 		
 		char[] square = Matrix.square(matrix, 3, 3, 2);
-		ArrayList<Character> installRedBlueOnASquare = redBlueScript.play((char)0, square);
+		ArrayList<Character> installRedBlueOnASquare = redBlueScript.script((char)0, square);
 		
 		char[] rt = new char[installRedBlueOnASquare.size()];
 		for(int i=0; i<rt.length; i++) {

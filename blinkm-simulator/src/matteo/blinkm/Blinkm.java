@@ -1,9 +1,7 @@
 package matteo.blinkm;
 
 import java.awt.Color;
-import java.awt.color.ColorSpace;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import matteo.blinkm.console.Command;
 import matteo.blinkm.graphics.Cube;
@@ -25,6 +23,7 @@ public class Blinkm {
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
 	
+	//TODO: remove dependency from Cube, return color when asked
 	public Blinkm(byte addr, Cube cube) {
 		this.addr = addr;
 		this.cube = cube;
@@ -37,7 +36,7 @@ public class Blinkm {
 	
 	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
-		//System.out.println(this + " setting Command " + cmd);
+		System.out.println(this + " setting Command " + cmd);
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p.get(0),p.get(1),p.get(2));
@@ -88,7 +87,7 @@ public class Blinkm {
 		}
 	}
 	
-	public void draw(long drawCount) {
+	public Color getColor() {
 		long ticks = 0;
 		if (this.scriptIsRunning) {
 			for (int i=0; i<this.customScriptLength; i++) {
@@ -127,7 +126,7 @@ public class Blinkm {
 			}
 		}
 		
-		cube.draw(color);
+		return color;
 	}
 	
 	/**
@@ -175,6 +174,10 @@ public class Blinkm {
 	@Override
 	public String toString() {
 		return "Blinkm<" +addr+ ">";
+	}
+
+	public Cube getCube() {
+		return cube;
 	}
 
 

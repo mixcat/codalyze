@@ -13,6 +13,9 @@ public class SimpleScript {
 	private final static int MAX_SCRIPT_LINES = 49;
 	private ArrayList<Line> lines= new ArrayList<Line>();
 
+	public static char[] STOP = cmd(Definition.stopScript, new char[] {}, new char[] { 0 });
+	public static char[] START = cmd(Definition.playScript, new char[] { 0, 0 ,0}, new char[] { 0 });
+	
 	public SimpleScript() {
 	}
 
@@ -26,7 +29,7 @@ public class SimpleScript {
 		return line(duration, cmd, new char[] { (char) args.getGreen(), (char) args.getRed(), (char) args.getBlue() });
 	}
 
-	public void setCmd(char addr, Definition cmd, char[] val, ArrayList<Character> chars) {
+	public static void setCmd(char addr, Definition cmd, char[] val, ArrayList<Character> chars) {
 		chars.add(addr);
 		chars.add(cmd.getCmd());
 		for (char character : val) {
@@ -46,10 +49,24 @@ public class SimpleScript {
 		}
 	}
 	
-	public ArrayList<Character> play(char repeats, char target) {
-		return play(repeats, new char[] {target});
+	public char[] play(char repeats, char[] targets) {
+		return getCharArray(script(repeats, targets));
 	}
-	public ArrayList<Character> play(char repeats, char...targets) {
+	
+	public char[] play(char repeats, char target) {
+		return getCharArray(script(repeats, new char[] {target}));
+	}
+	
+	public static char[] cmd(Definition cmd, char[] payload, char[] targets) {
+		cmd.validate(payload);
+		ArrayList<Character> chars = new ArrayList<Character>();
+		for (char addr : targets) {
+			setCmd(addr, cmd, payload, chars);
+		}
+		return getCharArray(chars);
+	}
+	
+	public ArrayList<Character> script(char repeats, char...targets) {
 		char scriptId = 0;
 		ArrayList<Character> chars = new ArrayList<Character>();
 		for (char addr : targets) {
@@ -58,9 +75,25 @@ public class SimpleScript {
 				Line line = lines.get(lineNo);
 				setLine(addr, scriptId, lineNo, line , chars );
 			}
-			setCmd(addr, Definition.playScript, new char [] { 0, 0, 0 }, chars);
 		}
 		return chars;
+	}
+	
+	public static ArrayList<Character> fadeGradient(int step, char[] targets) {
+		ArrayList<Character> chars = new ArrayList<Character>();
+		int count = 0;
+		for (char addr : targets) {
+			setCmd(addr, Definition.setFadeSpeed, new char[ 50 ], chars);
+		}
+		return chars;
+	}
+	
+	public static char[] getCharArray(ArrayList<Character> data) {
+		char[] rt = new char[data.size()];
+		for(int i=0; i<rt.length; i++) {
+			rt[i] = data.get(i);
+		}
+		return rt;
 	}
 
 }
