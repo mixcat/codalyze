@@ -10,30 +10,27 @@ import processing.net.Server;
 
 public class ProcessingSimulator extends PApplet {
 
-	static final int PACKET_SIZE = 9;
-	static final int ADDR_LEN = 1;
-
-	Blinkm[] leds;
-	
-	char[] cmd;
-
-	//ProcessingSimulatorServer comm;
+	private Blinkm[] leds;
 	private Server server;
 	private Controller controller;
+
 	public void setup() {
 		size(600,600,P3D);
 		System.out.println("setup " + this);
 		server = new Server(this, 5204); 
 		
 		leds = new Blinkm[100];
+		cubes = new Cube[100];
 		for (int i=0; i<leds.length; i++) {
-			leds[i] = new Blinkm((byte)i, new Cube(this, edge, edge, edge));
+			leds[i] = new Blinkm((byte)i);
+			cubes[i] = new Cube(this, edge, edge, edge);
 		}
 		controller = new Controller(leds);
 	}
 
 	float edge = 20;
 	float gap= edge;//*1.5F;
+	private Cube[] cubes;
 
 	private char[] receiveData() {
 		Client client = server.available();
@@ -68,7 +65,7 @@ public class ProcessingSimulator extends PApplet {
 			translate(tempX, tempY, tempZ);
 			fill(0,0,0);
 			Color color = leds[i].getColor();
-			leds[i].getCube().draw(color);
+			cubes[i].draw(color);
 			popMatrix();
 		}
 	}

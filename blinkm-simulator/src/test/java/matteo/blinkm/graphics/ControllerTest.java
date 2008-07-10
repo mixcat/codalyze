@@ -182,7 +182,7 @@ public class ControllerTest {
 	public void setUp() {
 		leds = new Blinkm[100];
 		for (int i=0; i<leds.length; i++) {
-			leds[i] = new Blinkm((byte)i, new Cube(null, 1F, 1F, 1F));
+			leds[i] = new Blinkm((byte)i);
 		}
 		controller = new Controller(leds);
 		int cols = 10;
