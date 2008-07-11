@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import matteo.blinkm.console.Command;
-import matteo.blinkm.graphics.Cube;
 
 /**
 	command name cmd char cmd byte # args # ret vals format
@@ -21,21 +20,21 @@ public class Blinkm {
 	private boolean scriptIsRunning;
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
+	private Character timeAdjiust;
 	
-	//TODO: remove dependency from Cube, return color when asked
 	public Blinkm(byte addr) {
 		this.addr = addr;
 	}
 	
 	//TODO: add multiple script support
 	//TODO: add native scripts
-	//TODO: matrix selectors to install same script on image of main matrix
 	//TODO: dynamic logging system
 	
 	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
 		System.out.println(this + " setting Command " + cmd);
 		cmd.validate();
+		//fadeSpeed = (char) addr;
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p.get(0),p.get(1),p.get(2));
@@ -53,12 +52,17 @@ public class Blinkm {
 				this.fadeToColor = getRandomRGBColor(this.color, p.get(0),p.get(1),p.get(2));
 			break;
 			
+			
 			case fadeToRandomHSB:
 				this.fadeToColor = getRandomHSBColor(this.color, p.get(0),p.get(1),p.get(2));
 			break;
 			
 			case setFadeSpeed:
 				this.fadeSpeed = p.get(0);
+			break;
+			
+			case setTimeAdjust:
+				this.timeAdjiust = p.get(0);
 			break;
 			
 			case writeScriptLine:
@@ -93,7 +97,7 @@ public class Blinkm {
 				char[] line = this.customScript[i];
 				if (line==null) //TODO: add script length control
 					break;
-				char lineTicks = line[0];
+				char lineTicks = (char) (line[0] + timeAdjiust-128);
 				
 				// currently executing line
 				if (ticks <= currentScriptTick && currentScriptTick < ticks+lineTicks  ) {
@@ -105,7 +109,7 @@ public class Blinkm {
 					}
 					
 					// if last tick for this line, reset
-					if (currentScriptTick == ticks+lineTicks-1) {
+					if (currentScriptTick >= ticks+lineTicks-1) {
 						if (i == customScriptLength-1) {
 							currentScriptTick = 0;
 							break;
@@ -147,7 +151,7 @@ public class Blinkm {
 		double diff = to - from;
 		if (diff == 0)
 			return from;
-		double diffStep = diff * fadeSpeed / 255;
+		double diffStep = diff / (255-fadeSpeed);
 		double sign = diffStep/Math.abs(diffStep);
 		double ceil = sign * Math.ceil(Math.abs(diffStep));
 		double result = from + ceil;

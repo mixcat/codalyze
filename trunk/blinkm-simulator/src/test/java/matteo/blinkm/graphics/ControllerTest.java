@@ -1,12 +1,16 @@
 package matteo.blinkm.graphics;
 
+import javax.swing.JPanel;
+
 import matteo.blinkm.Blinkm;
 import matteo.blinkm.Definition;
+import matteo.blinkm.console.Helper;
 import matteo.blinkm.console.ProcessingSimulatorClient;
 import matteo.blinkm.console.SimpleScript;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -93,6 +97,21 @@ public class ControllerTest {
 		client.write(SimpleScript.START);
 	}
 	
+	@Test
+	public void testFadeGradient() {
+		char[] cmd = new SimpleScript()
+		.line(200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
+		.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
+		char[] fadeGradient = Helper.fadeGradient(1, Matrix.flatten(matrix, 10, 10));
+		controller.dispatchReceivedCommands(cmd);
+		controller.dispatchReceivedCommands(fadeGradient);
+		controller.dispatchReceivedCommands(SimpleScript.START);
+		exercizeAllLeds();
+		client.write(cmd);
+		client.write(fadeGradient);
+		client.write(SimpleScript.START);
+	}
+	
 	//@Test
 	public void testLongScriptWithOneCommandToMultipleLedsAndRandomSplit() {
 		char[] cmd = new SimpleScript()
@@ -176,6 +195,18 @@ public class ControllerTest {
 	@After
 	public void tearDown() {
 		//client.disconnect();
+	}
+	
+	@BeforeClass
+	public static void beforeClass() {
+		JPanel panel = new ProcessingSimulatorPanel().getPanel();
+		panel.setVisible(true);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Before

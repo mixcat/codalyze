@@ -3,10 +3,14 @@ package matteo.blinkm.graphics;
 
 import java.awt.Color;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import matteo.blinkm.Blinkm;
 import processing.core.PApplet;
 import processing.net.Client;
 import processing.net.Server;
+import bsh.util.JConsole;
 
 public class ProcessingSimulator extends PApplet {
 
@@ -68,6 +72,31 @@ public class ProcessingSimulator extends PApplet {
 			cubes[i].draw(color);
 			popMatrix();
 		}
+	}
+	
+	
+
+	public static void xmain(String[] args) {
+		
+		System.out.println("uuu");
+		//bsh.Interpreter.main(args);
+		
+		JFrame cframe = new JFrame();
+		JPanel panel = new JPanel();
+		cframe.add(panel);
+		JConsole console = new JConsole();
+		panel.add(console);
+		panel.setSize(600,600);
+		console.setSize(600,600);
+		panel.setSize(600,600);
+		cframe.setSize(600,600);
+		//console.setVisible(true);
+		//panel.setVisible(true);
+		cframe.setVisible(true);
+		//Interpreter interpreter = new Interpreter( console );
+		//new Thread( interpreter ).start(); // start a thread to call the run() method
+		//Interpreter interpreter = new Interpreter(console);
+	
 	}
 
 
