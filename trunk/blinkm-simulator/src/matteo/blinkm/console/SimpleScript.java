@@ -10,6 +10,7 @@ import matteo.blinkm.Definition;
 
 public class SimpleScript {
 
+	//TODO: add revert() and merge(SimpleScript)
 	private final static int MAX_SCRIPT_LINES = 49;
 	private ArrayList<Line> lines= new ArrayList<Line>();
 
@@ -46,6 +47,10 @@ public class SimpleScript {
 		}
 	}
 	
+	public char[] play(char lineDuration, char repeats, char[] targets) {
+		return getCharArray(script(lineDuration, repeats, targets));
+	}
+
 	public char[] play(char repeats, char[] targets) {
 		return getCharArray(script(repeats, targets));
 	}
@@ -64,12 +69,18 @@ public class SimpleScript {
 	}
 	
 	public ArrayList<Character> script(char repeats, char...targets) {
+		return script((char)0, repeats, targets);
+	}
+	
+	private ArrayList<Character> script(char lineDuration, char repeats,char... targets) {
 		char scriptId = 0;
 		ArrayList<Character> chars = new ArrayList<Character>();
 		for (char addr : targets) {
 			setCmd(addr, setScriptLengthAndRepeats, new char [] { scriptId, (char) lines.size(), repeats }, chars);
 			for (char lineNo = 0; lineNo<lines.size(); lineNo++) {
 				Line line = lines.get(lineNo);
+				if (lineDuration > -1)
+					line.setDuration(lineDuration);
 				setLine(addr, scriptId, lineNo, line , chars );
 			}
 		}

@@ -55,10 +55,10 @@ public class Matrix {
 	}
 
 	public static char[] square(char[][] matrix, int i, int j, int len) {
-		char[] t = Matrix.line(matrix, i, j, Direction.east, len);
-		char[] r = Matrix.line(matrix, i, j+len, Direction.south, len);
-		char[] b = Matrix.line(matrix, i+len, j+len, Direction.west, len);
-		char[] l = Matrix.line(matrix, i+len, j, Direction.north, len);
+		char[] t = Matrix.line(matrix, i, j, Direction.east, len-1);
+		char[] r = Matrix.line(matrix, i, j+len-1, Direction.south, len-1);
+		char[] b = Matrix.line(matrix, i+len-1, j+len-1, Direction.west, len-1);
+		char[] l = Matrix.line(matrix, i+len-1, j, Direction.north, len-1);
 		char[] square = Matrix.merge(t, r, b, l);
 		return square;
 	}

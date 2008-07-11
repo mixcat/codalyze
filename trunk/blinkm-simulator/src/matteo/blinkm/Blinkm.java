@@ -31,7 +31,6 @@ public class Blinkm {
 	
 	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
-		System.out.println(this + " setting Command " + cmd);
 		cmd.validate();
 		switch (cmd.getDefintion()) {
 			case goToRGB:
@@ -67,23 +66,26 @@ public class Blinkm {
 				char line = p.get(1);
 				char ticks = p.get(2);
 				this.customScript[line] = new char[] { ticks, p.get(3),p.get(4),p.get(5),p.get(6) };
+				this.currentScriptTick = 0;
+				this.fadeToColor = null;
 			break;
 			
 			case playScript:
 				this.scriptIsRunning = true;
 				this.activeScript = p.get(0);
 				this.currentScriptTick = 0L;
+				this.fadeToColor = null;
 			break;
 			
 			case stopScript:
 				this.scriptIsRunning = false;
+				this.fadeToColor = null;
 			break;
 			
 			case setScriptLengthAndRepeats:
 				this.customScriptLength = p.get(1);
 				this.customScriptRepeats = p.get(2);
 			break;
-			
 		}
 	}
 	
@@ -91,6 +93,8 @@ public class Blinkm {
 		long ticks = 0;
 		if (this.scriptIsRunning) {
 			for (int i=0; i<this.customScriptLength; i++) {
+				if (!this.scriptIsRunning)
+					break;
 				char[] line = this.customScript[i];
 				if (line==null) //TODO: add script length control
 					break;
