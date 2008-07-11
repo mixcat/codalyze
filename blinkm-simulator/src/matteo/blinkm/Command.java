@@ -1,8 +1,7 @@
-package matteo.blinkm.console;
+package matteo.blinkm;
 
 import java.util.ArrayList;
 
-import matteo.blinkm.Definition;
 
 public class Command {
 	private final Definition definition;

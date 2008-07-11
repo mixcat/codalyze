@@ -3,7 +3,6 @@ package matteo.blinkm;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import matteo.blinkm.console.Command;
 
 /**
 	command name cmd char cmd byte # args # ret vals format
@@ -20,7 +19,7 @@ public class Blinkm {
 	private boolean scriptIsRunning;
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
-	private Character timeAdjiust;
+	private char timeAdjiust;
 	
 	public Blinkm(byte addr) {
 		this.addr = addr;
@@ -34,7 +33,6 @@ public class Blinkm {
 		ArrayList<Character> p = cmd.getPayload();
 		System.out.println(this + " setting Command " + cmd);
 		cmd.validate();
-		//fadeSpeed = (char) addr;
 		switch (cmd.getDefintion()) {
 			case goToRGB:
 				this.color = new Color(p.get(0),p.get(1),p.get(2));
@@ -51,7 +49,6 @@ public class Blinkm {
 			case fadeToRandomRGB:
 				this.fadeToColor = getRandomRGBColor(this.color, p.get(0),p.get(1),p.get(2));
 			break;
-			
 			
 			case fadeToRandomHSB:
 				this.fadeToColor = getRandomHSBColor(this.color, p.get(0),p.get(1),p.get(2));

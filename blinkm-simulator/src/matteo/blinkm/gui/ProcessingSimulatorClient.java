@@ -1,4 +1,4 @@
-package matteo.blinkm.console;
+package matteo.blinkm.gui;
 
 import java.io.IOException;
 import java.net.Socket;

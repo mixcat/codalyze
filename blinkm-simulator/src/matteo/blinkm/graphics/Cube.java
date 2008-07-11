@@ -25,7 +25,7 @@ public 	class Cube {
 
 	}
 
-	Cube(PApplet pa, float w, float h, float d){
+	public Cube(PApplet pa, float w, float h, float d){
 		this.applet = pa;
 		this.w = w;
 		this.h = h;

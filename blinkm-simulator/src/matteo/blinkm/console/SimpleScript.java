@@ -13,9 +13,6 @@ public class SimpleScript {
 	private final static int MAX_SCRIPT_LINES = 49;
 	private ArrayList<Line> lines= new ArrayList<Line>();
 
-	public static char[] STOP = cmd(Definition.stopScript, new char[] {}, new char[] { 0 });
-	public static char[] START = cmd(Definition.playScript, new char[] { 0, 0 ,0}, new char[] { 0 });
-	
 	public SimpleScript() {
 	}
 
@@ -78,8 +75,6 @@ public class SimpleScript {
 		}
 		return chars;
 	}
-	
-	
 	
 	public static char[] getCharArray(ArrayList<Character> data) {
 		char[] rt = new char[data.size()];
