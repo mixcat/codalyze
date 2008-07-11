@@ -6,6 +6,7 @@ import matteo.blinkm.Blinkm;
 import matteo.blinkm.Controller;
 import matteo.blinkm.graphics.Cube;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.net.Client;
 import processing.net.Server;
 
@@ -56,22 +57,27 @@ public class ProcessingSimulator extends PApplet {
 	public void draw() {
 		char[] rcv = receiveData();
 		if (rcv != null) {
-			System.out.println("dispatching buf " + rcv.length);
 			controller.dispatchReceivedCommands(rcv);
 		}
-
+		
 		background(100,125,200);  
 		translate(50, 50, 0);
-		float tempX = 0, tempY = 0, tempZ = gap*2;
+		float tempY = 0, tempX = 0, tempZ = gap*2;
 		for (int i=0; i<leds.length; i++) {
 			pushMatrix();
 			if ((i%10) == 0) {
-				tempX += gap;
-				tempY = 0;
+				tempY += gap;
+				tempX = 0;
 			}
-			tempY += gap;
+			tempX += gap;
 			translate(tempX, tempY, tempZ);
 			fill(255,255,255);
+			PFont font;
+			// The font must be located in the sketch's 
+			// "data" directory to load successfully
+			//font = loadFont("FFScala-32.vlw"); 
+			//textFont(font, 32); 
+			//text("word", 15, 50);
 			Color color = leds[i].getColor();
 			cubes[i].draw(color);
 			popMatrix();

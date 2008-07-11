@@ -11,6 +11,7 @@ import matteo.blinkm.Definition;
 import matteo.blinkm.console.Helper;
 import matteo.blinkm.console.SimpleScript;
 import matteo.blinkm.graphics.Matrix;
+import matteo.blinkm.graphics.Matrix.Direction;
 import matteo.blinkm.gui.ProcessingSimulatorClient;
 import matteo.blinkm.gui.ProcessingSimulatorPanel;
 
@@ -23,7 +24,7 @@ public class ControllerTest {
 	private Blinkm[] leds;
 	private Controller controller;
 	private char[][] matrix;
-	private ProcessingSimulatorClient client;
+	//private ProcessingSimulatorClient client;
 	
 	@Test
 	public void testAllCommandsOneLed() {
@@ -31,8 +32,6 @@ public class ControllerTest {
 			char[] payload = new char[def.getNumArgs()];
 			char[] cmd = SimpleScript.cmd(def, payload, new char[] {1});
 			controller.dispatchReceivedCommands(cmd);
-			client.write(cmd);
-			
 		}
 		exercizeAllLeds();
 	}
@@ -69,6 +68,19 @@ public class ControllerTest {
 	}
 	
 	@Test
+	public void testSouthLine() {
+		for (int i=0; i<10; i++) {
+			System.out.println("writing south line to 0," + i);
+			controller.dispatchReceivedCommands(Helper.rainbow.play((char)0, Helper.line(0, i, Direction.south, 10)));
+		}
+	}
+	
+	@Test
+	public void testSouthLine01() {
+		controller.dispatchReceivedCommands(Helper.rainbow.play((char)0, Helper.line(0, 1, Direction.south, 10)));
+	}
+	
+	@Test
 	public void testAllCommandsBroadcast() {
 		for(Definition def : Definition.values()) {
 			char[] payload = new char[def.getNumArgs()];
@@ -96,8 +108,6 @@ public class ControllerTest {
 		controller.dispatchReceivedCommands(cmd);
 		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
-		client.write(cmd);
-		client.write(Helper.START);
 	}
 	
 	@Test
@@ -110,9 +120,6 @@ public class ControllerTest {
 		controller.dispatchReceivedCommands(fadeGradient);
 		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
-		client.write(cmd);
-		client.write(fadeGradient);
-		client.write(Helper.START);
 	}
 	
 	//@Test
@@ -197,13 +204,13 @@ public class ControllerTest {
 	
 	@BeforeClass
 	public static void beforeClass() {
-		JPanel panel = new ProcessingSimulatorPanel().getPanel();
-		panel.setVisible(true);
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		//JPanel panel = new ProcessingSimulatorPanel().getPanel();
+		//panel.setVisible(true);
+		//try {
+		//	Thread.sleep(5000);
+		//} catch (InterruptedException e) {
+		//	e.printStackTrace();
+		//}
 	}
 	
 	@Before
@@ -216,7 +223,7 @@ public class ControllerTest {
 		int cols = 10;
 		int rows = 10;
 		matrix = Matrix.build(rows,cols);
-		client = new ProcessingSimulatorClient("localhost", 5204);
-		client.connect();
+		//client = new ProcessingSimulatorClient("localhost", 5204);
+		//client.connect();
 	}
 }

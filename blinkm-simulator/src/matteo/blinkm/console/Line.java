@@ -4,7 +4,7 @@ import matteo.blinkm.Definition;
 
 public class Line {
 
-	private final char duration;
+	private char duration;
 	private final Definition cmd;
 	private final char[] args;
 
@@ -25,6 +25,10 @@ public class Line {
 
 	public Definition getCmd() {
 		return cmd;
+	}
+
+	public void setDuration(char lineDuration) {
+		duration = lineDuration;
 	}
 
 }

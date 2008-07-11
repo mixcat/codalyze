@@ -2,10 +2,15 @@ package matteo.blinkm.gui;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import bsh.NameSource;
 import bsh.util.NameCompletionTable;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -15,6 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import matteo.blinkm.Definition;
+import matteo.blinkm.console.Helper;
 import matteo.blinkm.graphics.Matrix.Direction;
 
 public class ConsolePanel extends JPanel {
@@ -28,6 +34,8 @@ public class ConsolePanel extends JPanel {
 		final NameCompletionTable nct = new NameCompletionTable();
 		interpreter = new Interpreter(console); 
 		nct.add(interpreter.getNameSpace());
+		nct.add(new ConfigurableNameSource(Helper.class));
+		nct.add(new ConfigurableNameSource(Definition.class));
 		console.setNameCompletion( nct );
 		JScrollPane scrollPane = new JScrollPane(console);
 		scrollPane.setSize(450,450);
@@ -50,6 +58,47 @@ public class ConsolePanel extends JPanel {
 
 	}
 
+	public class ConfigurableNameSource implements NameSource {
+
+		private ArrayList<String> allNames = new ArrayList<String>();
+
+		public ConfigurableNameSource(Class clazz) {
+			extract(clazz);
+		}
+		
+		private void extract(Class clazz) {
+			if (clazz.isEnum()) {
+				enumNames(clazz.getEnumConstants());
+			}
+			memberNames(clazz.getDeclaredFields());
+			memberNames(clazz.getMethods());
+		}
+		
+		private void enumNames(Object[] enumConstants) {
+			for (Object object : enumConstants) {
+				allNames.add(object.toString());
+			}
+		}
+		private void memberNames(Member[] members) {
+			for (Member member : members) {
+				if (Modifier.isPublic(member.getModifiers())) 
+					allNames.add(member.getName());
+			}
+			
+		}
+
+		@Override
+		public String[] getAllNames() {
+			return allNames.toArray(new String[allNames.size()]);
+		}
+
+		@Override
+		public void addNameSourceListener(Listener arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	public static void main(String[] args) throws Exception {
 		/*
         // Validate the input arguments
