@@ -1,28 +1,32 @@
-package matteo.blinkm.graphics;
-
+package matteo.blinkm.gui;
 
 import java.awt.Color;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import matteo.blinkm.Blinkm;
+import matteo.blinkm.Controller;
+import matteo.blinkm.graphics.Cube;
 import processing.core.PApplet;
 import processing.net.Client;
 import processing.net.Server;
-import bsh.util.JConsole;
 
 public class ProcessingSimulator extends PApplet {
 
 	private Blinkm[] leds;
 	private Server server;
 	private Controller controller;
+	private final int sizeX;
+	private final int sizeY;
 
+	public ProcessingSimulator(int sizeX, int sizeY) {
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		size(sizeX,sizeY,P3D);
+	}
+	
 	public void setup() {
-		size(600,600,P3D);
+		
 		System.out.println("setup " + this);
 		server = new Server(this, 5204); 
-		
 		leds = new Blinkm[100];
 		cubes = new Cube[100];
 		for (int i=0; i<leds.length; i++) {
@@ -33,7 +37,7 @@ public class ProcessingSimulator extends PApplet {
 	}
 
 	float edge = 20;
-	float gap= edge;//*1.5F;
+	float gap= edge*1.5F;
 	private Cube[] cubes;
 
 	private char[] receiveData() {
@@ -57,7 +61,7 @@ public class ProcessingSimulator extends PApplet {
 		}
 
 		background(100,125,200);  
-		translate(200, height/4, 0);
+		translate(50, 50, 0);
 		float tempX = 0, tempY = 0, tempZ = gap*2;
 		for (int i=0; i<leds.length; i++) {
 			pushMatrix();
@@ -67,37 +71,10 @@ public class ProcessingSimulator extends PApplet {
 			}
 			tempY += gap;
 			translate(tempX, tempY, tempZ);
-			fill(0,0,0);
+			fill(255,255,255);
 			Color color = leds[i].getColor();
 			cubes[i].draw(color);
 			popMatrix();
 		}
 	}
-	
-	
-
-	public static void xmain(String[] args) {
-		
-		System.out.println("uuu");
-		//bsh.Interpreter.main(args);
-		
-		JFrame cframe = new JFrame();
-		JPanel panel = new JPanel();
-		cframe.add(panel);
-		JConsole console = new JConsole();
-		panel.add(console);
-		panel.setSize(600,600);
-		console.setSize(600,600);
-		panel.setSize(600,600);
-		cframe.setSize(600,600);
-		//console.setVisible(true);
-		//panel.setVisible(true);
-		cframe.setVisible(true);
-		//Interpreter interpreter = new Interpreter( console );
-		//new Thread( interpreter ).start(); // start a thread to call the run() method
-		//Interpreter interpreter = new Interpreter(console);
-	
-	}
-
-
 }

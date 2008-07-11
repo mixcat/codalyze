@@ -1,19 +1,22 @@
-package matteo.blinkm.graphics;
+package matteo.blinkm;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javax.swing.JPanel;
 
 import matteo.blinkm.Blinkm;
+import matteo.blinkm.Controller;
 import matteo.blinkm.Definition;
 import matteo.blinkm.console.Helper;
-import matteo.blinkm.console.ProcessingSimulatorClient;
 import matteo.blinkm.console.SimpleScript;
+import matteo.blinkm.graphics.Matrix;
+import matteo.blinkm.gui.ProcessingSimulatorClient;
+import matteo.blinkm.gui.ProcessingSimulatorPanel;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
 
 public class ControllerTest {
 
@@ -81,7 +84,7 @@ public class ControllerTest {
 		char[] cmd = new SimpleScript()
 			.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, (char)1);
 		controller.dispatchReceivedCommands(cmd);
-		controller.dispatchReceivedCommands(SimpleScript.START);
+		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
 	}
 	
@@ -91,10 +94,10 @@ public class ControllerTest {
 			.line(200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
 			.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
 		controller.dispatchReceivedCommands(cmd);
-		controller.dispatchReceivedCommands(SimpleScript.START);
+		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
 		client.write(cmd);
-		client.write(SimpleScript.START);
+		client.write(Helper.START);
 	}
 	
 	@Test
@@ -105,11 +108,11 @@ public class ControllerTest {
 		char[] fadeGradient = Helper.fadeGradient(1, Matrix.flatten(matrix, 10, 10));
 		controller.dispatchReceivedCommands(cmd);
 		controller.dispatchReceivedCommands(fadeGradient);
-		controller.dispatchReceivedCommands(SimpleScript.START);
+		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
 		client.write(cmd);
 		client.write(fadeGradient);
-		client.write(SimpleScript.START);
+		client.write(Helper.START);
 	}
 	
 	//@Test
@@ -192,11 +195,6 @@ public class ControllerTest {
 		return new char[][] { a, b };
 	}
 	
-	@After
-	public void tearDown() {
-		//client.disconnect();
-	}
-	
 	@BeforeClass
 	public static void beforeClass() {
 		JPanel panel = new ProcessingSimulatorPanel().getPanel();
@@ -204,7 +202,6 @@ public class ControllerTest {
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

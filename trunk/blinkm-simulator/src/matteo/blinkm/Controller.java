@@ -1,12 +1,16 @@
-package matteo.blinkm.graphics;
+package matteo.blinkm;
 
-import matteo.blinkm.Blinkm;
-import matteo.blinkm.console.Command;
-
+/**
+ * Holds references to managed blinkm instances and dispatches commands to all
+ * @author mcaprari
+ *
+ */
 public class Controller {
 	
 	private final Blinkm[] blinkms;
 	private char[] reminder;
+	
+	private static char BROADCAST = 0;
 	
 	public Controller(Blinkm[] blinkms) {
 		this.blinkms = blinkms;
@@ -22,8 +26,8 @@ public class Controller {
 		for (int idx=0; idx < data.length; idx++) {
 			if (pos == 0) {
 				addr = data[idx];
-				if(addr < 0 || addr > 100)
-					throw new RuntimeException("received address " + (int)addr+ ". Must be >= 0 and <= 100");
+				if(addr < 0 || addr > blinkms.length)
+					throw new RuntimeException("received address " + (int)addr+ ". Must be >= 0 and <= " + blinkms.length);
 			}
 			else if (pos == 1)
 				blinkmCommand = new Command(data[idx]);
@@ -32,13 +36,16 @@ public class Controller {
 
 			if (blinkmCommand != null && blinkmCommand.isComplete()) {
 				blinkmCommand.validate();
-				if (addr == 0) {
+				if (addr == BROADCAST) {
 					for(Blinkm blinkm : blinkms) {
 						blinkm.setCmd(blinkmCommand);
 					}
 				}
 				else {
-					blinkms[(int)addr-1].setCmd(blinkmCommand);
+					// address is a char > 0 (0 is broadcast), but
+					// blinkm container array is 0 indexed
+					int blinkmAddr = (int)addr-1;
+					blinkms[blinkmAddr].setCmd(blinkmCommand);
 				}
 				blinkmCommand = null;
 				pos = 0;
