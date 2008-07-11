@@ -79,14 +79,7 @@ public class SimpleScript {
 		return chars;
 	}
 	
-	public static ArrayList<Character> fadeGradient(int step, char[] targets) {
-		ArrayList<Character> chars = new ArrayList<Character>();
-		int count = 0;
-		for (char addr : targets) {
-			setCmd(addr, Definition.setFadeSpeed, new char[ 50 ], chars);
-		}
-		return chars;
-	}
+	
 	
 	public static char[] getCharArray(ArrayList<Character> data) {
 		char[] rt = new char[data.size()];
