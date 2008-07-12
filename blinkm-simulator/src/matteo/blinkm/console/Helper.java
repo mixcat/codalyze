@@ -4,6 +4,7 @@ import static matteo.blinkm.graphics.Matrix.Direction.east;
 import static matteo.blinkm.graphics.Matrix.Direction.south;
 
 import java.awt.Color;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,11 +21,28 @@ public class Helper {
 		client.write(data);
 	}
 	
+	
 	public static final int DEFAULT_PORT = 5204;
 	public static void connect() {
 		connect(DEFAULT_PORT);
 	}
 	
+	public static void help() {
+		Method[] methods = Helper.class.getMethods();
+		for (Method method : methods) {
+			Console annotation = method.getAnnotation(Console.class);
+			if (annotation != null) {
+				System.out.println(method.toGenericString() + " " + method.getName() + " " + annotation.value());
+				
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		help();
+	}
+	
+	@Console("connect to server at given port")
 	public static void connect(int port) {
 		if (client != null) {
 			client.disconnect();

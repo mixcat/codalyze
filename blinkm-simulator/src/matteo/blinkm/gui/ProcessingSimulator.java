@@ -15,12 +15,8 @@ public class ProcessingSimulator extends PApplet {
 	private Blinkm[] leds;
 	private Server server;
 	private Controller controller;
-	private final int sizeX;
-	private final int sizeY;
 
 	public ProcessingSimulator(int sizeX, int sizeY) {
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
 		size(sizeX,sizeY,P3D);
 	}
 	

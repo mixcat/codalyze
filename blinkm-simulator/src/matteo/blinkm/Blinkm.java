@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 
-/**
-	command name cmd char cmd byte # args # ret vals format
-	
-*/
 public class Blinkm {
 	private final byte addr;
 	private Color color = new Color(0,0,0);
