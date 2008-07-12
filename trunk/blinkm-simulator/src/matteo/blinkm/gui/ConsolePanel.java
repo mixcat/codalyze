@@ -6,8 +6,6 @@ import bsh.NameSource;
 import bsh.util.NameCompletionTable;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -87,12 +85,10 @@ public class ConsolePanel extends JPanel {
 			
 		}
 
-		@Override
 		public String[] getAllNames() {
 			return allNames.toArray(new String[allNames.size()]);
 		}
 
-		@Override
 		public void addNameSourceListener(Listener arg0) {
 			// TODO Auto-generated method stub
 			

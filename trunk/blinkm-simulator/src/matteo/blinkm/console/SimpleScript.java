@@ -79,8 +79,8 @@ public class SimpleScript {
 			setCmd(addr, setScriptLengthAndRepeats, new char [] { scriptId, (char) lines.size(), repeats }, chars);
 			for (char lineNo = 0; lineNo<lines.size(); lineNo++) {
 				Line line = lines.get(lineNo);
-				if (lineDuration > -1)
-					line.setDuration(lineDuration);
+				//if (lineDuration > -1)
+					//line.setDuration(lineDuration);
 				setLine(addr, scriptId, lineNo, line , chars );
 			}
 		}
