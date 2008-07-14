@@ -7,15 +7,15 @@ import java.util.ArrayList;
 public class Blinkm {
 	private final byte addr;
 	private Color color = new Color(0,0,0);
-	private Color fadeToColor = null;
-	private char fadeSpeed = 1;
+	protected Color fadeToColor = null;
+	protected char fadeSpeed = 1;
+	protected char timeAdjiust = 128;
 	private char[][] customScript = new char[49][];
 	private char activeScript;
 	private long currentScriptTick;
 	private boolean scriptIsRunning;
 	private int customScriptLength = 50;
 	private int customScriptRepeats;
-	private char timeAdjiust;
 	
 	public Blinkm(byte addr) {
 		this.addr = addr;
@@ -51,6 +51,9 @@ public class Blinkm {
 			
 			case setFadeSpeed:
 				this.fadeSpeed = p.get(0);
+				if (this.fadeSpeed == 0) {
+					throw new RuntimeException("fadeSpeed must be >= 0");
+				}
 			break;
 			
 			case setTimeAdjust:
@@ -61,7 +64,7 @@ public class Blinkm {
 				char id = p.get(0); // skipped as only editable script is 0
 				char line = p.get(1);
 				char ticks = p.get(2);
-				this.customScript[line] = new char[] { ticks, p.get(3),p.get(4),p.get(5),p.get(6) };
+				this.customScript[line] = new char[] { ticks, p.get(3)/*cmd*/, p.get(4), p.get(5), p.get(6) };
 				this.currentScriptTick = 0;
 				this.fadeToColor = null;
 			break;
@@ -102,7 +105,7 @@ public class Blinkm {
 					// first tick for this line
 					if (currentScriptTick == ticks) {
 						Definition def = Definition.getByChar(line[1]);
-						setCmd(new Command(def, new char[] { line[2], line[3], line[4] }));
+						setCmd(new Command(def, unpad(new char[] { line[2], line[3], line[4] }, def.getNumArgs())));
 					}
 					
 					// if last tick for this line, reset
@@ -129,6 +132,15 @@ public class Blinkm {
 		return color;
 	}
 	
+	private char[] unpad(char[] cs, int len) {
+		if (cs.length <= len)
+			return cs;
+		char[] rt = new char[len];
+		for (int i=0; i<rt.length; i++)
+			rt[i] = cs[i];
+		return rt;
+	}
+
 	/**
 	 * Get one step in fade at given fade speed
 	 * Fade speed is slow at 1 and instant at 255.
@@ -137,21 +149,21 @@ public class Blinkm {
 	 * @param fadeSpeed
 	 * @return
 	 */
-	private Color getFadeStep(Color from, Color to, char fadeSpeed) {
+	protected Color getFadeStep(Color from, Color to, char fadeSpeed) {
 		char red = (char) getFadeComponent(from.getRed(), to.getRed(), fadeSpeed);
 		char green = (char) getFadeComponent(from.getGreen(), to.getGreen(), fadeSpeed);
 		char blue = (char) getFadeComponent(from.getBlue(), to.getBlue(), fadeSpeed);
 		return new Color(red, green, blue);
 	}
 	
-	private double getFadeComponent(double from, double to, char fadeSpeed) {
+	protected double getFadeComponent(double from, double to, char fadeSpeed) {
 		double diff = to - from;
 		if (diff == 0)
 			return from;
-		double diffStep = diff / (255-fadeSpeed);
+		double diffStep = diff / (255-fadeSpeed-1);
 		double sign = diffStep/Math.abs(diffStep);
 		double ceil = sign * Math.ceil(Math.abs(diffStep));
-		double result = from + ceil;
+		double result = from + sign*fadeSpeed; //ceil;
 		if (result < 0)
 			return to;
 		return result;

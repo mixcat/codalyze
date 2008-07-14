@@ -15,7 +15,7 @@ import matteo.blinkm.gui.ProcessingSimulatorClient;
 
 public class Helper {
 
-	private static ProcessingSimulatorClient client = null;
+	protected static ProcessingSimulatorClient client = null;
 	
 	public static void write(char[] data) {
 		client.write(data);
@@ -33,7 +33,6 @@ public class Helper {
 			Console annotation = method.getAnnotation(Console.class);
 			if (annotation != null) {
 				System.out.println(method.toGenericString() + " " + method.getName() + " " + annotation.value());
-				
 			}
 		}
 	}
@@ -189,6 +188,18 @@ public class Helper {
 	public static char[][] hlines() {
 		char[][] lines = new char[10][];
 		for (int i:seq(10)) lines[i] = line(i,0, east, 10);
+		return lines;
+	}
+	
+	public static char[][] vlines() {
+		char[][] vlines = new char[10][];
+		for (int i:seq(10)) vlines[i] = line(0,i, south, 10);
+		return vlines;
+	}
+	
+	public static char[][] shlines() {
+		char[][] lines = new char[10][];
+		for (int i:seq(10)) { lines[i] = (i%2==0) ? line(i,0, east, 10) : inv(line(i,0, east, 10)); };
 		return lines;
 	}
 	

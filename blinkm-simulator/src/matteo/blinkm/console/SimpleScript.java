@@ -18,13 +18,18 @@ public class SimpleScript {
 	}
 
 	public SimpleScript line(int duration, Definition cmd, char...args) {
+		line((char)duration, cmd, args);
+		return this;
+	}
+	
+	public SimpleScript line(char duration, Definition cmd, char...args) {
 		lines.add(new Line(duration, cmd, args));
 		assert(lines.size() <= MAX_SCRIPT_LINES);
 		return this;
 	}
 	
 	public SimpleScript line(int duration, Definition cmd, Color args) {
-		return line(duration, cmd, new char[] { (char) args.getGreen(), (char) args.getRed(), (char) args.getBlue() });
+		return line((char) duration, cmd, new char[] { (char) args.getGreen(), (char) args.getRed(), (char) args.getBlue() });
 	}
 
 	public static void setCmd(char addr, Definition cmd, char[] val, ArrayList<Character> chars) {
