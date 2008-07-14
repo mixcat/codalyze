@@ -2,18 +2,10 @@ package matteo.blinkm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
-import javax.swing.JPanel;
-
-import matteo.blinkm.Blinkm;
-import matteo.blinkm.Controller;
-import matteo.blinkm.Definition;
 import matteo.blinkm.console.Helper;
 import matteo.blinkm.console.SimpleScript;
 import matteo.blinkm.graphics.Matrix;
 import matteo.blinkm.graphics.Matrix.Direction;
-import matteo.blinkm.gui.ProcessingSimulatorClient;
-import matteo.blinkm.gui.ProcessingSimulatorPanel;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -94,7 +86,7 @@ public class ControllerTest {
 	@Test
 	public void testScriptWithOneCommandToOneLed() {
 		char[] cmd = new SimpleScript()
-			.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, (char)1);
+			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, (char)1);
 		controller.dispatchReceivedCommands(cmd);
 		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
@@ -103,8 +95,8 @@ public class ControllerTest {
 	@Test
 	public void testScriptWithOneCommandToMultipleLeds() {
 		char[] cmd = new SimpleScript()
-			.line(200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
-			.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
+			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
+			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
 		controller.dispatchReceivedCommands(cmd);
 		controller.dispatchReceivedCommands(Helper.START);
 		exercizeAllLeds();
@@ -113,8 +105,8 @@ public class ControllerTest {
 	@Test
 	public void testFadeGradient() {
 		char[] cmd = new SimpleScript()
-		.line(200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
-		.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
+		.line((char) 200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
+		.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
 		char[] fadeGradient = Helper.fadeGradient(1, Matrix.flatten(matrix, 10, 10));
 		controller.dispatchReceivedCommands(cmd);
 		controller.dispatchReceivedCommands(fadeGradient);
@@ -125,10 +117,10 @@ public class ControllerTest {
 	//@Test
 	public void testLongScriptWithOneCommandToMultipleLedsAndRandomSplit() {
 		char[] cmd = new SimpleScript()
-			.line(200, Definition.fadeToRGB, new char[] { 0, 0, 0 })
-			.line(0, Definition.fadeToRGB, new char[] { 255, 255, 255 })
-			.line(255, Definition.fadeToRGB, new char[] { 255, 255, 255 })
-			.line(255, Definition.fadeToHSB, new char[] { 255, 255, 255 })
+			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 })
+			.line((char) 0, Definition.fadeToRGB, new char[] { 255, 255, 255 })
+			.line((char) 255, Definition.fadeToRGB, new char[] { 255, 255, 255 })
+			.line((char) 255, Definition.fadeToHSB, new char[] { 255, 255, 255 })
 		.play((char)0, Matrix.flatten(matrix, 10, 10));
 		
 		for (int i=0; i<cmd.length; i++) {

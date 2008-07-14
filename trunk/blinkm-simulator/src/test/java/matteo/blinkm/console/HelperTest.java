@@ -2,8 +2,11 @@ package matteo.blinkm.console;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import matteo.blinkm.Definition;
+import matteo.blinkm.gui.ProcessingSimulatorClient;
 
+import org.junit.Test;
+import static matteo.blinkm.Definition.*;
 public class HelperTest {
 
 	@Test
@@ -13,5 +16,21 @@ public class HelperTest {
 		for (int i = 0; i < in.length; i++) {
 			assertEquals(in[i], inv[in.length-i-1]);
 		}
+	}
+	
+	@Test
+	public void testWrite() {
+		Helper.client = new ProcessingSimulatorClient("foo", 00) {
+			
+			@Override
+			public void write(char[] rt) {
+				// TODO Auto-generated method stub
+				//super.write(rt);
+			}
+		};
+		
+		Helper.write(goToRGB, 0);
+		Helper.write(goToRGB, new char[] { 0,1,2 });
+		Helper.write(goToRGB, new char[] { 0,0,0 }, 0);
 	}
 }

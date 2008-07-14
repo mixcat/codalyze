@@ -11,8 +11,17 @@ public class Line {
 	public Line(int duration, Definition cmd, char[] args) {
 		this.duration = (char) duration;
 		this.cmd = cmd;
-		this.args = args;
-		assert(this.args.length==3);
+		this.args = pad(args, 3);
+	}
+
+	private char[] pad(char[] args, int len) {
+		if (args.length == len)
+			return args;
+		char[] rt = new char[len];
+		for (int i=0; i<args.length; i++) {
+			rt[i] = args[i];
+		}
+		return rt;
 	}
 
 	public char[] getArgs() {
