@@ -8,9 +8,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import processing.serial.Serial;
+
+import matteo.blinkm.BlinkMComm;
 import matteo.blinkm.Definition;
 import matteo.blinkm.graphics.Matrix;
 import matteo.blinkm.graphics.Matrix.Direction;
+import matteo.blinkm.gui.CompoundConsole;
 import matteo.blinkm.gui.ProcessingSimulatorClient;
 
 public class Helper {
@@ -23,8 +27,10 @@ public class Helper {
 	
 	
 	public static final int DEFAULT_PORT = 5204;
-	public static void connect() {
-		connect(DEFAULT_PORT);
+	private static final String DEFAULT_SERIAL_PORT = "/dev/tty.usbserial-A60049Ch";
+	public static void connect() throws Exception {
+		connectSimulator(DEFAULT_PORT);
+		connectSerial(DEFAULT_SERIAL_PORT);
 	}
 	
 	public static void help() {
@@ -44,12 +50,17 @@ public class Helper {
 	
 	
 	@Console("connect to server at given port")
-	public static void connect(int port) {
+	public static void connectSimulator(int port) {
 		if (client != null) {
 			client.disconnect();
 		}
 		client = new ProcessingSimulatorClient("localhost", port);
 		client.connect();
+	}
+	
+	public static void connectSerial(String port) throws Exception {
+		BlinkMComm blinkMComm = new BlinkMComm();
+		blinkMComm.connect(CompoundConsole.simulator, port);
 	}
 	
 	public static void write(SimpleScript script, char[] targets) {
