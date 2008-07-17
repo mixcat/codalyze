@@ -10,10 +10,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 public class CompoundConsole {
-
+	public static ProcessingSimulator simulator;
 	public static void main(String[] args) throws Exception {
 		ProcessingSimulatorPanel simulatorPanel = new ProcessingSimulatorPanel();
-		final ProcessingSimulator simulator = new ProcessingSimulator(450, 450);
+		simulator = new ProcessingSimulator(450, 450);
 		simulatorPanel.setSimulator(simulator);
 		final JPanel panel = simulatorPanel.getPanel();
 		

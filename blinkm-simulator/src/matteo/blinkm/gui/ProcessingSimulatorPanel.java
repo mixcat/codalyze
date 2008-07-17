@@ -30,5 +30,6 @@ public class ProcessingSimulatorPanel {
 	public void setSimulator(ProcessingSimulator processingSimulator) {
 		this.processingSimulator = processingSimulator;
 	}
+
 	
 }

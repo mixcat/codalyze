@@ -41,6 +41,8 @@ public class Helper {
 		help();
 	}
 	
+	
+	
 	@Console("connect to server at given port")
 	public static void connect(int port) {
 		if (client != null) {
@@ -118,6 +120,14 @@ public class Helper {
 	public static char[] cmd(Definition cmd, char[] targets) {
 		return cmd(cmd, new char[] {} , targets );
 	}
+	
+	public byte[] bytes(char[] cmd) {
+		byte[] rt = new byte[cmd.length];
+		for(int i=0; i<cmd.length; i++) 
+			rt[i] = (byte)cmd[i];
+		return rt;
+	}
+	
 	public static char[] cmd(Definition cmd, Color payload, char[] targets) {
 		return cmd(cmd, new char[] {(char) payload.getRed(), (char) payload.getGreen(), (char) payload.getBlue() }, targets);
 	}
