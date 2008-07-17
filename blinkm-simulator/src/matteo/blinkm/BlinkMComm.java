@@ -275,13 +275,23 @@ bmc.stopPlayingScript();
 	
 	public void stopPlayingScript() {
 		byte[] cmd = {'o'};
-		if( isConnected() ) 
+		if( isConnected() ) {
+			System.out.println("play cmd " + cmd);
 			sendCommand( blinkm_addr, cmd );
+		}
+	}
+	
+	public synchronized void send(String cmd) {
+		port.write(cmd);
+	}
+	
+	public void fadeTest(Color c) {
+		sendCommand( blinkm_addr, new byte[] { 'c', 120, 0, 120 });
 	}
 	
 	public synchronized void sendCommand( byte addr, byte[] cmd ) {
 		byte cmdfull[] = new byte[4+cmd.length];
-		cmdfull[0] = blinkm_addr;
+		cmdfull[0] = 0x01;
 		cmdfull[1] = addr;
 		cmdfull[2] = (byte)cmd.length;
 		cmdfull[3] = 0x00;
