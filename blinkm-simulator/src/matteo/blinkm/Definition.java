@@ -2,32 +2,34 @@ package matteo.blinkm;
 
 public enum Definition {
 	
-	goToRGB ('n',3,0),
-	fadeToRGB ('c',3, 0),
-	fadeToHSB ('h',3, 0),
-	fadeToRandomRGB ('C',3, 0),
-	fadeToRandomHSB ('H',3, 0),
-	playScript ('p',3, 0),
-	stopScript ('o',0, 0),
-	setFadeSpeed ('f',1, 0),
-	setTimeAdjust ('t',1, 0),
-	getRGB ('g',0, 3),
-	writeScriptLine ('W',7, 0),
-	readScriptLine ('R',2, 5),
-	setScriptLengthAndRepeats ('L',3, 0),
-	setAddress ('A',4, 0),
-	getAddress ('a',0, 1),
-	getFirmwareVersion ('Z', 0, 1),
-	setStartupParameters ('B', 5, 0);
+	goToRGB ('n',3,0, true),
+	fadeToRGB ('c',3, 0, true),
+	fadeToHSB ('h',3, 0, true),
+	fadeToRandomRGB ('C',3, 0, true),
+	fadeToRandomHSB ('H',3, 0, true),
+	playScript ('p',3, 0, true),
+	stopScript ('o',0, 0, false),
+	setFadeSpeed ('f',1, 0, true),
+	setTimeAdjust ('t',1, 0, true),
+	getRGB ('g',0, 3, false),
+	writeScriptLine ('W',7, 0, false),
+	readScriptLine ('R',2, 5, false),
+	setScriptLengthAndRepeats ('L',3, 0, false),
+	setAddress ('A',4, 0, false),
+	getAddress ('a',0, 1, false),
+	getFirmwareVersion ('Z', 0, 1, false),
+	setStartupParameters ('B', 5, 0, false);
 	
 	int numArgs;
 	int numReturnValues;
 	private final char c;
+	private final boolean isValidForScript;
 	
-	Definition(char c, int numArgs, int numRetValues) {
+	Definition(char c, int numArgs, int numRetValues, boolean validForScript) {
 		this.c = c;
 		this.numArgs = numArgs;
 		this.numReturnValues = numRetValues;
+		this.isValidForScript = validForScript;
 	}
 	
 	public static Definition getByChar(char c) {
@@ -60,6 +62,10 @@ public enum Definition {
 		if (payload.length != numArgs) {
 			throw new RuntimeException(this + ": payload is " + payload.length +" chars. Must be " + numArgs );
 		}	
+	}
+
+	public boolean isValidForScript(char cmd) {
+		return isValidForScript;
 	}
 	
 	
