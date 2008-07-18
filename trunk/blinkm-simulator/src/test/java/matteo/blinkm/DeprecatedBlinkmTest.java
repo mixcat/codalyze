@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.sun.org.apache.bcel.internal.generic.FADD;
 
-public class BlinkmTest {
+public class DeprecatedBlinkmTest {
 
 	private Blinkm b;
 

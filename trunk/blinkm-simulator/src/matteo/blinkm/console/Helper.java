@@ -43,12 +43,6 @@ public class Helper {
 		}
 	}
 	
-	public static void main(String[] args) {
-		help();
-	}
-	
-	
-	
 	@Console("connect to server at given port")
 	public static void connectSimulator(int port) {
 		if (client != null) {

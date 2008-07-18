@@ -24,7 +24,6 @@ public class Blinkm {
 	//TODO: add multiple script support
 	//TODO: add native scripts
 	//TODO: dynamic logging system
-	
 	public void setCmd(Command cmd) {
 		ArrayList<Character> p = cmd.getPayload();
 		cmd.validate();
