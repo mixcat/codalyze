@@ -22,13 +22,12 @@ public class ProcessingSimulatorClient {
 		}
 	}
 
-	public void write(char[] rt) {
+	public void write(byte[] rt) {
 		if (socket == null) 
 			return;
 		System.out.println("writing buf " + rt.length);
 		try {
-			for(int i=0; i<rt.length;i++)
-				socket.getOutputStream().write((byte)rt[i]);
+			socket.getOutputStream().write(rt);
 			socket.getOutputStream().flush();
 		} catch (IOException e) {
 			throw new RuntimeException(e);

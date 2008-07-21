@@ -5,26 +5,29 @@ import static matteo.blinkm.console.Commands.command;
 import static matteo.blinkm.console.Commands.line;
 import static matteo.blinkm.console.Commands.setScriptLengthAndReapeats;
 import static matteo.blinkm.console.Commands.throwIfCommandIsNotEmbeddable;
+import matteo.blinkm.ByteUtils;
 
 public class Script {
 	protected byte[][] commands;
 
-	public void build(byte[]... commands) {
+	public Script build(byte[]... commands) {
 		for (byte[] command : commands)
 			throwIfCommandIsNotEmbeddable(command);
 		this.commands = commands;
+		return this;
 	}
 	
-	public byte[] get(byte addr, int repeats) {
+	
+	public byte[] get(int addr, int repeats) {
 		byte[] lengthAndReapeats = command(addr, setScriptLengthAndReapeats(commands.length, repeats));
 		byte[] rt = new byte[commands.length*COMMAND_LINE_LENGTH + lengthAndReapeats.length];
 		
 		// fill with stars, to ease testing and debugging
-		for (int i = 0; i < rt.length; rt[i++] = '*');
+		ByteUtils.fill(rt, '*');
 		
 		// put every line in a command envelope
 		for (int i = 0; i < commands.length; i++) {				
-			byte[] lineCommand = command(addr, line(commands[i]));
+			byte[] lineCommand = command(addr, line(i, commands[i]));
 			int base = COMMAND_LINE_LENGTH*i; 
 			for (int j=0; j<lineCommand.length; j++) {
 				rt[base + j] = lineCommand[j];

@@ -50,7 +50,18 @@ public class Commands {
 		cmd[3] = (byte) repeats;
 		return cmd;
 	}
+	
+	static public byte[] setTimeAdjust(int adjust) {
+		byte[] cmd = new byte[2];
+		cmd[0] = (byte) Definition.setTimeAdjust.getCmd();
+		cmd[1] = (byte) adjust; 
+		return cmd;
+	}
 
+	static public byte[] command(int addr, byte[] cmd) {
+		return command((byte)addr, cmd);
+	}
+	
 	static public byte[] command(byte addr, byte[] cmd) {
 		byte cmdfull[] = new byte[COMMAND_ENVELOPE_LENGHT+cmd.length];
 		cmdfull[0] = 0x01;
@@ -58,7 +69,7 @@ public class Commands {
 		cmdfull[2] = (byte)cmd.length;
 		cmdfull[3] = 0x00;
 		for( int i=0; i<cmd.length; i++) {
-			cmdfull[4+i] = cmd[i];
+			cmdfull[COMMAND_ENVELOPE_LENGHT+i] = cmd[i];
 		}
 		return cmdfull;
 	}
@@ -71,17 +82,25 @@ public class Commands {
 		}
 	}
 	
-	static public byte[] line(byte[] cmd) {
+	static public byte[] line(int lineNo, byte[] cmd) {
 		throwIfCommandIsNotEmbeddable(cmd);
 		byte[] cmdfull = new byte[LINE_LENGTH];
 		cmdfull[0] = (byte)'W';   // "Write Script Line" command
 		cmdfull[1] = (byte)0;     // script id (0==eeprom)
-		cmdfull[2] = (byte)0;     // script line number
+		cmdfull[2] = (byte)lineNo;     // script line number
 		cmdfull[3] = (byte)255;   // duration in ticks
 		for( int i=0; i<cmd.length; i++) {
 			cmdfull[4+i] = cmd[i];
 		}
 		return cmdfull;
+	}
+	
+	static public byte[] removeCommandEnvelope(byte[] cmd) {
+		byte[] rt = new byte[cmd.length - COMMAND_ENVELOPE_LENGHT];
+		for( int i=0; i<rt.length; i++) {
+			rt[i] = cmd[COMMAND_ENVELOPE_LENGHT+i];
+		}
+		return rt;
 	}
 	
 }

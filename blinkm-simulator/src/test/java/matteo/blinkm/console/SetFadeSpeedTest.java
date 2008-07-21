@@ -33,7 +33,7 @@ public class SetFadeSpeedTest {
 	public void testSetFadeSpeedScriptLine() {
 		int fadeSpeed = 255;
 		byte[] cmd = setFadeSpeed(fadeSpeed);
-		byte[] rt = line(cmd);
+		byte[] rt = line(0, cmd);
 		verifyScriptLine(rt, Definition.setFadeSpeed);
 		assertEquals((byte)fadeSpeed, rt[5]);
 	}
@@ -42,7 +42,7 @@ public class SetFadeSpeedTest {
 	public void testSetFadeSpeedScriptLineCommand() {
 		int fadeSpeed = 0;
 		byte[] cmd = setFadeSpeed(fadeSpeed);
-		byte[] line = line(cmd);
+		byte[] line = line(0, cmd);
 		byte[] rt = command(addr, line);
 		verifyScriptLineCommand(addr, rt, Definition.setFadeSpeed);
 		assertEquals((byte)fadeSpeed,rt[9]);
