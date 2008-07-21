@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import matteo.blinkm.Blinkm;
 import matteo.blinkm.Controller;
+import matteo.blinkm.DeprecatedController;
 import matteo.blinkm.graphics.Cube;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -37,23 +38,18 @@ public class ProcessingSimulator extends PApplet {
 	float gap= edge*1.5F;
 	private Cube[] cubes;
 
-	private char[] receiveData() {
+	private byte[] receiveData() {
 		Client client = server.available();
 		if (client != null) {
-			char[] rcv = new char[client.available()];
-			int i = 0;
-			while (client.available()>0 && i<rcv.length) {
-				rcv[i++] = client.readChar();
-			}
-			return rcv;
+			return client.readBytes();
 		}
 		return null;
 	}
 
 	public void draw() {
-		char[] rcv = receiveData();
+		byte[] rcv = receiveData();
 		if (rcv != null) {
-			controller.dispatchReceivedCommands(rcv);
+			controller.receive(rcv);
 		}
 		
 		background(100,125,200);  
@@ -74,6 +70,7 @@ public class ProcessingSimulator extends PApplet {
 			//font = loadFont("FFScala-32.vlw"); 
 			//textFont(font, 32); 
 			//text("word", 15, 50);
+			leds[i].tick();
 			Color color = leds[i].getColor();
 			cubes[i].draw(color);
 			popMatrix();

@@ -5,18 +5,15 @@ package matteo.blinkm;
  * @author mcaprari
  *
  */
-public class Controller {
+public class DeprecatedController {
 	
-	private final Blinkm[] blinkms;
+	private Blinkm[] blinkms;
 	private char[] reminder;
 	
 	private static char BROADCAST = 0;
 	
-	public Controller(Blinkm[] blinkms) {
-		this.blinkms = blinkms;
-	}
 	
-	public void dispatchReceivedCommands(char[] rcv) {
+	public void disxdpatchReceivedCommands(char[] rcv) {
 		char[] data = prepend(reminder, rcv);
 		reminder = null;
 		int pos = 0;
@@ -38,14 +35,14 @@ public class Controller {
 				blinkmCommand.validate();
 				if (addr == BROADCAST) {
 					for(Blinkm blinkm : blinkms) {
-						blinkm.setCmd(blinkmCommand);
+						//blinkm.setCmd(blinkmCommand);
 					}
 				}
 				else {
 					// address is a char > 0 (0 is broadcast), but
 					// blinkm container array is 0 indexed
 					int blinkmAddr = (int)addr-1;
-					blinkms[blinkmAddr].setCmd(blinkmCommand);
+					//blinkms[blinkmAddr].setCmd(blinkmCommand);
 				}
 				blinkmCommand = null;
 				pos = 0;

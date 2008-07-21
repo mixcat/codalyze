@@ -1,221 +1,117 @@
 package matteo.blinkm;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
+import java.awt.Color;
+
+import matteo.blinkm.console.Commands;
 import matteo.blinkm.console.Helper;
+import matteo.blinkm.console.Script;
 import matteo.blinkm.console.SimpleScript;
 import matteo.blinkm.graphics.Matrix;
 import matteo.blinkm.graphics.Matrix.Direction;
 
+import static org.easymock.classextension.EasyMock.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import static matteo.blinkm.console.Commands.*;
 public class ControllerTest {
 
 	private Blinkm[] leds;
 	private Controller controller;
-	private char[][] matrix;
-	//private ProcessingSimulatorClient client;
-	
-	@Test
-	public void testAllCommandsOneLed() {
-		for(Definition def : Definition.values()) {
-			char[] payload = new char[def.getNumArgs()];
-			char[] cmd = SimpleScript.cmd(def, payload, new char[] {1});
-			controller.dispatchReceivedCommands(cmd);
-		}
-		exercizeAllLeds();
-	}
-	
-	@Test
-	public void testAllCommandsOneLedWithSplit() {
-		for(Definition def : Definition.values()) {
-			char[] payload = new char[def.getNumArgs()];
-			char[] cmd = SimpleScript.cmd(def, payload, new char[] { 1 });
-			char[][] splitChar = splitChar(cmd, cmd.length/2);
-			testMerged(cmd, controller.prepend(splitChar[0], splitChar[1]));
-			controller.dispatchReceivedCommands(splitChar[0]);
-			controller.dispatchReceivedCommands(splitChar[1]);
-		}
-		exercizeAllLeds();
-	}
-	
-	@Test
-	public void testStopScriptWithSplit() {
-		char[] cmd = SimpleScript.cmd(Definition.stopScript, new char[]{}, new char[]{ 0 });
-		char[][] splitChar = splitChar(cmd, cmd.length/2);
-		testMerged(cmd, controller.prepend(splitChar[0], splitChar[1]));
-		controller.dispatchReceivedCommands(splitChar[0]);
-		controller.dispatchReceivedCommands(splitChar[1]);
-		exercizeAllLeds();
-	}
+	private Blinkm[] mockLeds;
+	private Controller controllerM;
 
-	private void exercizeAllLeds() {
-		for (int i=0; i<10000; i++) {
-			for (int j=0; j<leds.length; j++) {
-				leds[j].getColor();
-			}
+	@Test
+	public void testReceiveFadeToRGB() {
+		byte[] cmd = fadeToRGB(Color.white);
+		byte[] command = command((byte)9, cmd);
+		controller.receive(command);
+		assertNull(controller.getReminder());
+		assertEquals(Color.white, leds[9].getFadeToColor());
+	}
+	
+	@Test
+	public void testReceiveFadeToRGBMultipleTimes() {
+		Color[] colors = new Color[] { Color.white, Color.green, Color.yellow };
+		for (Color color : colors) {
+			controller.receive(command((byte)7, fadeToRGB(color) ));
+			assertNull(controller.getReminder());
+			assertEquals(color, leds[7].getFadeToColor());
 		}
 	}
 	
 	@Test
-	public void testSouthLine() {
-		for (int i=0; i<10; i++) {
-			System.out.println("writing south line to 0," + i);
-			controller.dispatchReceivedCommands(Helper.rainbow.play((char)0, Helper.line(0, i, Direction.south, 10)));
-		}
+	public void testReceiveMultipleFadeToRGBConcatenated() {
+		byte[] command = command((byte)7, fadeToRGB(Color.yellow) );
+		byte[] command2 = command((byte)7, fadeToRGB(Color.blue) );
+		byte[] merged = ByteUtils.merge(command, command2);
+		controller.receive(merged);
+		assertEquals(Color.blue, leds[7].getFadeToColor());
 	}
 	
 	@Test
-	public void testSouthLine01() {
-		controller.dispatchReceivedCommands(Helper.rainbow.play((char)0, Helper.line(0, 1, Direction.south, 10)));
+	public void testReceivePlayScript() {
+		byte[] command = command((byte)9, playScript(0, 0, 0));
+		controller.receive(command);
+		assertTrue(leds[9].isScriptRunning());
 	}
 	
 	@Test
-	public void testAllCommandsBroadcast() {
-		for(Definition def : Definition.values()) {
-			char[] payload = new char[def.getNumArgs()];
-			char[] cmd = SimpleScript.cmd(def, payload, new char [] {0});
-			controller.dispatchReceivedCommands(cmd);
-		}
-		
-		exercizeAllLeds();
+	public void testReceiveSetScriptLengthAndRepeats() {
+		byte[] command = command((byte)9, setScriptLengthAndReapeats(27, 32));
+		controller.receive(command);
+		assertEquals(27, leds[9].getCustomScriptLength());
+		assertEquals(32, leds[9].getCustomScriptRepeats());
 	}
 	
 	@Test
-	public void testScriptWithOneCommandToOneLed() {
-		char[] cmd = new SimpleScript()
-			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, (char)1);
-		controller.dispatchReceivedCommands(cmd);
-		controller.dispatchReceivedCommands(Helper.START);
-		exercizeAllLeds();
+	public void testDispatchFadeToRGB() {
+		byte[] command =  fadeToRGB(Color.white);
+		mockLeds[9].setCmd(command);
+		replay(mockLeds[9]);
+		controllerM.dispatch((byte)9, command);
+		verify(mockLeds[9]);
 	}
 	
 	@Test
-	public void testScriptWithOneCommandToMultipleLeds() {
-		char[] cmd = new SimpleScript()
-			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
-			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
-		controller.dispatchReceivedCommands(cmd);
-		controller.dispatchReceivedCommands(Helper.START);
-		exercizeAllLeds();
+	public void testReceiveSplittedFadeToRGB() {
+		byte[] cmd = fadeToRGB(Color.white);
+		byte[] command = command((byte)9, cmd);
+		byte[][] split = ByteUtils.split(command, command.length/2);
+		controller.receive(split[0]);
+		assertEquals(4, controller.getReminder().length);
+		controller.receive(split[1]);
+		assertNull(controller.getReminder());
+		assertEquals(Color.white, leds[9].getFadeToColor());
 	}
 	
 	@Test
-	public void testFadeGradient() {
-		char[] cmd = new SimpleScript()
-		.line((char) 200, Definition.fadeToRGB, new char[] { 0, 255, 0 })
-		.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 }).play((char)0, Matrix.flatten(matrix, 10, 10));
-		char[] fadeGradient = Helper.fadeGradient(1, Matrix.flatten(matrix, 10, 10));
-		controller.dispatchReceivedCommands(cmd);
-		controller.dispatchReceivedCommands(fadeGradient);
-		controller.dispatchReceivedCommands(Helper.START);
-		exercizeAllLeds();
-	}
-	
-	//@Test
-	public void testLongScriptWithOneCommandToMultipleLedsAndRandomSplit() {
-		char[] cmd = new SimpleScript()
-			.line((char) 200, Definition.fadeToRGB, new char[] { 0, 0, 0 })
-			.line((char) 0, Definition.fadeToRGB, new char[] { 255, 255, 255 })
-			.line((char) 255, Definition.fadeToRGB, new char[] { 255, 255, 255 })
-			.line((char) 255, Definition.fadeToHSB, new char[] { 255, 255, 255 })
-		.play((char)0, Matrix.flatten(matrix, 10, 10));
-		
-		for (int i=0; i<cmd.length; i++) {
-			char[][] splitChar = splitChar(cmd, i);
-			controller.dispatchReceivedCommands(splitChar[0]);
-			char[][] splitChar2 = splitChar(splitChar[1], splitChar[1].length);
-			controller.dispatchReceivedCommands(splitChar2[0]);
-			controller.dispatchReceivedCommands(splitChar2[1]);
-			char[] play = SimpleScript.cmd(Definition.playScript, new char[] {0, 0, 0}, Matrix.flatten(matrix, 10, 10));
-			controller.dispatchReceivedCommands(play);
-			//client.write(cmd);
-			exercizeAllLeds();
-		}
-		
-	}
-	
-	public void testMerged(char[] orig, char[] merged) {
-		if (orig.length != merged.length) {
-			fail();
-		}
-		assertEquals(orig.length, merged.length);
-		for (int i=0; i<orig.length;i++) {
-			if (orig[i] != merged[i]) {
-				fail();
-			}
-			assertEquals(orig[i], merged[i]);
-		}
-	}
-	
-	@Test
-	public void testPrepend() {
-		char[] in = new char[] {'A','B','C','D','E','F','G'};
-		char[][] splitChar = splitChar(in, 3);
-		char[] prepend = controller.prepend(splitChar[0], splitChar[1]);
-		for (int i=0; i<in.length;i++) {
-			assertEquals(in[0], prepend[0]);
-		}
-	}
-	
-	@Test
-	public void testSplitChar() {
-		char[] in = new char[] {'A','B','C','D','E','F','G'};
-		char[][] splitChar = splitChar(in, 3);
-		char[] a = splitChar[0];
-		char[] b = splitChar[1];
-		assertEquals(3, a.length);
-		assertEquals(4, b.length);
-		assertEquals('A', a[0]);
-		assertEquals('B', a[1]);
-		assertEquals('C', a[2]);
-		assertEquals('D', b[0]);
-		assertEquals('E', b[1]);
-		assertEquals('F', b[2]);
-		assertEquals('G', b[3]);
-	}
-	
-	private char[][] splitChar(char[] in, int pos) {
-		char[] a = new char[pos];
-		char[] b = new char[in.length-pos];
-		for (int i=0;i<pos;i++) {
-			a[i] = in[i];
-		}
-		
-		for (int i=pos; i<in.length; i++) {
-			b[i-pos] = in[i];
-		}
-		if (in.length!=+a.length+b.length) {
-			fail();
-		}
-		assertEquals(in.length, a.length+b.length);
-		return new char[][] { a, b };
-	}
-	
-	@BeforeClass
-	public static void beforeClass() {
-		//JPanel panel = new ProcessingSimulatorPanel().getPanel();
-		//panel.setVisible(true);
-		//try {
-		//	Thread.sleep(5000);
-		//} catch (InterruptedException e) {
-		//	e.printStackTrace();
-		//}
+	public void testReceiveScript() {
+		Script script = new Script();
+		script.build(new byte[][] {
+			Commands.fadeToRGB(Color.white),
+			Commands.fadeToRGB(Color.blue)}
+		);
+		byte[] bs = script.get((byte)9, (byte)0);
+		controller.receive(bs);
+		assertEquals(2, leds[9].getCustomScriptLength());
+		assertEquals(0, leds[9].getCustomScriptRepeats());
 	}
 	
 	@Before
 	public void setUp() {
 		leds = new Blinkm[100];
-		for (int i=0; i<leds.length; i++) {
-			leds[i] = new Blinkm((byte)i);
+		mockLeds = new Blinkm[100];
+		for (int i=0; i<100; i++) {
+			mockLeds[i] = createMock(Blinkm.class);
+			leds[i] = new Blinkm((byte) (i+1));
 		}
 		controller = new Controller(leds);
-		int cols = 10;
-		int rows = 10;
-		matrix = Matrix.build(rows,cols);
-		//client = new ProcessingSimulatorClient("localhost", 5204);
-		//client.connect();
+		controllerM = new Controller(mockLeds);
 	}
+	
 }

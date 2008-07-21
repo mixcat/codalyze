@@ -41,22 +41,14 @@ public class VerifyUtils {
 	
 	static void verifyLineThrowsNotEmbeddable(byte[] cmd, Definition def) {
 		try {
-			Commands.line(cmd);
+			Commands.line(0, cmd);
 			fail("Expected exception: Command not embeddable in a script line. ");
 		} catch (RuntimeException e) {
 			assertEquals(e.getMessage(), "Command [" + def.toString()+ "] not embeddable in a script line");
 		}
 	}
 	
-	static Color getColor(byte r, byte g, byte b) {
-		return new Color( (int)r&0xff, (int)g&0xff, (int)b&0xff);
-	}
 	
-	static byte[] slice(byte[] src, int start, int len) {
-		byte[] rt = new byte[len];
-		for (int i=0; i<len; i++) {
-			rt[i] = src[start+i];
-		}
-		return rt;
-	}
+	
+	
 }

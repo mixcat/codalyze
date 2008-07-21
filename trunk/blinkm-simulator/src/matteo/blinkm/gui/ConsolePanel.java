@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import matteo.blinkm.Definition;
+import matteo.blinkm.console.Commands;
 import matteo.blinkm.console.Helper;
 import matteo.blinkm.graphics.Matrix.Direction;
 
@@ -48,6 +49,7 @@ public class ConsolePanel extends JPanel {
 			interpreter.eval("static import matteo.blinkm.console.Helper.*;");
 			interpreter.eval("static import " + Definition.class.getCanonicalName() + ".*;");
 			interpreter.eval("static import " + Direction.class.getCanonicalName() + ".*;");
+			interpreter.eval("static import " + Commands.class.getCanonicalName() + ".*;");
 			interpreter.eval("import *;");
 			//interpreter.eval("client.connect();");
 		} catch (EvalError e) {

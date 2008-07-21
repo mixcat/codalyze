@@ -30,7 +30,7 @@ public class PlayScriptTest {
 		int scriptId = 0;
 		int repeat = 120;
 		int startLine = 200;
-		byte[] rt = line(playScript(scriptId, repeat, startLine));
+		byte[] rt = line(0, playScript(scriptId, repeat, startLine));
 		verifyScriptLine(rt, Definition.playScript);
 		assertEquals((byte)scriptId, rt[5]);
 		assertEquals((byte)repeat, rt[6]);
@@ -53,7 +53,7 @@ public class PlayScriptTest {
 		int scriptId = 0;
 		int repeat = 120;
 		int startLine = 200;
-		byte[] rt = command(addr, line(playScript(scriptId, repeat, startLine)));
+		byte[] rt = command(addr, line(0, playScript(scriptId, repeat, startLine)));
 		verifyScriptLineCommand(addr, rt, Definition.playScript);
 		assertEquals((byte)scriptId, rt[9]);
 		assertEquals((byte)repeat, rt[10]);
