@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class Command {
-	private final Definition definition;
+	private final Definition definition;	
 	private final ArrayList<Character> payload = new ArrayList<Character>();
 
 	public Command(Definition commandDef, char[] load) {
