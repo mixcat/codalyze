@@ -12,9 +12,13 @@ package matteo.blinkm;
  */
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.JProgressBar;
 
 import processing.core.PApplet;
-import processing.serial.*;
+import processing.serial.Serial;
 
 //import javax.swing.progressbar;
 
@@ -104,25 +108,10 @@ public class BlinkMComm {
 		return isConnected; // FIXME: this is kinda lame
 	}
 
-	/*
-	// uses global var 'durations'
-	public byte getDurTicks(int loopduration) {
-		for( int i=0; i<durations.length; i++ ) {
-			if( durations[i] == loopduration )
-				return durTicks[i];
-		}
-		return durTicks[0]; // failsafe
-	}
-	// this is so lame
-	public byte getFadeSpeed(int loopduration) {
-		for( int i=0; i<durations.length; i++ ) {
-			if( durations[i] == loopduration )
-				return fadeSpeeds[i];
-		}
-		return fadeSpeeds[0]; // failsafe
-	}
-	*/
 
+	// uses global var 'durations'
+	
+	
 	/**
 	 * Burn a list of colors to a BlinkM
 	 * @param colorlist an ArrayList of the Colors to burn (java Color objs)
@@ -130,19 +119,19 @@ public class BlinkMComm {
 	 * @param duration  how long the entire list should last for, in seconds
 	 * @param loop      should the list be looped or not
 	 * @param progressbar if not-null, will update a progress bar
-	
+*/	
 	public void burn(ArrayList colorlist, Color nullColor, 
 			int duration, boolean loop, 
 			JProgressBar progressbar) {
 
 		byte[] cmd = new byte[8];
-		byte fadespeed = getFadeSpeed(duration);
-		byte durticks = getDurTicks(duration);
+		byte fadespeed = 20;
+		byte durticks = 127;
 		byte reps = (byte)((loop) ? 0 : 1);  // sigh, java
 
 		Color c;
 
-		l.debug("BlinkMComm.burn: durticks:"+durticks+" fadespeed:"+fadespeed);
+		//l.debug("BlinkMComm.burn: durticks:"+durticks+" fadespeed:"+fadespeed);
 
 		// build up the byte array to send
 		Iterator iter = colorlist.iterator();
@@ -187,28 +176,7 @@ public class BlinkMComm {
 		pause(30);
 	}
 
-	// prepare blinkm for playing preview scripts
-	public void prepareForPreview(int loopduration) {
-		byte fadespeed = getFadeSpeed(loopduration);
-		l.debug("BlinkmComm.prepareForPreview: fadespeed:"+fadespeed);
-		byte[] cmdstop    = {'o'};
-		byte[] cmdsetfade = {'f', fadespeed};
-		if( isConnected() ) {
-			sendCommand( blinkm_addr, cmdstop );
-			pause(40);
-			sendCommand( blinkm_addr, cmdsetfade );
-			pause(40);
-		}
-	}
 
-	// stops any playing script
-	public void stopPlayingScript() {
-		l.debug("BlinkmComm.stopPlayingScript");
-		byte[] cmd = {'o'};
-		if( isConnected() ) 
-			sendCommand( blinkm_addr, cmd );
-	}
-*/
 	
 	/*
 	 bmc = new BlinkMComm();
@@ -281,20 +249,12 @@ bmc.stopPlayingScript();
 		}
 	}
 	
-	public synchronized void send(String cmd) {
-		port.write(cmd);
-	}
-	
-	public void fadeTest(Color c) {
-		sendCommand( blinkm_addr, new byte[] { 'c', 120, 0, 120 });
-	}
-	
 	public synchronized void sendCommand( byte addr, byte[] cmd ) {
 		byte cmdfull[] = new byte[4+cmd.length];
-		cmdfull[0] = 0x01;
+		cmdfull[0] = 0x01; //
 		cmdfull[1] = addr;
-		cmdfull[2] = (byte)cmd.length;
-		cmdfull[3] = 0x00;
+		cmdfull[2] = (byte)cmd.length; //
+		cmdfull[3] = 0x00; //
 		for( int i=0; i<cmd.length; i++) {
 			cmdfull[4+i] = cmd[i];
 		}

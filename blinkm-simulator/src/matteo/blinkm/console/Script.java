@@ -17,29 +17,14 @@ public class Script {
 		return this;
 	}
 	
-	
-	public byte[] get(int addr, int repeats) {
-		byte[] lengthAndReapeats = command(addr, setScriptLengthAndReapeats(commands.length, repeats));
-		byte[] rt = new byte[commands.length*COMMAND_LINE_LENGTH + lengthAndReapeats.length];
-		
-		// fill with stars, to ease testing and debugging
-		ByteUtils.fill(rt, '*');
-		
-		// put every line in a command envelope
-		for (int i = 0; i < commands.length; i++) {				
-			byte[] lineCommand = command(addr, line(i, commands[i]));
-			int base = COMMAND_LINE_LENGTH*i; 
-			for (int j=0; j<lineCommand.length; j++) {
-				rt[base + j] = lineCommand[j];
-			}
+	public byte[][] lines(int addr, int repeats) {
+		byte[][] lines = new byte[commands.length+1][];
+		for (int i = 0; i < commands.length; i++) {		
+			lines[i] = command(addr, line(i, commands[i]));
 		}
-		
-		// end with setting script length and repeats
-		int base = COMMAND_LINE_LENGTH*commands.length;
-		for (int j=0; j<lengthAndReapeats.length; j++) {
-			rt[base + j] = lengthAndReapeats[j];
-		}
-		
-		return rt;
+		lines[lines.length-1] = command(addr, setScriptLengthAndReapeats(commands.length, repeats));
+		return lines;
 	}
+	
+
 }

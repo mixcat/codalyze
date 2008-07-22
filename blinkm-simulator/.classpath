@@ -10,8 +10,5 @@
 	<classpathentry kind="lib" path="lib/serial.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/processing-net.jar"/>
-	<classpathentry kind="lib" path="C:/development/alphametrics/build/M2_REPO/easymock/easymockclassextension/2.2.2/easymockclassextension-2.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/development/alphametrics/build/M2_REPO/easymock/easymock/2.3/easymock-2.3.jar"/>
-	<classpathentry kind="lib" path="C:/development/alphametrics/build/M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

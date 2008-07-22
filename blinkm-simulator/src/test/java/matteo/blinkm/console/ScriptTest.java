@@ -23,6 +23,26 @@ import org.junit.Test;
 public class ScriptTest {
 	
 	@Test
+	public void testScriptBytes() {
+		byte[] cmd = Helper.txt();
+		
+		
+		
+		Script script = new Script();
+		byte[] bs = script.build(new byte[][]{
+			fadeToRGB(new Color(255, 255, 255)),
+			fadeToRGB(new Color(255, 255, 0)),
+			fadeToRGB(new Color(255, 0, 0))
+			}).get(0, 0);
+		
+		assertEquals(cmd.length, bs.length);
+		
+		for (int i = 0; i < bs.length; i++) {
+			assertEquals(i+"",cmd[i], bs[i]);
+		}
+		
+	}
+	@Test
 	public void testScript() {
 		Script script = new Script();
 		Color color = Color.magenta;
