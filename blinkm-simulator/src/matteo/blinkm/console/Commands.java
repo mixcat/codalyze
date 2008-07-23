@@ -20,6 +20,16 @@ public class Commands {
 		return cmd;
 	}
 	
+	static public byte[] setAddress(int address) {
+		byte[] cmd = new byte[5];
+		cmd[0] = (byte)Definition.setAddress.getCmd();
+		cmd[1] = (byte) address;
+		cmd[2] = (byte) 0xd0;
+		cmd[3] = (byte) 0x0d;
+		cmd[4] = (byte) address;
+		return cmd;
+	}
+	
 	static public byte[] stopScript() {
 		byte[] cmd = new byte[1];
 		cmd[0] = (byte) Definition.stopScript.getCmd();
