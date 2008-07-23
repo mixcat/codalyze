@@ -57,15 +57,16 @@ void setup()
     } else {
         BlinkM_begin();
     }
-    BlinkM_setAddress( blinkm_addr );  // comment out to not set address
     
     Serial.begin(19200); 
+    /*
+    BlinkM_setAddress( blinkm_addr );  // comment out to not set address
     byte rc = BlinkM_checkAddress( blinkm_addr );
     if( rc == -1 ) 
         Serial.println("no response");
     else if( rc == 1 ) 
         Serial.println("addr mismatch");
-
+	*/
     Serial.println("BlinkMCommander ready");
 }
 
