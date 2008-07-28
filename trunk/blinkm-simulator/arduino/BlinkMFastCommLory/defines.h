@@ -4,7 +4,7 @@
 #define DBG(x)
 
 
-#define BLINKM_INIT_POWERED true
+#define BLINKM_INIT_POWERED false
 static const int recordingPin = 13;
 
 #define ARDUINO_MSG 128
