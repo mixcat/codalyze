@@ -18,7 +18,7 @@ static int push(struct queue_t *q, int addr, byte* payload, int len) {
 
 	// malloc 1 lorenzo 0
 	//struct element_t* el = (struct element_t*) malloc(sizeof(element_t));
-	struct element_t* el = malloc(sizeof *el);
+	struct element_t* el = (struct element_t*) malloc(sizeof(*el));
 
 	// check malloc
 	if ( el == NULL )
