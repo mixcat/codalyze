@@ -1,0 +1,25 @@
+#summary Implementing I2C on ATtiny45
+
+= Introduction =
+
+Collecting all useful references to end up having a BlinkM behave as master or slave on the
+bus
+
+
+= Details =
+
+==An email from TodBot==
+Hi Matteo,
+
+I2C is an asymmetric protocol: a typical bus has one I2C master and one or more I2C slave. The Arduino Wire library is how to do an I2C master. You need code on how to make an I2C slave.
+
+Atmel provides a pretty good application note in "AVR312: Using the USI module as a I2C slave". Scroll down to download it here:
+http://atmel.com/dyn/products/app_notes.asp?family_id=607
+It's interesting if you want to know some of the theory behind how it works.
+
+For more immediate results, you can find examples of people using this application note 
+with avr-gcc on the net. One of the best examples is d.tools, http://hci.stanford.edu/research/dtools/ and you can look at the source code to many different kinds of I2C 
+slaves they've implemented here:
+http://d-tools.cvs.sourceforge.net/d-tools/dtools-avr-code/attiny45-slaves/
+
+
