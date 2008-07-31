@@ -22,6 +22,17 @@ with avr-gcc on the net. One of the best examples is d.tools, http://hci.stanfor
 slaves they've implemented here:
 http://d-tools.cvs.sourceforge.net/d-tools/dtools-avr-code/attiny45-slaves/
 
+... other email
+
+- Timing. You need to have some sort of external sync pulse to keep BlinkMs synchronized.  They would need big external crystals to have better timing accuracy than they have now.  One way of creating an external sync pulse is to toggle all the BlinkM's reset pin at once. Similarly, toggle all their power lines.
+
+- Reliance:  Send me any bad BlinkMs and I'll mail you replacements. Apologies that you got bad ones.  We test each one before it ships, but once in a while one fails afterwards.
+
+- Distance:  Are you using external pullup resistors on SDA & SCL for  your master?  That will help with distance.  You can also clock the I2C master slower, I can give you some tips on how to do that if the pullup resistors don't work.  I am very curious to hear how the NXP I2C buffer chips work out if you end up using them.
+
+- Firmware:  We can't release the BlinkM firmware source code due to some licensing agreements we signed with Philips/NXP.  However, from my "smart led prototypes" and the I2C slave code I mention in the GetSatisfaction post, you have pretty much all the component parts of  BlinkM code.
+
+
 ==Links==
 
 [http://code.google.com/p/codalyze/w/edit/I2COnATtiny45 A Quickstart Tutorial for ATMEL AVR Microcontrollers]
