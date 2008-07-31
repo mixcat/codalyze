@@ -21,3 +21,7 @@ For more immediate results, you can find examples of people using this applicati
 with avr-gcc on the net. One of the best examples is d.tools, http://hci.stanford.edu/research/dtools/ and you can look at the source code to many different kinds of I2C 
 slaves they've implemented here:
 http://d-tools.cvs.sourceforge.net/d-tools/dtools-avr-code/attiny45-slaves/
+
+==Links==
+
+[http://code.google.com/p/codalyze/w/edit/I2COnATtiny45 A Quickstart Tutorial for ATMEL AVR Microcontrollers]
