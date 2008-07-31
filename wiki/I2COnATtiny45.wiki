@@ -22,6 +22,8 @@ with avr-gcc on the net. One of the best examples is d.tools, http://hci.stanfor
 slaves they've implemented here:
 http://d-tools.cvs.sourceforge.net/d-tools/dtools-avr-code/attiny45-slaves/
 
+I think the d.tools examples are using the IAR compiler instead of the AVR-GCC compiler. There's no real difference, just slight syntax changes for a few things. To see an avr-gcc examples, poke around on avrfreaks.net. There's a few projects and forum posts that port AVR312 appnote. For example, here's one: http://www.avrfreaks.net/index.php?module=Freaks%20Academy&func=viewItem&item_id=425&item_type=project
+
 ... other email
 
 - Timing. You need to have some sort of external sync pulse to keep BlinkMs synchronized.  They would need big external crystals to have better timing accuracy than they have now.  One way of creating an external sync pulse is to toggle all the BlinkM's reset pin at once. Similarly, toggle all their power lines.
