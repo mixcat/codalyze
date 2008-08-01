@@ -2,7 +2,7 @@
 
 = Introduction =
 
-We are now pllanin to use arduino as a programmable usb-to-I2C converter, but
+We are now planning to use arduino as a programmable usb-to-I2C converter, but
 possibilities are endless
 
 
