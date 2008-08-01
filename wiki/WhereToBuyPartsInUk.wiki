@@ -1,0 +1,15 @@
+#summary Collection of linkes and notes about buy the gear you need
+
+= Introduction =
+
+Finding that chip you fancy ain't easy. Read on...
+
+= Details =
+
+== General Electronics ==
+
+=== UK ===
+  * [http://uk.digikey.com Digikey Corporation] Huge catalog from chips to tools, crappy online shopping system. No retail shops
+  * [http://uk.farnell.com Farnell UK] Has most of required stuff in stock. Good shopping online, same day delivery for free]. No retail shop, pheraps a counter for pick up.
+  * [http://www.maplin.co.uk Maplin Electronics] Partly a generic consumer shop, also has some low level components. Many retails stores around london, and you can check stock availability on the web site before even gettin into the tube.
+  * [http://uk.rs-online.com] Catalog seems good, as does the web site. Never ordered from this people.
