@@ -1,26 +1,4 @@
-xrainbow(int i) {
-System.out.println((int)i);
- return new SimpleScript()
-		.line(i, Definition.fadeToRGB, Color.red)
-		.line(i, Definition.fadeToRGB, Color.orange)
-		.line(i, Definition.fadeToRGB, Color.yellow)
-		.line(i, Definition.fadeToRGB, Color.green)
-		.line(i, Definition.fadeToRGB, Color.blue)
-		.line(i, Definition.fadeToRGB, new Color(75, 0, 130))
-		.line(i, Definition.fadeToRGB, new Color(238,130,238));
-}
 
-yrainbow(int i) {
-System.out.println((int)i);
- return new SimpleScript()
-		.line(i, Definition.goToRGB, Color.red)
-		.line(i, Definition.goToRGB, Color.orange)
-		.line(i, Definition.goToRGB, Color.yellow)
-		.line(i, Definition.goToRGB, Color.green)
-		.line(i, Definition.goToRGB, Color.blue)
-		.line(i, Definition.goToRGB, new Color(75, 0, 130))
-		.line(i, Definition.goToRGB, new Color(238,130,238));
-}
 
 serp() {
  i=0;
@@ -44,66 +22,71 @@ vlines() {
 
 // vl=vlines(); hl=hlines(); for (i:seq(10)) { write(yrainbow(25+i*25), vl[i]); write(yrainbow(25+i*25), hl[i]); }
 
-static import Definition.*;
-script_blink_white = new SimpleScript()
-	.line( 50, goToRGB, Color.red )
-	.line( 50, goToRGB, Color.green )
-	.line( 50, goToRGB, Color.blue );
 	
-script_blink_red = new SimpleScript()
-	.line( 20, goToRGB, Color.red )
-	.line( 20, goToRGB, Color.black );
-	
-script_blink_green = new SimpleScript()
-	.line( 20, goToRGB, Color.green )
-	.line( 20, goToRGB, Color.black );
-	
-script_blink_blue = new SimpleScript()
-	.line( 20, goToRGB, Color.blue )
-	.line( 20, goToRGB, Color.black );
-	
-script_blink_cyan = new SimpleScript()
-	.line( 20, goToRGB, Color.cyan )
-	.line( 20, goToRGB, Color.black );
-	
-script_blink_magenta = new SimpleScript()
-	.line( 20, goToRGB, Color.magenta )
-	.line( 20, goToRGB, Color.black );
-	
-script_blink_yellow = new SimpleScript()
-	.line( 20, goToRGB, Color.yellow )
-	.line( 20, goToRGB, Color.black );
-	
-script_black = new SimpleScript()
-	.line( 20, goToRGB, Color.blue );
+public W(data) {
+	writeSerial(data);
+	//sleep(1000);
+	//readSerial();
+}
 
-script_hue_cycle = new SimpleScript()
-	.line( 30, fadeToHSB, Color.red )
-	.line( 30, fadeToHSB, Color.yellow )
-	.line( 30, fadeToHSB, Color.green )
-	.line( 30, fadeToHSB, Color.cyan )
-	.line( 30, fadeToHSB, Color.blue )
-	.line( 30, fadeToHSB, Color.magenta )
-	.line( 30, fadeToHSB, Color.red );
+public W(addr, data) {
+	W(C(addr, data));
+}
+
+public C(addr, data) {
+	return command(addr, data);
+}
+
+Fred = fadeToRGB(red);
+Fgreen = fadeToRGB(green);
+Fblue = fadeToRGB(blue);
+Fblack = fadeToRGB(black);
+
+REC = new byte[] { 128, 'r' };
+PLAY = new byte[] { 128, 'p' };
+
+STOPALL = command(0, stopScript());
+BOOTNO = command(0, new byte[] {'B', 0, 0, 0, 20, 20});
+
+setAddr(int addr) {
+a=(byte)addr; sleep(2000); W(STOPALL); W(BOOTNO); W(0, setAddress(a)); W(a, Fblack); W(a, Fred);
+}
+
+test = "W(C(0, Fblack)); W(REC); W(C(1,Fred)); W(C(2,Fgreen)); W(C(3,Fblue)); W(C(4, Fgreen)); W(REC); W(PLAY);";
+ALL = new byte[16];
+for(i:seq(16)) { ALL[i] = (byte)(i+1); }
+car(byte[] A, n, delay, Color[] C) {
+		if (C == null) {
+		 C = new Color[16];
+		 for(i=1; i<16; i++) { C[i] = black; }
+		 C[0] = red;
+		 C[7] = yellow;
+		 }
+		 for (int i:seq(n)) { 
+			 for (int j:seq(A.length)) {
+				 matteo.blinkm.console.Script script = new matteo.blinkm.console.Script();
+				 for(int z:seq(A.length)) {
+					 script.c( A[((j+i+z)%A.length)], fadeToRGB(C[(j+z)%A.length]) );
+				 } 
+				 System.out.println("writing command of length: " + script.commands().length);
+				 W(script.commands());
+			}
+			//W(new byte[] { 128, 'P', 100, 4 });
+			sleep(delay);
+		 }
+	}
 	
-//script_randmood = new SimpleScript() 
-//	.line( 50, fadeToRandomHSB, new char[] { 0x80, 0x0, 0x0 } );
 	
-script_candle = new SimpleScript()
-	.line( 1,	setFadeSpeed,	 new char[] { 10 } )
-	.line( 50,	fadeToHSB,	 Color.orange )
-	.line( 2,	fadeToRandomRGB, new char[] { 0, 0, 30 } )
-	.line( 27,	fadeToRandomRGB, new char[] { 0, 10, 10 } )
-	.line( 2,	fadeToRandomRGB, new char[] { 0, 10, 10 } )
-	.line( 7,	fadeToRandomRGB, new char[] { 0, 0, 20 } )
-	.line( 10,	fadeToRandomRGB, new char[] { 0, 0, 40 } )
-	.line( 10,	fadeToRandomRGB, new char[] { 0, 0, 40 } )
-	.line( 50,	fadeToHSB,		 new char[] { 0x0a, 0xff, 0xff } )
-	//.line( 1,	setFadeSpeed,	 new char[] { 40 } )
-	.line( 5,	fadeToRandomRGB, new char[] { 0, 0, 255 } )
-	.line( 1,	fadeToRandomRGB, new char[] { 0, 0 , 40 } )
-	.line( 1,	fadeToRandomRGB, new char[] { 0, 0 , 10 } )
-	.line( 5,	fadeToRandomRGB, new char[] { 0, 0 , 40 } )
-	.line( 5,	fadeToRandomRGB, new char[] { 0, 0 , 30 } );
+Script tst = new Script()
+		.l(Commands.fadeToRGB(Color.red))
+		.l(Commands.fadeToRGB(Color.green))
+		.l(Commands.fadeToRGB(Color.blue));
 	
-	
+Script rbw = new Script()
+		.l(Commands.fadeToRGB(Color.red))
+		.l(Commands.fadeToRGB(Color.orange))
+		.l(Commands.fadeToRGB(Color.yellow))
+		.l(Commands.fadeToRGB(Color.green))
+		.l(Commands.fadeToRGB(Color.blue))
+		.l(Commands.fadeToRGB(new Color(75, 0, 130)))
+		.l(Commands.fadeToRGB(new Color(238, 130, 238)));

@@ -1,0 +1,70 @@
+<frame title="Demo Frame" size="1024, 768" defaultcloseoperation="EXIT_ON_CLOSE">
+	<panel>
+		<borderlayout>
+			<constraint location="West">
+				<panel>
+	<!-- use JGoodies Form Border -->
+					<formborder name="DIALOG_BORDER" />
+					<formlayout columnspec="pref, 4dlu, 50dlu, 4dlu, 50dlu, 4dlu, min"
+						rowspec="pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref">
+						<!--
+							use rowgroup tag to specify ONE row group. To specify more than
+							one rowgroup, simply use another rowgroup tag. Similarly, you can
+							do so for columngroup
+						-->
+						<form-rowgroup rows="3, 5, 7" />
+						<form-separator text="Selector 1" cellconstraints="1, 1, 5, 1" />
+						<!--
+							there are many ways specifying cell contraints The easy way is to
+							use the value attribute to specify all at once.
+						-->
+						<cellconstraints value="1, 3">
+							<label text="Selection" />
+						</cellconstraints>
+	<!-- another way is to specify xy, xyw, xywh etc -->
+						<cellconstraints xyw="3, 3, 3">
+							<textfield actionlistener="selectionAction" focuslistener="selectionFocus"/>
+						</cellconstraints>
+	<!-- or, you can just do field by field specification -->
+						<cellconstraints gridx="1" gridy="5">
+							<label text="Fadespeed" />
+						</cellconstraints>
+						<cellconstraints xy="3, 5">
+							<textfield />
+						</cellconstraints>
+						<cellconstraints xy="1, 7">
+							<label text="Time Adjust" />
+						</cellconstraints>
+						<cellconstraints xy="3, 7">
+							<textfield />
+						</cellconstraints>
+							<cellconstraints xy="1, 9">
+							<label text="Script" />
+						</cellconstraints>
+						<cellconstraints xy="3, 9">
+							<textfield />
+						</cellconstraints>
+						<cellconstraints xy="5, 9">
+							<button id="abbutton" actionlistener="buttonAction" text="Play" />
+						</cellconstraints>
+						<cellconstraints xy="7, 9">
+							<button id="abbutton" actionlistener="buttonAction" text="Stop" />
+						</cellconstraints>
+					</formlayout>
+				</panel>
+			</constraint>
+			<constraint location="East">
+				<panel>
+					<borderlayout>
+						<constraint location="North">
+							<simulator />
+						</constraint>
+						<constraint location="Center">
+							<console />
+						</constraint>
+					</borderlayout>
+				</panel>
+			</constraint>
+		</borderlayout>
+	</panel>
+</frame>

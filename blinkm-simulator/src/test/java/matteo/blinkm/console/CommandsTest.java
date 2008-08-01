@@ -29,18 +29,6 @@ public class CommandsTest {
 				for (int b=0; b<256; b++)
 					assertEquals(new Color(r,g,b), ByteUtils.getColor((byte)r,(byte)g,(byte)b));
 	}
-	
-	@Test
-	public void testRemoveCommandEnvelope() {
-		byte[] cmd = fadeToRGB(Color.white);
-		byte[] envelope = command(addr, cmd);
-		byte[] removeEnvelope = removeCommandEnvelope(envelope);
-		assertEquals(cmd.length, removeEnvelope.length);
-		for (int i = 0; i < removeEnvelope.length; i++) {
-			assertEquals(cmd[i], removeEnvelope[i]);
-		}
-	}
-	
 
 	private byte addr;
 	@Before
