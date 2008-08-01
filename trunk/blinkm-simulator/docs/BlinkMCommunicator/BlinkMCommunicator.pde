@@ -60,7 +60,7 @@ void setup()
     
     Serial.begin(19200); 
     /*
-    BlinkM_setAddress( blinkm_addr );  // comment out to not set address
+    BlinkM_setAddress( blinkm_addr );  // comment out to not set address cvn
     byte rc = BlinkM_checkAddress( blinkm_addr );
     if( rc == -1 ) 
         Serial.println("no response");
