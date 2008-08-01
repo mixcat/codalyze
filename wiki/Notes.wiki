@@ -1,17 +1,12 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-
-Add your content here.
+#summary If It does not fit elsewhere and does not deserve a page...
 
 
-= Details =
+== Arduino, blinkm, ... ===
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
 
+[http://en.wikipedia.org/wiki/DMX512-A DMX512-A is an EIA-485 based communications protocol that is most commonly used to control stage lighting and effects.] Tikner.it has a page on arduino and DMX: http://www.tinker.it/en/Products/DMXInterface
+
+== Codalize ==
 jncss run path
 
 {{{
