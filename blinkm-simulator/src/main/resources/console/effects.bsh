@@ -1,0 +1,220 @@
+
+carz(n, delay, delay2) {
+	A = quadrants_4_16();
+	C = col(4);
+	for (i:seq(40)) { 
+	 for (j:seq(A.length)) {
+		 for(z:seq(A.length)) {
+			 idxA = ((j+i+z)%A.length);
+			 idxC = (j+z)%A.length;
+			 W( A[idxA], goToRGB(C[idxC]), 0 );
+		 } 
+	}
+	sleep(100);
+	}
+}
+
+col(n) {
+	C = new Color[n];
+	for(i=1; i<n; i++) { C[i] = black; }
+	C[0] = red;
+	return C;
+}
+
+car(A, n, delay, delay2, Color[] C) {
+	C = col(A.length);
+	 for (int i:seq(n)) { 
+		 for (int j:seq(A.length)) {
+			 for(int z:seq(A.length)) {
+				 W( A[((j+i+z)%A.length)], fadeToRGB(C[(j+z)%A.length]), 0 );
+			 } 
+		}
+		sleep(delay);
+	 }
+}
+
+carx(A, n, delay, delay2, Color[] C) {
+	A = square(0,0,4);
+	C = col(A.length);
+	n=10;
+	 for (int i:seq(n)) { 
+		 for (int j:seq(A.length)) {
+				W( A[((j+i)%A.length)], fadeToRGB(C[(j)%A.length]), 0 );
+				sleep(50);
+				W( A[((j+i)%A.length)], fadeToRGB(C[(j+1)%A.length]), 0 );
+		}
+		//sleep(20);
+	 }
+}
+
+carf() {
+	A = square(0,0,4);
+	C = col(A.length);
+	n=60;
+	for (i:seq(n)) { 
+		W( A[(i%A.length)], Gred, 200); 
+		W( A[(i%A.length)], Gblue, 100); 
+	 }
+}
+
+card() {
+	A = square(0,0,4);
+	B = square(1,1,2);
+	C = col(A.length);
+	n=60;
+	W(0, Gblack);
+	for (i:seq(n)) { 
+		W( A[i%A.length], Gred, 0);
+		W( B[(B.length-1)-i%B.length], Gred, 200);
+		W( B[(B.length-1)-i%B.length], Gblack, 0);
+		W( A[i%A.length], Gblack, 100); 
+	 }
+}
+
+	carm() {
+		A = square(0,0,4);
+		B = square(1,1,2);
+		C = col(A.length);
+		n=60;
+		W(0, Gblack);
+		X = new byte[][] { Fred, Fblue, Fwhite, Fgreen, Fred, Fblue, Fblack };
+		for (i:seq(A.length*X.length)) {
+			W( A[i%A.length], X[i/A.length], 0);
+			W( B[(B.length-1)-i%B.length], X[i/X.length], 200);
+			W( B[(B.length-1)-i%B.length], X[(i/X.length)+1], 0);
+			W( A[i%A.length], X[(i/A.length)+1], 100); 
+		 }
+	}
+
+carn() {
+	A = square(0,0,4);
+	B = square(1,1,2);
+	C = col(A.length);
+	n=60;
+	W(0, Gblack);
+	X = new byte[][] { Fblack, Fblue, Fblack, Fred, Fgreen };
+	for (i:seq(A.length*(X.length-1))) {
+		W( A[i%A.length], X[i/A.length], 0);
+		W( A[i%A.length], X[(i/A.length)+1], 100); 
+		if ((i+1)%A.length==0) {
+			W(B, X[(i/A.length)], 0);
+		}
+	 }
+}
+
+caro() {
+	Q = quadrants_4_16();
+	W(0, Gblack);
+	X = new byte[][] { Fblack, Fblue, Fblack, Fred, Fgreen };
+	for (i:seq(4*(X.length-1))) { 
+		W( Q[0][i%4], X[i/4], 0);
+		W( Q[1][i%4], X[i/4], 0);
+		W( Q[2][i%4], X[i/4], 0);
+		W( Q[3][i%4], X[i/4], 100);
+		W( Q[0][i%4], X[(i/4)+1], 0); 
+		W( Q[1][i%4], X[(i/4)+1], 0); 
+		W( Q[2][i%4], X[(i/4)+1], 0); 
+		W( Q[3][i%4], X[(i/4)+1], 100); 
+	 }
+}
+
+carp() {
+	Q = quadrants_4_16();
+	W(0, Gblack);
+	Q0 = new byte[][] { Fblack, Fblue, Fblack, Fred, Fgreen };
+	Q1 = new byte[][] { Fblue, Fblack, Fred, Fgreen, Fblack };
+	Q2 = new byte[][] { Fblack, Fred, Fgreen, Fblack, Fblue };
+	Q3 = new byte[][] {  Fred, Fgreen, Fblack, Fblue, Fblack };
+	for (i:seq(4*(X.length-1))) { 
+		W( Q[0][i%4], Q0[i/4], 0);
+		W( Q[1][i%4], Q1[i/4], 0);
+		W( Q[2][i%4], Q2[i/4], 0);
+		W( Q[3][i%4], Q3[i/4], 100);
+		W( Q[0][i%4], Q0[(i/4)+1], 0); 
+		W( Q[1][i%4], Q1[(i/4)+1], 0); 
+		W( Q[2][i%4], Q2[(i/4)+1], 0); 
+		W( Q[3][i%4], Q3[(i/4)+1], 100); 
+	 }
+}
+
+carq() {
+	A = square(0,0,3);
+	B = square(1,1,3);
+	C = col(A.length);
+	n=60;
+	W(0, Gblack);
+	X = new byte[][] { Fblack, Fblue, Fblack, Fred, Fgreen };
+	for (i:seq(A.length*(X.length-1))) {
+		W( A[i%A.length], X[i/A.length], 0);
+		W( A[i%A.length], X[(i/A.length)+1], 100); 
+		if ((i+1)%A.length==0) {
+			W(B, X[(i/A.length)], 0);
+		}
+	 }
+}
+
+carr() {
+	A = square(0,0,3);
+	B = inv(square(1,1,3));
+	C = col(A.length);
+	n=60;
+	W(0, Gblack);
+	X = new byte[][] { Fred, Fblue, Fred, Fblue, Fred };
+	Y = new byte[][] { Fgreen, Forange, Fgreen, Forange, Fgreen };
+	for (i:seq(A.length*(X.length-1))) {
+		W( A[i%A.length], X[i/A.length], 0);
+		W( B[i%B.length], Y[i/B.length], 0);
+		W( A[i%A.length], X[(i/A.length)+1], 100); 
+		W( B[i%B.length], Y[(i/B.length)+1], 100); 
+	 }
+}
+
+shift(byte[] src) {
+	dst = new byte[src.length];
+	for(i:seq(dst.length-1)) {
+		dst[i+1] = src[i];
+	}
+	dst[0] = src[src.length-1];
+	return dst;
+} 
+
+cars() {
+	A=square(0,0,4);
+	B=square(1,1,2);
+	C=merge(A,B);
+	W(0, Gblack);
+	for(i:seq(10)) {
+		for(a:C) {
+			W(a, Fred, 100);
+		}
+		for(a:inv(C)) {
+			W(a, Fblue, 100);
+		}
+		C=shift(C);
+	}
+}
+
+cart() {
+	A=square(0,0,4);
+	B=square(1,1,2);
+	C=merge(A,B);
+	W(0, Gblack);
+	X = new byte[][] { Fwhite, Fred, Fblue, Fyellow, Fblack };
+	for(i:seq(3)) {
+		for(a:C) {
+			W(a, X[i%3], 300);
+			W( a, X[(i+1)%3], 0);
+		}
+		for(a:inv(C)) {
+			W(a, X[(i+3)%3], 100);
+			W(a, X[(i+4)%3], 100);
+		}
+	}
+}
+
+concentric_blink16() {
+	S = square(0,0,4);
+	s = square(1,1,2);
+	C = col(2);
+	for (i:seq(30)) { W(S, fadeToRGB(C[i%2]),0); W(s, fadeToRGB(C[1-(i%2)]),0); sleep(500); }
+}

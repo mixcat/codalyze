@@ -1,0 +1,20 @@
+Fred = fadeToRGB(red);
+Fgreen = fadeToRGB(green);
+Fblue = fadeToRGB(blue);
+Fblack = fadeToRGB(black);
+Fwhite = fadeToRGB(white);
+Fyellow = fadeToRGB(yellow);
+Forange = fadeToRGB(orange);
+
+Gred = goToRGB(red);
+Ggreen = goToRGB(green);
+Gblue = goToRGB(blue);
+Gblack = goToRGB(black);
+Gwhite = goToRGB(white);
+Gyellow = goToRGB(yellow);
+
+REC = new byte[] { 128, 'r' };
+PLAY = new byte[] { 128, 'p' };
+
+STOPALL = command(0, stopScript());
+BOOTNO = command(0, new byte[] {'B', 0, 0, 0, 20, 20});

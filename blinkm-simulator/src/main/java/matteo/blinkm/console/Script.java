@@ -8,7 +8,6 @@ import static matteo.blinkm.console.Commands.throwIfCommandIsNotEmbeddable;
 import java.util.ArrayList;
 
 public class Script {
-	
 	protected ArrayList<byte[]> script = new ArrayList<byte[]>();
 	protected ArrayList<byte[]> commands = new ArrayList<byte[]>();
 	
@@ -22,8 +21,6 @@ public class Script {
 		this.script.add(command);
 		return this;
 	}
-	
-	
 	
 	public byte[][] commands() {
 		byte[][] script = new byte[commands.size()][];

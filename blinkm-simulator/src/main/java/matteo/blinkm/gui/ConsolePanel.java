@@ -6,80 +6,89 @@ import bsh.NameSource;
 import bsh.util.NameCompletionTable;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.Color;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
+import matteo.blinkm.ByteUtils;
 import matteo.blinkm.Definition;
 import matteo.blinkm.console.Commands;
 import matteo.blinkm.console.Helper;
+import matteo.blinkm.graphics.Matrix;
 import matteo.blinkm.graphics.Matrix.Direction;
-import cookxml.cookswing.CookSwing;
 
+@SuppressWarnings("serial")
 public class ConsolePanel extends JPanel {
 
-	private final Interpreter interpreter;
+
+	private Helper helper;
+	private Interpreter interpreter;
+	private bsh.util.JConsole console;
+	public Thread thread;
 
 	public ConsolePanel() {
 		super(new BorderLayout());
 
-		final bsh.util.JConsole console = new bsh.util.JConsole();
-		final NameCompletionTable nct = new NameCompletionTable();
+		console = new bsh.util.JConsole();
 		interpreter = new Interpreter(console); 
-		nct.add(interpreter.getNameSpace());
-		nct.add(new ConfigurableNameSource(Helper.class));
-		nct.add(new ConfigurableNameSource(Definition.class));
-		console.setNameCompletion( nct );
 		JScrollPane scrollPane = new JScrollPane(console);
 		scrollPane.setSize(450,450);
 		add(scrollPane);
 
-		final Thread thread = new Thread( interpreter,"BeanShell" );
+		thread = new Thread( interpreter,"BeanShell" );
 		thread.setDaemon(true);
 		thread.start();
-
+	}
+	
+	public void setup() {
+		NameCompletionTable nct = new NameCompletionTable();
+		nct.add(interpreter.getNameSpace());
+		nct.add(new ConfigurableNameSource(Helper.class));
+		nct.add(new ConfigurableNameSource(Definition.class));
+		console.setNameCompletion( nct );
+		importClass(Definition.class, true);
+		importClass(Direction.class, true);
+		importClass(Direction.class, false);
+		importClass(Commands.class, true);	
+		importClass(Commands.class, false);
+		importClass(Commands.class, true);	
+		importClass(Color.class, true);
+		importClass(Helper.class, true);
+		importClass(Matrix.class, false);
+		importClass(ByteUtils.class, true);
 		try {
-			interpreter.eval("import matteo.blinkm.console.Helper;");
-			interpreter.eval("static import matteo.blinkm.console.Helper.*;");
-			interpreter.eval("static import " + Definition.class.getCanonicalName() + ".*;");
-			interpreter.eval("static import " + Direction.class.getCanonicalName() + ".*;");
-			interpreter.eval("static import " + Commands.class.getCanonicalName() + ".*;");			
-			interpreter.eval("import *;");
-			interpreter.eval("static import Color.*;");
-			try {
-				interpreter.source("src/main/resources/console/init-console.bsh");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//interpreter.eval("client.connect();");
-		} catch (EvalError e) {
+			interpreter.set("H", helper);
+			interpreter.source("src/main/resources/console/init-console.bsh");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	private void importClass(Class clazz, boolean isStatic) {
+		String def = isStatic ? "static import " : "import ";
+		def += clazz.getCanonicalName();
+		def += isStatic ? ".*;" : ";";
+		try {
+			interpreter.eval(def);
+		} catch (EvalError e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public class ConfigurableNameSource implements NameSource {
 
 		private ArrayList<String> allNames = new ArrayList<String>();
 
+		@SuppressWarnings("unchecked")
 		public ConfigurableNameSource(Class clazz) {
 			extract(clazz);
 		}
 		
+		@SuppressWarnings("unchecked")
 		private void extract(Class clazz) {
 			if (clazz.isEnum()) {
 				enumNames(clazz.getEnumConstants());
@@ -111,62 +120,9 @@ public class ConsolePanel extends JPanel {
 		}
 		
 	}
-	public static void main(String[] args) throws Exception {
-		/*
-        // Validate the input arguments
-        if (args.length != 1) {
-            usage();
-        }
 
-        String[] arg2 = args[0].split(":");
-        if (arg2.length != 2) {
-            usage();
-        }
-        String hostname = arg2[0];
-        int port = -1;
-        try {
-            port = Integer.parseInt(arg2[1]);
-        } catch (NumberFormatException x) {
-            usage();
-        }
-        if (port < 0) {
-            usage();
-        }
-		 */
-
-		final ConsolePanel shell = new ConsolePanel();
-		SwingUtilities.invokeAndWait(new Runnable() {
-			public void run() {
-				createAndShowGUI(shell);
-			}
-		});
-
-	}
-
-	private static void usage() {
-		System.out.println("Usage: java BeanShellPanel <hostname>:<port>");
-		System.exit(1);
-	}
-
-
-	private static void createAndShowGUI(JPanel bsp) {
-		
-		
-		// Create and set up the window.
-		JFrame frame = new JFrame("BeanShell");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		JComponent contentPane = (JComponent) frame.getContentPane();
-		contentPane.add(bsp, BorderLayout.CENTER);
-		
-		contentPane.setOpaque(true); //content panes must be opaque
-		contentPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-		frame.setContentPane(contentPane);
-
-		// Display the window.
-		frame.pack();
-		frame.setVisible(true);
+	public void setHelper(Helper helper) {
+		this.helper = helper;
 	}
 
 }

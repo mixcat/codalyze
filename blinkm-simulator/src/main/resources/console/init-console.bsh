@@ -1,82 +1,59 @@
+source("src/main/resources/console/shortcuts.bsh");
+source("src/main/resources/console/serial.bsh");
+source("src/main/resources/console/effects.bsh");
 
 
-serp() {
- i=0;
- hl = hlines();
- rt = new char[hl.length][];
- for (l:hl) {
- 	hl[i] = (i%2==0) ? l : inv(l);
- 	i++;
- }
- return rt;
- 
+byte[][] matrix = Matrix.build(H.getRows(),H.getCols());
+byte[] all = Matrix.flatten(matrix, H.getRows(), H.getCols() );
+byte[] line(int i, int j, Direction dir, int len) {
+	return Matrix.line(matrix, i, j, dir, len);
 }
 
-vlines() {
-	char[][] vlines = new char[10][];
-	for (int i:seq(10)) { vlines[i] = line(0,i, south, 10); }
-	return vlines;
+byte[] square(int i, int j, int len) {
+	return Matrix.square(matrix, i, j, len);
 }
 
-//bubblingSquares = for (i:seq(5)) { write(xrainbow(50+40*i), square(i,i,10-2*i)); }
+int[] seq(int len) {
+	int[] rt = new int[len];
+	for (int i = 0; i < rt.length; rt[i] = i++);
+	return rt;
+}
 
-// vl=vlines(); hl=hlines(); for (i:seq(10)) { write(yrainbow(25+i*25), vl[i]); write(yrainbow(25+i*25), hl[i]); }
+byte[] inv(byte[] in) {
+	byte[] rt = new byte[in.length];
+	for (int i=0; i<rt.length; i++) {
+		rt[i] = in[in.length-1-i];
+	}
+	return rt;
+} 
 
+sleep(int sleep) {
+	try {
+		Thread.sleep(sleep);
+	} catch(InterruptedException ex) {
+		throw new RuntimeException("Interrupted");
+	}
+}
+
+
+////// SAMPLES ///////
+
+
+quadrants_4_16() {
+	return new byte[][] {
+		square(0,0,2),
+		square(2,0,2),
+		square(0,2,2),
+		square(2,2,2)
+	};
+}
 	
-public W(data) {
-	writeSerial(data);
-	//sleep(1000);
-	//readSerial();
-}
-
-public W(addr, data) {
-	W(C(addr, data));
-}
-
-public C(addr, data) {
-	return command(addr, data);
-}
-
-Fred = fadeToRGB(red);
-Fgreen = fadeToRGB(green);
-Fblue = fadeToRGB(blue);
-Fblack = fadeToRGB(black);
-
-REC = new byte[] { 128, 'r' };
-PLAY = new byte[] { 128, 'p' };
-
-STOPALL = command(0, stopScript());
-BOOTNO = command(0, new byte[] {'B', 0, 0, 0, 20, 20});
-
-setAddr(int addr) {
-a=(byte)addr; sleep(2000); W(STOPALL); W(BOOTNO); W(0, setAddress(a)); W(a, Fblack); W(a, Fred);
-}
-
 test = "W(C(0, Fblack)); W(REC); W(C(1,Fred)); W(C(2,Fgreen)); W(C(3,Fblue)); W(C(4, Fgreen)); W(REC); W(PLAY);";
 ALL = new byte[16];
 for(i:seq(16)) { ALL[i] = (byte)(i+1); }
-car(byte[] A, n, delay, Color[] C) {
-		if (C == null) {
-		 C = new Color[16];
-		 for(i=1; i<16; i++) { C[i] = black; }
-		 C[0] = red;
-		 C[7] = yellow;
-		 }
-		 for (int i:seq(n)) { 
-			 for (int j:seq(A.length)) {
-				 matteo.blinkm.console.Script script = new matteo.blinkm.console.Script();
-				 for(int z:seq(A.length)) {
-					 script.c( A[((j+i+z)%A.length)], fadeToRGB(C[(j+z)%A.length]) );
-				 } 
-				 System.out.println("writing command of length: " + script.commands().length);
-				 W(script.commands());
-			}
-			//W(new byte[] { 128, 'P', 100, 4 });
-			sleep(delay);
-		 }
-	}
-	
-	
+
+		
+/*
 Script tst = new Script()
 		.l(Commands.fadeToRGB(Color.red))
 		.l(Commands.fadeToRGB(Color.green))
@@ -90,3 +67,4 @@ Script rbw = new Script()
 		.l(Commands.fadeToRGB(Color.blue))
 		.l(Commands.fadeToRGB(new Color(75, 0, 130)))
 		.l(Commands.fadeToRGB(new Color(238, 130, 238)));
+*/

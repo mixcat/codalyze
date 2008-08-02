@@ -1,0 +1,29 @@
+
+W(byte[][] data) {
+	for (byte[] line:data)
+		H.write(line);
+}
+
+
+W(byte[] data) {
+	H.write(data);
+}
+
+W(byte[] addreses, data, delay) {
+	for(addr:addreses)
+		W(addr, data, delay);
+}
+
+W(addr, data, delay) {
+	W(C(addr, data));
+	if (delay!=null && delay>0)
+		sleep(delay);
+}
+
+W(addr, data) {
+	W(C(addr, data));
+}
+
+C(addr, data) {
+	return command(addr, data);
+}

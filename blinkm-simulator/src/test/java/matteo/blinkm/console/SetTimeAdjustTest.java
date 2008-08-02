@@ -1,8 +1,8 @@
 package matteo.blinkm.console;
 
-import static matteo.blinkm.console.Commands.*;
+import static matteo.blinkm.console.Commands.command;
 import static matteo.blinkm.console.Commands.line;
-import static matteo.blinkm.console.Commands.setFadeSpeed;
+import static matteo.blinkm.console.Commands.setTimeAdjust;
 import static matteo.blinkm.console.VerifyUtils.verifyCommand;
 import static matteo.blinkm.console.VerifyUtils.verifyScriptLine;
 import static org.junit.Assert.assertEquals;

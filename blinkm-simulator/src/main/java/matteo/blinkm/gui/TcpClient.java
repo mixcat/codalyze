@@ -3,13 +3,13 @@ package matteo.blinkm.gui;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ProcessingSimulatorClient {
+public class TcpClient {
 
 	private final String host;
 	private final int port;
 	private Socket socket;
 
-	public ProcessingSimulatorClient(String host, int port) {
+	public TcpClient (String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
@@ -37,6 +37,7 @@ public class ProcessingSimulatorClient {
 	public void disconnect() {
 		try {
 			socket.close();
+			socket = null;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
