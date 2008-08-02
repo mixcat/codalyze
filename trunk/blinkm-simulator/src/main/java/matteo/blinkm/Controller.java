@@ -17,7 +17,7 @@ public class Controller {
 		for(int i=0; i<rcv.length; i++) {
 		    switch(pos) {
 		    case POS_ADDR:
-		    addr = rcv[i];
+		    addr = (byte) (rcv[i]);
 		      break;
 		    case POS_CMD: // this is cmd, get len and transmit
 		      len = Definition.getByChar(rcv[i]).getNumArgs();
@@ -45,7 +45,8 @@ public class Controller {
 				b.setCmd(cmd);
 		}
 		else {
-			blinkms[addr].setCmd(cmd);
+			 //addreses start from 1 
+			blinkms[addr-1].setCmd(cmd);
 		}
 	}
 

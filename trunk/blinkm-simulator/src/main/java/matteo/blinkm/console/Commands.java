@@ -6,10 +6,7 @@ import matteo.blinkm.Definition;
 
 public class Commands {
 
-	public static final byte BROADCAST = 0; // 0 is broadcast address
-	public static final int LINE_LENGTH = 8;
-	public static final int COMMAND_LINE_LENGTH = 12;
-	public static final int COMMAND_ENVELOPE_LENGHT = 4;
+	private static final int LINE_LENGTH = 8;
 	
 	static public byte[] fadeToRGB(Color color) {
 		byte[] cmd = new byte[4];

@@ -1,19 +1,12 @@
 package matteo.blinkm.console;
 
 import static org.junit.Assert.assertEquals;
-import static matteo.blinkm.console.Commands.*;
 import static org.junit.Assert.fail;
-
-import java.awt.Color;
-
 import matteo.blinkm.Definition;
 public class VerifyUtils {
 	static void verifyCommand(byte addr, byte[] rt, Definition def) {
-		assertEquals(def.getNumArgs()+1+COMMAND_ENVELOPE_LENGHT, rt.length);
-		assertEquals((byte)0x01, rt[0]);
+		assertEquals(def.getNumArgs()+1, rt.length);
 		assertEquals((byte)addr, rt[1]);
-		assertEquals(def.getNumArgs()+1, rt[2]);
-		assertEquals((byte)0x00, rt[3]);
 		assertEquals((byte)def.getCmd(), rt[4]);
 	}
 	
@@ -27,11 +20,8 @@ public class VerifyUtils {
 	}
 	
 	static void verifyScriptLineCommand(byte addr, byte[] rt, Definition def) {
-		assertEquals(Definition.writeScriptLine.getNumArgs()+1+COMMAND_ENVELOPE_LENGHT, rt.length);
-		assertEquals((byte)0x01, rt[0]);
+		assertEquals(Definition.writeScriptLine.getNumArgs()+1, rt.length);
 		assertEquals((byte)addr, rt[1]);
-		assertEquals(Definition.writeScriptLine.getNumArgs()+1, rt[2]);
-		assertEquals((byte)0x00, rt[3]);
 		assertEquals(Definition.writeScriptLine.getCmd(), (char)rt[4]);
 		assertEquals((byte)0, rt[5]);   //script id
 		assertEquals((byte)0, rt[6]);   // line no
@@ -47,8 +37,5 @@ public class VerifyUtils {
 			assertEquals(e.getMessage(), "Command [" + def.toString()+ "] not embeddable in a script line");
 		}
 	}
-	
-	
-	
 	
 }

@@ -42,10 +42,6 @@ void setup() {
 
 	executiondelay = 0;
 
- 	errorblink_mem();
-	delay(1000);
-	errorblink_cmd();
-
 }  // setup()
 
 

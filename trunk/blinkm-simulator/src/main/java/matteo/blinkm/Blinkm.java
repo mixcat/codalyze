@@ -179,14 +179,6 @@ public class Blinkm {
 		}
 	}
 
-	private int getScriptTicks(int scriptId, byte currentScriptStartLine, int customScriptLength) {
-		int count = 0;
-		for (int i=currentScriptStartLine;i<customScriptLength;i++) {
-			count += this.scripts[scriptId][0]&0xFF;
-		}
-		return count;
-	}
-
 	public Color getFadeToColor() {
 		return fadeToColor;
 	}
