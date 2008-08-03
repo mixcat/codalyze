@@ -34,6 +34,22 @@ I think the d.tools examples are using the IAR compiler instead of the AVR-GCC c
 
 - Firmware:  We can't release the BlinkM firmware source code due to some licensing agreements we signed with Philips/NXP.  However, from my "smart led prototypes" and the I2C slave code I mention in the GetSatisfaction post, you have pretty much all the component parts of  BlinkM code.
 
+==A response to a question posted on arduino.cc forum==
+
+http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1217539796/0
+
+Hi Matteo,
+ 
+wire.c is coded for use with a micro that has the TWI engine in it - which the ATMega8m mega16 and most other larger devices have.
+ 
+In the ATtiny45 you have to use the USI (Universal Serial Interface) in TWI mode, so basically the code wont work. I done this, based on code that I got form another user on AVRfreaks http://avrfreaks.net . I have posted the zip file at: http://www.siliconrailway.com/resources/ATtiny45 i2c.zip . In the zip file you will find code that should support TWI/I2C on any AVR that has a USI peripheral.
+ 
+On the Atmel website you will also find two application notes, AVR310 and AVR312, which have source code in them as well. Blakes work is, if I recall, based on those app notes and I have successfully used Blakes code in a number of applications.
+ 
+Good luck!
+ 
+John
+http://siliconrailway.com home of LEDuino
 
 ==Links==
 
