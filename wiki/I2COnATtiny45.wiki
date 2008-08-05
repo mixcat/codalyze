@@ -57,4 +57,4 @@ http://siliconrailway.com home of LEDuino
 
 ==Links==
 
-[http://code.google.com/p/codalyze/w/edit/I2COnATtiny45 A Quickstart Tutorial for ATMEL AVR Microcontrollers]
+[http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
