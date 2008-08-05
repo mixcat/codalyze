@@ -55,6 +55,18 @@ Good luck!
 John
 http://siliconrailway.com home of LEDuino
 
+==Blinkm Pins==
+
+==Blinkm as TTiny45 + 3leds==
+Pins as reported on blinkm datasheet:
+
+  * PB0: I2C-SDA / MOSI
+  * PB1: LED3 / MISO
+  * PB2: I2C-SCK
+  * PB3: LED2
+  * PB4: LED1
+  * PB5: RESET
+
 ==Links==
 
 [http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
