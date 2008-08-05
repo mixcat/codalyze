@@ -70,7 +70,15 @@ Pins as reported on blinkm datasheet:
 A note says "NOTE: Be sure to burn fuses to select internal oscillator!"
 "Burning fuses" is obscure...
 
-  
+DN020 - All AVR devices contain two Lock bits named LB1 and LB2. Programming these (“0”)
+will add protection to the contents written to Flash and EEPROM memories according to
+Table 1 below. The level of protection is divided in three modes, where mode 1 offers no
+protection and mode 3 offers maximum protection. It is possible to move to a higher
+mode of protection simply by reprogramming the Lock bits. The AVR allows changing
+"high" bits to "low", but not the other way around. It is not possible to change a "low"
+Lock bit to a "high", thus lowering the level of protection is not possible. To clear the
+Lock bits, a complete Chip Erase is required, which erase the Flash memory.
+
 
 ==Links==
 
