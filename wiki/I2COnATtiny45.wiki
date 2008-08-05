@@ -61,10 +61,10 @@ http://siliconrailway.com home of LEDuino
 Pins as reported on blinkm datasheet:
 
   * PB0: I2C-SDA / MOSI
-  * PB1: LED3 / MISO
+  * *PB1*: *LED3* / MISO
   * PB2: I2C-SCK
-  * PB3: LED2
-  * PB4: LED1
+  * *PB3*: *LED2*
+  * *PB4*: *LED1*
   * PB5: RESET
 
 ==Links==
