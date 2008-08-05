@@ -88,3 +88,5 @@ Lock bits, a complete Chip Erase is required, which erase the Flash memory.
   * [http://www.avrfreaks.net/index.php?func=viewItem&item_id=301&module=Freaks%20Tools DN020 - Understanding AVR Fuses and Lock bits]
   * [http://www.scienceprog.com/programming-avr-fuse-bits-oscillator-settings/ Programming AVR fuse bits – oscillator settings]
   * [http://palmavr.sourceforge.net/cgi-bin/fc.cgi?P_PREV=&P=ATtiny45 AVR Fuse Calculator]
+  * [http://www.avrtutor.com/tutorial/thermo/welcome.php avrtutor: avr tutorial]
+  * [http://electrons.psychogenic.com/modules/arms/art/3/AVRGCCProgrammingGuide.php AVR-GCC Programming Guide]
