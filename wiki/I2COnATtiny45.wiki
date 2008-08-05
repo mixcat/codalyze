@@ -67,6 +67,9 @@ Pins as reported on blinkm datasheet:
   * *PB4*: *LED1*
   * PB5: RESET
 
+A note says "NOTE: Be sure to burn fuses to select internal oscillator!"
+"Burning fuses" is somethig I've read around other times. Besides being obscure, it sounds a definitive thing...
+
 ==Links==
 
 [http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
