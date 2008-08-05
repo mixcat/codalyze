@@ -68,8 +68,15 @@ Pins as reported on blinkm datasheet:
   * PB5: RESET
 
 A note says "NOTE: Be sure to burn fuses to select internal oscillator!"
-"Burning fuses" is somethig I've read around other times. Besides being obscure, it sounds a definitive thing...
+"Burning fuses" is obscure...
+
+  
 
 ==Links==
 
-[http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
+  * [http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
+  * [http://www.avrtv.com/ AVR television]
+  * [http://electrons.psychogenic.com/modules/arms/art/14/AVRFusesHOWTOGuide.php AVR Fuses HOWTO Guide]
+  * [http://www.avrfreaks.net/index.php?func=viewItem&item_id=301&module=Freaks%20Tools DN020 - Understanding AVR Fuses and Lock bits]
+  * [http://www.scienceprog.com/programming-avr-fuse-bits-oscillator-settings/ Programming AVR fuse bits – oscillator settings]
+  * [http://palmavr.sourceforge.net/cgi-bin/fc.cgi?P_PREV=&P=ATtiny45 AVR Fuse Calculator]
