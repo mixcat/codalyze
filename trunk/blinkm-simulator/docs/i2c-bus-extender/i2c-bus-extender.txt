@@ -1,0 +1,17 @@
+NXP page: http://www.nxp.com/#/pip/pip=[pip=P82B715_6]|pp=[t=pip,i=P82B715_6]
+Digikey retail: http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail?name=568-1006-5-ND
+
+The P82B715 is a bipolar IC intended for application in I2C bus systems. While retaining all the operating modes and features of the I2C system it
+permits extension of the practical separation distance between components on the I2C bus by buffering both the data (SDA) and the clock (SCL) lines.
+
+The I2C bus capacitance limit of 400 pF restricts practical communication distances to a few meters.
+Using one P82B715 at each end of a long cable (connecting Lx/Ly to Lx/Ly) reduces the cable loading capacitance on the I2C bus by a factor of 10
+times and allows the total system capacitance load (all devices, connectors, traces and wires that are connected to the I2C bus) to be around 3000 pF.
+That means longer cables or lower cost general purpose wiring may be used to connect two separate I2C based systems without worrying about the special
+voltage levels associated with other I2C bus buffers. Multiple P82B715s can be connected together in a star or multi-point architecture by their
+Lx/Ly ports without limit as long as the total capacitance of the system remains less than about 3000 pF (400 pF or less when referenced to any
+Sx/Sy connection). In that arrangement the master and/or slave devices are attached to the Sx/Sy port of each P82B715.
+
+The P82B715 alone does not support voltage level translation but it simplifies the application of low cost transistors for this purpose.
+There is no restriction on interconnecting the Sx/Sy I/Os and those I/Os are also fully compatible with bus buffers that use voltage level
+offsets (i.e., PCA9511, PCA9515, Sx/Sy side of P82B96) because it duplicates and transmits the offset voltage.
