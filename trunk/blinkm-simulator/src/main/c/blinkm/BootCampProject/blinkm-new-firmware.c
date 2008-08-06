@@ -50,12 +50,20 @@ int main(void)
 	unsigned char slaveAddress;
 	slaveAddress = 0x26;		// This can be change to your own address
 	usiTwiSlaveInit(slaveAddress);
+	int cnt = 0;
+	char rcv[4];
 	for(;;)
 	{
-		color.r = 255;
+		// emulation of original command goToRGB (actually command is ignored, send any 4 bytes where 1,2,3 are R,G,B
 	    if(usiTwiDataInReceiveBuffer())
 	    {
-		 color.r = 0;//usiTwiReceiveByte();
+	    	rcv[cnt++] = usiTwiReceiveByte();
+			if (cnt==4) {
+				color.r = rcv[1];
+				color.g = rcv[2];
+				color.b = rcv[3];
+				cnt = 0;
+			}
 
 	     //usiTwiTransmitByte(value);
 	    }
