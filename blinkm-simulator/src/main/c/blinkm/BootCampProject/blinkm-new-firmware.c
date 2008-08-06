@@ -5,7 +5,9 @@
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
 
-#include <stdlib.h> 
+#include <stdlib.h>
+
+#include "usiTwi/usiTwiSlave.h"
 
 #define PINRED PB3
 #define PINGRN PB4
@@ -20,7 +22,7 @@
 #define BLU_LED_OFF PORTB &= ~(1<<PINBLU)
 
 
-typedef struct _color { 
+typedef struct _color {
     unsigned char r;
 	unsigned char g;
 	unsigned char b;
@@ -39,16 +41,29 @@ int main(void)
 
 	TIFR   = (1 << TOV0);	// clear interrupt flag
   	TIMSK  = (1 << TOIE0);	// enable overflow interrupt
-	TCCR0B = (1 << CS00);	// start timer, no prescale 
+	TCCR0B = (1 << CS00);	// start timer, no prescale
 	sei(); // enable interrupts
 
-	color.r = 0;
+	color.r = 127;
 	color.g = 255;
-	color.b = 127;
-	
+	color.b = 0;
+	unsigned char slaveAddress;
+	slaveAddress = 0x26;		// This can be change to your own address
+	usiTwiSlaveInit(slaveAddress);
 	for(;;)
 	{
-		// here implement some logic to change color
+		color.r = 255;
+	    if(usiTwiDataInReceiveBuffer())
+	    {
+		 color.r = 0;//usiTwiReceiveByte();
+
+	     //usiTwiTransmitByte(value);
+	    }
+
+	    // Do something else while waiting for the TWI transceiver to complete.
+
+	    asm volatile ("NOP" ::);
+
 	}
 	return 1;
 }
@@ -58,11 +73,11 @@ int main(void)
  *	Triggered when timer overflows.
  *	Every color is displayed for a number of firings that equals its RGB value, and then turned off.
  *	Extra care should be taken on green, which is more visible to the eye.
- *	
- *	Each pin/led can only turned on or off. By mixing 3 colors we obtain only 8 combinations. 
+ *
+ *	Each pin/led can only turned on or off. By mixing 3 colors we obtain only 8 combinations.
  *	To overcome this limitation, instead of limiting the output brightness, every led is turned on
  *  for a slice of time proportional to their RGB value.
- * 
+ *
  *	If color is {255,127,0}, on a cycle of 255 ticks,
  *	white will always be on, green only 127 times, blue always off.
  *
