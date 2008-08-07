@@ -7,7 +7,17 @@
  * row/column/sub-matrix
  *
  * lorenzo.grespan@gmail.com
+ *
+ *
+ * TODO
+ * genetic algo needs rethinking. 
+ * if code gets stuck into a loop, perhaps it should
+ * 'go back' and unroll the last mutation and try a different one
+ * i.e. if fitness doesn't improve after trying all mutations
+ *
+ * idea: either save the mutations somewhere and randomly roll-back 
  */
+
 /* isdigit() */
 #include <ctype.h>	
 #include <stdio.h>
