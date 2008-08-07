@@ -1,17 +1,13 @@
-#include <avr/io.h>
-#include <util/twi.h>
 #include <ctype.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <inttypes.h>
+
+#include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
-#include <avr/pgmspace.h>
-#include <stdlib.h>
-//#include <avr/iom8.h>
-#include "USI_TWI_Master.h"
 
+#include <stdlib.h>
+
+#include "usiTwi/usiTwiSlave.h"
 
 #define PINRED PB3
 #define PINGRN PB4
@@ -35,7 +31,7 @@ typedef struct _color {
 //unsigned int ticks = 1;
 // current color
 Color color;
-unsigned char slaveAddress;
+
 int main(void)
 {
 	// put pins connected to leds in output mode (DDRB is Data Direction Register B)
@@ -46,27 +42,39 @@ int main(void)
 	TIFR   = (1 << TOV0);	// clear interrupt flag
   	TIMSK  = (1 << TOIE0);	// enable overflow interrupt
 	TCCR0B = (1 << CS00);	// start timer, no prescale
-	USI_TWI_Master_Initialise();
 	sei(); // enable interrupts
 
 	color.r = 127;
 	color.g = 255;
 	color.b = 0;
-
+	unsigned char slaveAddress;
 	slaveAddress = 0x26;		// This can be change to your own address
-
-	//usiTwiSlaveInit(slaveAddress);
-	//int cnt = 0;
-	//char rcv[4];
+	usiTwiSlaveInit(slaveAddress);
+	int cnt = 0;
+	char rcv[4];
 	for(;;)
 	{
-	}
+		// emulation of original command goToRGB (actual command is ignored, receive any 4 bytes where 1,2,3 are R,G,B
+	    if(usiTwiDataInReceiveBuffer())
+	    {
+	    	rcv[cnt++] = usiTwiReceiveByte();
+			if (cnt==4) {
+				color.r = rcv[1];
+				color.g = rcv[2];
+				color.b = rcv[3];
+				cnt = 0;
+			}
+
+			usiTwiTransmitByte(color.r);
+			usiTwiTransmitByte(color.g);
+			usiTwiTransmitByte(color.b);
+	    }
 
 	    // Do something else while waiting for the TWI transceiver to complete.
 
-	   // asm volatile ("NOP" ::);
+	    asm volatile ("NOP" ::);
 
-
+	}
 	return 1;
 }
 
@@ -89,7 +97,6 @@ int main(void)
  *
  *	Using SIGNAL we cannot be interrupted here. tbc?
  */
-#define TWI_GEN_CALL         0x00
 SIGNAL (SIG_OVERFLOW0)
 {
 	static unsigned int sigcount = 0;
@@ -107,24 +114,11 @@ SIGNAL (SIG_OVERFLOW0)
 	if (count == color.g) GRN_LED_OFF;
 	if (count == color.b) BLU_LED_OFF;
 
-	if (++sigcount == 0) { //this happens every about 3 secs, TODO: learn to calc how long betwwen each overflow
-		color.r -= 127;
-		color.g -= 127;
-		color.b -= 127;
-		unsigned char messageBuf[5];
-		// send new color to slave
-			messageBuf[0] = TWI_GEN_CALL;     // The first byte must always consit of General Call code or the TWI slave address.
-		    messageBuf[1] = 'c';             // The command or data to be included in the general call.
-		    messageBuf[2] = color.r;
-		    messageBuf[3] = color.g;
-		    messageBuf[4] = color.b;
-		    USI_TWI_Start_Transceiver_With_Data( messageBuf, 5 );
-
-		    //USI_TWI_Master_Stop();
-
-
-
-		  //__enable_interrupt();
-	}
+	//if (++sigcount == 0) { //this happens every about 3 secs, TODO: learn to calc how long betwwen
+	// each overflow
+	//	color.r -= 127;
+	//	color.g -= 127;
+	//	color.b -= 127;
+	//}
 
 }
