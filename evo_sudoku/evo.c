@@ -8,36 +8,88 @@
  *
  * lorenzo.grespan@gmail.com
  */
+/* isdigit() */
+#include <ctype.h>	
 #include <stdio.h>
+#include <stdlib.h>
 #include <strings.h>
 
 #define DATA_SIZE 	81
 #define MAX_FIT		81
 
-static void usage(void) {
+static void 
+usage(void) {
 	printf("Insert meaningful help message here\n");
 }
 
-static void mutate(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9], 
+static void 
+reverse_mutation(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9], 
 		int mutation[4]) {
-	// pick a random gene pool
-	// pick a random value [0,9]
-	// mutate it 
+	switch (mutation[0]) {
+		case 0:
+			*gene_r[mutation[1]][mutation[2]] = mutation[3];
+		case 1:
+			*gene_c[mutation[1]][mutation[2]] = mutation[3];
+		case 2:
+			*gene_s[mutation[1]][mutation[2]] = mutation[3];
+	}
 }
 
-static int eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
-	/* eval fitness */
+/*
+ * mutation[0] is the gene pool (row, col, sq)
+ * mutation[1] is the gene number (gene_c[])
+ * mutation[2] is the chromosome (gene_c[][])
+ * mutation[3] is the old value
+ */
+static void 
+mutate(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9], 
+		int mutation[4]) {
+	/* pick a random value [0,9] for the gene number */
+	mutation[1] = random()%9;
+	/* and for the chromosome */
+	mutation[2] = random()%9;
+
+	/* pick a random gene pool; it's not the best
+	 * random you can get but will have to suffice */
+	mutation[0] = random()%3;	
+	switch (mutation[0]) {
+		case 0:
+			/* save the old value */
+			mutation[3] = *gene_r[mutation[1]][mutation[2]];
+			/* mutate it */
+			*gene_c[mutation[1]][mutation[2]] = random()%9;
+			break;
+		case 1:
+			mutation[3] = *gene_c[mutation[1]][mutation[2]];
+			*gene_c[mutation[1]][mutation[2]] = random()%9;
+			break;
+		case 2:
+			mutation[3] = *gene_s[mutation[1]][mutation[2]];
+			*gene_s[mutation[1]][mutation[2]] = random()%9;
+			break;
+	}
+
+	/* TODO
+	 * check that it's not in the original data set
+	 */
+
+}
+
+static int 
+eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 	int fit;
 	int i, j;
 	int conflicts_row = 0, conflicts_col = 0, conflicts_sub = 0;
 	int digits = 0;
 	int values_row[9], values_col[9], values_sub[9];
-	memset(values_row, 0, sizeof values_row[0] * 9);
-	memset(values_col, 0, sizeof values_col[0] * 9);
-	memset(values_sub, 0, sizeof values_sub[0] * 9);
 
 	for ( i = 0 ; i < 9 ; i++ )
 	{
+		/* arrays aren't zeroed - memset is better than bzero */
+		memset(values_row, 0, sizeof values_row);
+		memset(values_col, 0, sizeof values_col);
+		memset(values_sub, 0, sizeof values_sub);
+		
 		for ( j = 0 ; j < 9 ; j++ )
 		{
 			/* count the number of digits */
@@ -61,10 +113,6 @@ static int eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9])
 				conflicts_sub += values_sub[j]-1;
 		}
 
-		/* reset counters */
-		bzero(values_row, 9* sizeof values_row[0]);
-		bzero(values_col, 9* sizeof values_col[0]);
-		bzero(values_sub, 9* sizeof values_sub[0]);
 	}
 	fit = digits - conflicts_row - conflicts_col - conflicts_sub;
 	printf("digits: %d\n", digits);
@@ -77,37 +125,57 @@ static int eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9])
 }
 
 int main ( int argc, char **argv ) {
-	if ( argc != 2 ) {
+	/* C90 forbids mixed declaration and code */
+	int i, j;
+	char c[2];
+	FILE *in;
+	int data[DATA_SIZE];
+	int *gene_r[9][9], *gene_c[9][9], *gene_s[9][9];
+	int fit, new_fit;
+
+	/* mutation[0] is the gene pool (row, col, sq)
+	 * mutation[1] is the gene number (gene_c[])
+	 * mutation[2] is the chromosome (gene_c[][])
+	 * mutation[3] is the old value */
+	int mutation[4];	
+
+	if ( argc != 3 ) {
 		usage();
 		return -1;
 	}
 
-	FILE *in = fopen(argv[1], "r");
+	in = fopen(argv[1], "r");
 	if ( in == NULL ) {
 		perror("Unable to open file");
 		return -1;
 	}
 
-	int c, i = 0 ;
-	int data[DATA_SIZE];
+	/* init random number generator */
+	srandom(atoi(argv[2]));
 
-	while ( (c = fgetc(in)) != EOF && i <= DATA_SIZE ) 
-		if ( isdigit(c) )
-			data[i++] = atoi(&c);
+	/* atoi() reads char* until \0;
+	 * if the next thing in memory after 'c' were a number
+	 * I'd be screwed :)
+	 * */
+	c[1] = '\0';	
+	i = 0 ;
+
+	while ( (c[0] = fgetc(in)) != EOF && i <= DATA_SIZE ) 
+		if ( isdigit(c[0]) )
+			data[i++] = atoi(c);
 		else
-			if ( isspace(c) )
-				continue;	// for newline
+			if ( isspace(c[0]) )
+				/* for newline */
+				continue;	
 			else
-				data[i++] = 0;	// everything else
+				/* everything else */
+				data[i++] = 0;	
 	
-
-	int *gene_r[9][9], *gene_c[9][9], *gene_s[9][9];
 
 	/* generate the genotypes */
 	{
 		int offset = 0;
 		int A, B = 0;
-		//int sub_col;
 		/* read by rows */
 		for ( i = 0 ; i < DATA_SIZE ; i++ ) {
 			gene_r[offset][i%9] = &data[i];
@@ -130,15 +198,15 @@ int main ( int argc, char **argv ) {
 			/* get the actual data */
 			gene_s[A+B*3][i%3+3*(offset%3)] = &data[i];
 
-			// personal note
-			// a[i][j is *(*(a+i)+j)
+			/* personal note
+			 * a[i][j is *(*(a+i)+j)
+			 */
 
 			if ( i%9 == 8 )
 				offset++;
 		}
 	}
 
-	int j;
 	/* some pretty printing, in local scope */
 	{
 		printf("gene\trow genes\t\tcolumn genes\t\tsub-square genes\n");
@@ -150,7 +218,6 @@ int main ( int argc, char **argv ) {
 			for ( j = 0 ; j < 9 ; j++ )
 				printf("%d ", *gene_c[i][j]);
 			printf("\t");
-			// for when it will work..
 			for ( j = 0 ; j < 9 ; j++ )
 				printf("%d ", *gene_s[i][j]);
 
@@ -158,36 +225,23 @@ int main ( int argc, char **argv ) {
 		}
 	}
 
-	int fit_winner = 0, fit_loser, winner = 0;
+	fit = eval_fitness(gene_r, gene_c, gene_s);
 
-	/* mutation[0] is the gene pool (row, col, sq)
-	 * mutation[1] is the gene number (gene_c[])
-	 * mutation[2] is the chromosome (gene_c[][])
-	 * mutation[3] is the old value */
-	int mutation[4];	
-
-	/* TODO 
-	 * fix this.
-	 *
-	 * ideally -> if the original one wins, don't
-	 * re-evaluate its fitness; 
-	 */
-	while ( fit_winner <= MAX_FIT ) {
-		fit = eval_fitness(gene_r, gene_c, gene_s);
+	while ( fit <= MAX_FIT ) {
 		mutate(gene_r, gene_c, gene_s, mutation);
 		new_fit = eval_fitness(gene_r, gene_c, gene_s);
 
-		if ( fit > new_fit ) {
-			winner = 1;
-			/* first wins; discard second */
+		if ( fit > new_fit ) { 
+			printf("parent's fit: %d, offspring: %d; reverse_mut\n", fit, new_fit);
+			/* go back to before the mutation */
 			reverse_mutation(gene_r, gene_c, gene_s, mutation);
-		} else {
-			winner = 2;
-
-			/* second wins, keep it */
+		}
+		else {
+			printf("paret's fit: %d, offspring: %d; don't reverse mut\n", fit, new_fit);
 			fit = new_fit;
 		}
 	}
-		
 
+	return 0;
+		
 }
