@@ -208,6 +208,12 @@ int main ( int argc, char **argv ) {
 
 	while ( fit <= MAX_FIT ) {
 		mutate(data, mutation);
+		/* TODO 
+		 * insert code here to send data to blinkm
+		 * to show mutations 
+		 *
+		 * ideally, send out the mutation[] array
+		 */
 		new_fit = eval_fitness(gene_r, gene_c, gene_s);
 
 		if ( fit > new_fit )  
