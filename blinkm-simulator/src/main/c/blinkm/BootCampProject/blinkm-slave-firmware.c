@@ -65,9 +65,9 @@ int main(void)
 				cnt = 0;
 			}
 
-			usiTwiTransmitByte(color.r);
-			usiTwiTransmitByte(color.g);
-			usiTwiTransmitByte(color.b);
+			//usiTwiTransmitByte(color.r);
+			//usiTwiTransmitByte(color.g);
+		//	usiTwiTransmitByte(color.b);
 	    }
 
 	    // Do something else while waiting for the TWI transceiver to complete.
