@@ -44,12 +44,12 @@
 #define SYS_CLK   4000.0  // [kHz]
 
 #ifdef TWI_FAST_MODE               // TWI FAST mode timing limits. SCL = 100-400kHz
-  #define T2_TWI    ((SYS_CLK *1300) /1000000) +1 // >1,3us
-  #define T4_TWI    ((SYS_CLK * 600) /1000000) +1 // >0,6us
+  #define T2_TWI    ((SYS_CLK *1300/3) /1000000) +1 // >1,3us
+  #define T4_TWI    ((SYS_CLK * 600/3) /1000000) +1 // >0,6us
 
 #else                              // TWI STANDARD mode timing limits. SCL <= 100kHz
-  #define T2_TWI    ((SYS_CLK *4700) /1000000) +1 // >4,7us
-  #define T4_TWI    ((SYS_CLK *4000) /1000000) +1 // >4,0us
+  #define T2_TWI    ((SYS_CLK *4700/3) /1000000) +1 // >4,7us
+  #define T4_TWI    ((SYS_CLK *4000/3) /1000000) +1 // >4,0us
 #endif
 
 // Defines controling code generating
