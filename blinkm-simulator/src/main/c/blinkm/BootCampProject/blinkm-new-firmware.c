@@ -6,6 +6,7 @@
 #include <inttypes.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <avr/interrupt.h>
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
 #include <stdlib.h>
@@ -46,6 +47,7 @@ int main(void)
 	TIFR   = (1 << TOV0);	// clear interrupt flag
   	TIMSK  = (1 << TOIE0);	// enable overflow interrupt
 	TCCR0B = (1 << CS00);	// start timer, no prescale
+	TIMSK  |= _BV(TOIE0);
 	USI_TWI_Master_Initialise();
 	sei(); // enable interrupts
 
@@ -90,7 +92,7 @@ int main(void)
  *	Using SIGNAL we cannot be interrupted here. tbc?
  */
 #define TWI_GEN_CALL         0x00
-SIGNAL (SIG_OVERFLOW0)
+ISR(SIG_OVERFLOW0)
 {
 	static unsigned int sigcount = 0;
 	static unsigned char count = 0xFF;
@@ -118,13 +120,20 @@ SIGNAL (SIG_OVERFLOW0)
 		    messageBuf[2] = color.r;
 		    messageBuf[3] = color.g;
 		    messageBuf[4] = color.b;
-		    USI_TWI_Start_Transceiver_With_Data( messageBuf, 5 );
-
+		    unsigned char rt = USI_TWI_Start_Transceiver_With_Data( messageBuf, 5 );
+		    if (!rt) {
+		    	USI_TWI_Master_Initialise();
+		    	color.r = 0;
+		    	color.g = 0;
+		    	color.b = 0;
+		    }
+		    //USI_TWI_Get_State_Info();
 		    //USI_TWI_Master_Stop();
 
 
 
 		  //__enable_interrupt();
-	}
 
+
+	}
 }
