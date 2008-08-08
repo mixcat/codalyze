@@ -84,7 +84,7 @@ Lock bits, a complete Chip Erase is required, which erase the Flash memory.
 
 
 ==Links==
-
+  * [http://www.embedded.com/story/OEG20010718S0073 Introduction to I2C] Some interesting bits here: In a bind, an I2C slave can hold off the master in the middle of a transaction using what's called clock stretching (the slave keeps SCL pulled low until it's ready to continue). Most I2C slave devices don't use this feature, but every master should support it. 
   * [http://imakeprojects.com/Projects/avr-tutorial/ A Quickstart Tutorial for ATMEL AVR Microcontrollers]
   * [http://www.avrtv.com/ AVR television]
   * [http://electrons.psychogenic.com/modules/arms/art/14/AVRFusesHOWTOGuide.php AVR Fuses HOWTO Guide]
