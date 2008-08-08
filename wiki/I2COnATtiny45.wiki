@@ -1,9 +1,12 @@
 #summary Implementing I2C on ATtiny45
 
+= Status =
+  * I2C Slave is working, receiving and sending. Used Don Blake's code, from AvrFreaks.
+  * I2C Master compiles but locks on transmit while waiting for SCL pin to get high. Might be because the bus is not being pulled up.
+
 = Introduction =
 
-Collecting all useful references to end up having a BlinkM behave as master or slave on the
-bus
+Collecting all useful references to end up having a BlinkM behave as master or slave on the bus
 
 
 = Details =
