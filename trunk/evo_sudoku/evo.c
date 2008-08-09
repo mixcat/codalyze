@@ -18,11 +18,9 @@
 #endif
 
 #ifdef DEBUG
-#ifdef CONSOLE
 #define DBG(x);	x
 #else
 #define DBG(x);
-#endif
 #endif
 
 #define DATA_SIZE 	81
@@ -165,19 +163,26 @@ int main () {
 #ifdef CONSOLE
 	/* if CONSOLE is defined -> code for console, read from file */
 	int data[DATA_SIZE];
+	FILE *in, *out;
+	out = fopen("out", "w");
+	if ( out == NULL ) {
+		perror("Unable to open file for writing");
+		return -1;
+	}
 
 	{
 		char c[2];
-		FILE *in;
 
 		if ( argc != 3 ) {
 			usage();
+			fclose(out);
 			return -1;
 		}
 
 		in = fopen(argv[1], "r");
 		if ( in == NULL ) {
 			perror("Unable to open file");
+			fclose(out);
 			return -1;
 		}
 
@@ -202,6 +207,9 @@ int main () {
 		/* init random number generator */
 		srandom(atoi(argv[2]));
 	}
+	/* write to file current values of cells */
+	for ( i = 0 ; i < DATA_SIZE ; i++ )
+		fprintf(out, "%d %d\n", i+1, data[i]);
 
 #else
 
@@ -269,6 +277,11 @@ int main () {
 		/* DBG is already defined only if CONSOLE is defined */
 		mutate(data, old, mutation);
 
+#ifdef CONSOLE
+		fprintf(out, "%d %d\n", mutation[0]+1, mutation[1]);
+		fflush(out);
+#endif
+
 		/* TODO 
 		 * insert code here to send data to blinkm
 		 * to show mutations 
@@ -277,7 +290,7 @@ int main () {
 		 */
 		new_fit = eval_fitness(gene_r, gene_c, gene_s);
 
-		if ( fit >= new_fit ) {
+		if ( fit > new_fit ) {
 			/* go back to before the mutation */
 			reverse_mutation(data, old);
 
@@ -286,11 +299,13 @@ int main () {
 					printf("old fitness: %d, new fit: %d\n", fit, new_fit);
 					printf("mutations: %d, iterations: %d, ratio: %f\n", mutations, iter, (float)mutations/iter);
 					printf("rollback! old genes:\n");
+					print_genes(gene_r, gene_c, gene_s);
 				   );
-				print_genes(gene_r, gene_c, gene_s);
 				/* we're in a local maximum; jump away */
-				for ( i = 0 ; i < DATA_SIZE ; i++ )
+				for ( i = 0 ; i < DATA_SIZE ; i++ ) {
 					data[i] = original[i];
+					fprintf(out, "%d %d\n", i+1, data[i]);
+				}
 				/* save the old best value */
 				old_peak = peak;
 				peak = fit;
@@ -328,6 +343,9 @@ int main () {
 #ifdef CONSOLE
 	printf("Found solution after %d iterations:\n", iter);
 	print_genes(gene_r, gene_c, gene_s);
+
+	fclose(in);
+	fclose(out);
 #endif
 
 	return 0;
