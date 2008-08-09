@@ -7,7 +7,7 @@
 #RM := rm -rf
 RM := rm -f
 
-MY_FLAGS=-pedantic -Wextra -Werror 
+CFLAGS +=-pedantic -Wextra -Werror 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
@@ -50,13 +50,13 @@ sizedummy \
 
 
 # All Target
-all: $(OBJS) evo_sudoku.elf secondary-outputs
+all: evo_sudoku.elf secondary-outputs
 
 %.o: %.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: AVR Compiler'
-	avr-gcc -$(MY_FLAGS) -Wall -Os -fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields -mmcu=atmega168 -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o"$@" $?
-#avr-gcc -$(MY_FLAGS) -Wall -Os -fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields -mmcu=atmega168 -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o"$@" "$<"
+	avr-gcc $(CFLAGS) -Wall -Os -fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields -mmcu=atmega168 -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o"$@" $?
+	#avr-gcc -$(MY_FLAGS) -Wall -Os -fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields -mmcu=atmega168 -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
@@ -90,6 +90,7 @@ sizedummy: evo_sudoku.elf
 	@echo 'Invoking: Print Size'
 #-avr-size --format=avr --mcu=atmega168 evo_sudoku.elf
 	-avr-size evo_sudoku.elf
+	$(RM) evo.d
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -103,4 +104,3 @@ secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
 .PHONY: all clean dependents
 .SECONDARY:
 
--include ../makefile.targets
