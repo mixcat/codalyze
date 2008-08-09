@@ -22,7 +22,6 @@
 #include <ctype.h>	
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
 
 #define DATA_SIZE 	81
 #define MAX_FIT		81
@@ -30,10 +29,12 @@
 int original[DATA_SIZE];
 
 
+#ifdef CONSOLE
 static void 
 usage(void) {
 	printf("Insert meaningful help message here\n");
 }
+#endif
 
 static inline void print(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 	int i, j;
@@ -72,12 +73,14 @@ mutate(int data[DATA_SIZE], int old[2], int mutation[2]) {
 	do {
 		pos = random()%DATA_SIZE;
 	} while ( original[pos] != 0 );
-	/* where the old value was */
+	/* save the old value */
 	old[0] = pos;
-	/* where the new value is */
+	old[1] = data[pos];
+	/* save the mutation to be sent to the blinkms*/
 	mutation[0] = pos;
-	mutation[1] = 
-	data[pos] = random()%9;
+	mutation[1] = random()%9;
+	/* update the individual */
+	data[pos] = mutation[1];
 }
 
 static int 
@@ -88,15 +91,15 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 	int digits = 0;
 	int values_row[9], values_col[9], values_sub[9];
 
-	for ( i = 0 ; i < 9 ; i++ )
-	{
-		/* arrays aren't zeroed - memset is better than bzero */
-		memset(values_row, 0, sizeof values_row);
-		memset(values_col, 0, sizeof values_col);
-		memset(values_sub, 0, sizeof values_sub);
-		
-		for ( j = 0 ; j < 9 ; j++ )
-		{
+	/* zero the arrays before starting */
+	for ( i = 0 ; i < 9 ; i++ ) {
+		values_row[i] = 0;
+		values_col[i] = 0;
+		values_sub[i] = 0;
+	}
+
+	for ( i = 0 ; i < 9 ; i++ ) {
+		for ( j = 0 ; j < 9 ; j++ ) {
 			/* count the number of digits */
 			values_row[*gene_r[i][j]]++;
 			values_col[*gene_c[i][j]]++;
@@ -106,8 +109,7 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 		}
 
 		/* we start from 1 ; we do not care about the zeros */
-		for ( j = 1 ; j < 9 ; j++ )
-		{
+		for ( j = 1 ; j < 9 ; j++ ) {
 			/* if there is more than one digit per row/col, 
 			 * it's a conflict */
 			if ( values_row[j] > 1 )
@@ -131,11 +133,13 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 	return fit;
 }
 
+#ifdef CONSOLE
 int main ( int argc, char **argv ) {
+#else
+int main () {
+#endif
 	/* C90 forbids mixed declaration and code */
 	int i;
-	char c[2];
-	FILE *in;
 	int data[DATA_SIZE];
 	int *gene_r[9][9], *gene_c[9][9], *gene_s[9][9];
 	int fit, new_fit;
@@ -145,7 +149,11 @@ int main ( int argc, char **argv ) {
 	 * old[0] is the position
 	 * old[1] is the old value
 	 */
-	int old[2];	
+	int old[2], mutation[2];	
+
+#ifdef CONSOLE
+	char c[2];
+	FILE *in;
 
 	if ( argc != 3 ) {
 		usage();
@@ -157,9 +165,6 @@ int main ( int argc, char **argv ) {
 		perror("Unable to open file");
 		return -1;
 	}
-
-	/* init random number generator */
-	srandom(atoi(argv[2]));
 
 	/* atoi() reads char* until \0;
 	 * if the next thing in memory after 'c' were a number
@@ -178,7 +183,10 @@ int main ( int argc, char **argv ) {
 			else
 				/* everything else */
 				data[i++] = 0;	
-	
+
+	/* init random number generator */
+	srandom(atoi(argv[2]));
+#endif
 
 	/* generate the genotypes */
 	{
@@ -224,7 +232,7 @@ int main ( int argc, char **argv ) {
 	while ( fit <= MAX_FIT ) {
 		iter++;
 		printf(".");
-		mutate(data, old);
+		mutate(data, old, mutation);
 		/* TODO 
 		 * insert code here to send data to blinkm
 		 * to show mutations 
