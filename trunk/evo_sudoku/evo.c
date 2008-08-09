@@ -54,12 +54,12 @@ static inline void print(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]
 }
 
 /*
- * mutation[0] is the position
- * mutation[1] is the old value
+ * old[0] is the position
+ * old[1] is the old value
  */
 static inline void 
-reverse_mutation(int data[DATA_SIZE], int mutation[2]) {
-	data[mutation[0]] = mutation[1];
+reverse_mutation(int data[DATA_SIZE], int old[2]) {
+	data[old[0]] = old[1];
 }
 
 /*
@@ -67,12 +67,16 @@ reverse_mutation(int data[DATA_SIZE], int mutation[2]) {
  * mutation[1] is the old value
  */
 static void
-mutate(int data[DATA_SIZE], int mutation[2]) {
+mutate(int data[DATA_SIZE], int old[2], int mutation[2]) {
 	int pos;
 	do {
 		pos = random()%DATA_SIZE;
 	} while ( original[pos] != 0 );
+	/* where the old value was */
+	old[0] = pos;
+	/* where the new value is */
 	mutation[0] = pos;
+	mutation[1] = 
 	data[pos] = random()%9;
 }
 
@@ -135,12 +139,13 @@ int main ( int argc, char **argv ) {
 	int data[DATA_SIZE];
 	int *gene_r[9][9], *gene_c[9][9], *gene_s[9][9];
 	int fit, new_fit;
+	int iter = 0;
 
 	/*
-	 * mutation[0] is the position
-	 * mutation[1] is the old value
+	 * old[0] is the position
+	 * old[1] is the old value
 	 */
-	int mutation[2];	
+	int old[2];	
 
 	if ( argc != 3 ) {
 		usage();
@@ -217,7 +222,9 @@ int main ( int argc, char **argv ) {
 	fit = eval_fitness(gene_r, gene_c, gene_s);
 
 	while ( fit <= MAX_FIT ) {
-		mutate(data, mutation);
+		iter++;
+		printf(".");
+		mutate(data, old);
 		/* TODO 
 		 * insert code here to send data to blinkm
 		 * to show mutations 
@@ -228,9 +235,9 @@ int main ( int argc, char **argv ) {
 
 		if ( fit > new_fit )  
 			/* go back to before the mutation */
-			reverse_mutation(data, mutation);
+			reverse_mutation(data, old);
 		else {
-			printf("got a valid offspring; old fitness: %d, new fit: %d\n", fit, new_fit);
+			printf("\n(%d): got a valid offspring; old fitness: %d, new fit: %d\n", iter, fit, new_fit);
 			print(gene_r, gene_c, gene_s);
 			fit = new_fit;
 		}
