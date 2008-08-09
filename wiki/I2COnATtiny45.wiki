@@ -2,7 +2,7 @@
 
 = Status =
   * I2C Slave is working, receiving and sending. Used Don Blake's code, from AvrFreaks.
-  * I2C Master is working, by adding pullup resistors. At least for one minute. Then goes amok. ~~compiles but locks on transmit while waiting for SCL pin to get high. Might be **because the bus is not being pulled up**~~.
+  * I2C Master is working, by adding pullup resistors. Sometimes it goes in error, adding some recovery code fixes it. Still, it's weird. ~~At least for one minute. Then goes amok. compiles but locks on transmit while waiting for SCL pin to get high. Might be **because the bus is not being pulled up**~~.
 
   I2C is not the only possible solution for communication. 1-Wire looks promising: it is much slower, but can go further and would live a free pin (with I2C we have no free pins):
 http://www.embedded.com/9900637?_requestid=165743, http://www.embedded.com/9900637?_requestid=165743
