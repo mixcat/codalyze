@@ -209,7 +209,7 @@ int main () {
 	}
 	/* write to file current values of cells */
 	for ( i = 0 ; i < DATA_SIZE ; i++ )
-		fprintf(out, "%d %d\n", i+1, data[i]);
+		fprintf(out, "%c%c", i+1, data[i]);
 
 #else
 
@@ -278,7 +278,7 @@ int main () {
 		mutate(data, old, mutation);
 
 #ifdef CONSOLE
-		fprintf(out, "%d %d\n", mutation[0]+1, mutation[1]);
+		fprintf(out, "%c%c", mutation[0]+1, mutation[1]);
 		fflush(out);
 #endif
 
@@ -304,7 +304,7 @@ int main () {
 				/* we're in a local maximum; jump away */
 				for ( i = 0 ; i < DATA_SIZE ; i++ ) {
 					data[i] = original[i];
-					fprintf(out, "%d %d\n", i+1, data[i]);
+					fprintf(out, "%c%c", i+1, data[i]);
 				}
 				/* save the old best value */
 				old_peak = peak;
