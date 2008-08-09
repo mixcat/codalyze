@@ -13,14 +13,9 @@
 #include <ctype.h>	
 #include <stdio.h>
 #include <stdlib.h>
+
 #ifdef CONSOLE
 #include <unistd.h>
-#endif
-
-#ifdef DEBUG
-#define DBG(x);	x
-#else
-#define DBG(x);
 #endif
 
 #define DATA_SIZE 	81
@@ -31,8 +26,9 @@ int original[DATA_SIZE];
 
 #ifdef CONSOLE
 static void 
-usage(void) {
-	printf("Insert meaningful help message here\n");
+usage(char* progname) {
+	printf("Usage: %s <input file> <random value>\n", progname);
+	printf("Where <random value> can be also $RANDOM\n");
 }
 #endif
 
@@ -81,7 +77,7 @@ mutate(int data[DATA_SIZE], int old[2], int mutation[2]) {
 	/* save the mutation to be sent to the blinkms*/
 	mutation[0] = pos;
 	do {
-		mutation[1] = random()%9;
+		mutation[1] = random()%9+1;
 	} while ( old[1] == mutation[1] );
 	/* update the individual */
 	data[pos] = mutation[1];
@@ -89,15 +85,14 @@ mutate(int data[DATA_SIZE], int old[2], int mutation[2]) {
 
 static int 
 eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
-	int fit;
 	int i, j;
 	int conflicts_row = 0, conflicts_col = 0, conflicts_sub = 0;
 	int digits = 0;
-	int values_row[9], values_col[9], values_sub[9];
+	int values_row[10], values_col[10], values_sub[10];
 
 	for ( i = 0 ; i < 9 ; i++ ) {
 		/* zero the arrays before starting */
-		for ( j = 0 ; j < 9 ; j++ ) {
+		for ( j = 0 ; j < 10 ; j++ ) {
 			values_row[j] = 0;
 			values_col[j] = 0;
 			values_sub[j] = 0;
@@ -113,7 +108,7 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 		}
 
 		/* we start from 1 ; we do not care about the zeros */
-		for ( j = 1 ; j < 9 ; j++ ) {
+		for ( j = 1 ; j <= 9 ; j++ ) {
 			/* if there is more than one digit per row/col, 
 			 * it's a conflict */
 			if ( values_row[j] > 1 )
@@ -125,8 +120,8 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 		}
 
 	}
-	fit = digits - conflicts_row - conflicts_col - conflicts_sub;
 	/*
+	fit = digits - conflicts_row - conflicts_col - conflicts_sub;
 	printf("digits: %d\n", digits);
 	printf("conflicts per row: %d\n", conflicts_row);
 	printf("conflicts per col: %d\n", conflicts_col);
@@ -134,7 +129,7 @@ eval_fitness(int *gene_r[9][9], int *gene_c[9][9], int *gene_s[9][9]) {
 
 	printf("fitness: %d\n", fit);
 	*/
-	return fit;
+	return digits - conflicts_row - conflicts_col - conflicts_sub;
 }
 
 /*********/
@@ -152,7 +147,7 @@ int main () {
 	int mutations;	/* the number of successful mutations */
 	int orig_fit;
 	float jumps_threshold = 0.01;
-	int peak, old_peak;
+	int peak = 0, old_peak;
 
 	/*
 	 * old[0] is the position
@@ -174,7 +169,7 @@ int main () {
 		char c[2];
 
 		if ( argc != 3 ) {
-			usage();
+			usage(argv[0]);
 			fclose(out);
 			return -1;
 		}
@@ -212,10 +207,9 @@ int main () {
 		fprintf(out, "%c%c", i+1, data[i]);
 
 #else
-
 	/* if no console -> is code for arduino */
 
-	/* the sudoku */
+	/* a sample sudoku (correct) */
 	int data[] = { 
 			8, 4, 0, 0, 0, 0, 0, 5, 7,
 			0, 7, 2, 0, 0, 0, 9, 8, 0,
@@ -256,10 +250,6 @@ int main () {
 			/* get the actual data */
 			gene_s[A+B*3][i%3+3*(offset%3)] = &data[i];
 
-			/* personal note
-			 * a[i][j is *(*(a+i)+j)
-			 */
-
 			if ( i%9 == 8 )
 				offset++;
 
@@ -272,49 +262,57 @@ int main () {
 	orig_fit = fit;
 	mutations = 0;
 
+	/* main genetic algorithm */
 	while ( fit <= MAX_FIT ) {
+		/* count the number of iterations to detect local maxima */
 		iter++;
-		/* DBG is already defined only if CONSOLE is defined */
 		mutate(data, old, mutation);
 
 #ifdef CONSOLE
+		/* send data to arduino / save to file */
 		fprintf(out, "%c%c", mutation[0]+1, mutation[1]);
 		fflush(out);
 #endif
 
-		/* TODO 
-		 * insert code here to send data to blinkm
-		 * to show mutations 
-		 *
-		 * ideally, send out the mutation[] array
-		 */
 		new_fit = eval_fitness(gene_r, gene_c, gene_s);
 
-		if ( fit > new_fit ) {
+		if ( fit >= new_fit ) {
 			/* go back to before the mutation */
 			reverse_mutation(data, old);
 
-			if ( mutations > 0 && (float)mutations/iter < jumps_threshold ) {
-				DBG(
-					printf("old fitness: %d, new fit: %d\n", fit, new_fit);
-					printf("mutations: %d, iterations: %d, ratio: %f\n", mutations, iter, (float)mutations/iter);
-					printf("rollback! old genes:\n");
-					print_genes(gene_r, gene_c, gene_s);
-				   );
-				/* we're in a local maximum; jump away */
+			/* avoid doing 0/value */
+			if ( mutations > 0 
+					&& (float)mutations/iter < jumps_threshold ) {
+
+#ifdef CONSOLE
+				printf("Probable local minima detected; rollback\n");
+				printf("mutations: %d, iterations: %d, ratio: %f\n", 
+						mutations, iter, (float)mutations/iter);
+				printf("peak fitness: %d, old peak fitness: %d\n", 
+						fit, old_peak);
+				printf("rollback! old genes:\n");
+				print_genes(gene_r, gene_c, gene_s);
+#endif
+
+				/* we're in a local maximum; rollback */
 				for ( i = 0 ; i < DATA_SIZE ; i++ ) {
 					data[i] = original[i];
+
+#ifdef CONSOLE
+					/* send reset to file/arduino */
 					fprintf(out, "%c%c", i+1, data[i]);
+#endif
+
 				}
+
 				/* save the old best value */
 				old_peak = peak;
 				peak = fit;
+
 				/* reset everything */
 				fit = orig_fit;
 				mutations = 0;
 				iter = 0;
-				/* well */
-				DBG(sleep(10););
 
 				if ( old_peak > peak )
 					jumps_threshold /= 2;
@@ -322,19 +320,24 @@ int main () {
 					if ( old_peak < peak ) 
 						jumps_threshold *= 2;
 						
+#ifdef CONSOLE
 				printf("new jump threshold: %f\n\n", jumps_threshold);
+				/* XXX debugging */
+				sleep(7);
+#endif
+
 			}
 		}
 		else {
-			/* DBG is already defined only if CONSOLE is defined */
-			/*
-			DBG(
-				printf("mutation pos: %d %d->%d", old[0], old[1], mutation[1]);
-				printf("\n(%d): got a valid offspring; ", iter);
-				printf("old fitness: %d, new fit: %d\n", fit, new_fit);
-				print_genes(gene_r, gene_c, gene_s);
-			);
-			*/
+
+#ifdef CONSOLE
+			printf("mutation pos: %d %d->%d", 
+					old[0], old[1], mutation[1]);
+			printf("\n(%d): got a valid offspring; ", iter);
+			printf("old fitness: %d, new fit: %d\n", fit, new_fit);
+			print_genes(gene_r, gene_c, gene_s);
+#endif
+
 			fit = new_fit;
 			mutations++;
 		}
@@ -343,6 +346,10 @@ int main () {
 #ifdef CONSOLE
 	printf("Found solution after %d iterations:\n", iter);
 	print_genes(gene_r, gene_c, gene_s);
+
+	/* send to file/leds..*/
+	for ( i = 0 ; i < DATA_SIZE ; i++ ) 
+		fprintf(out, "%c%c", i+1, data[i]);
 
 	fclose(in);
 	fclose(out);
