@@ -7,6 +7,8 @@
  * row/column/sub-matrix
  *
  * lorenzo.grespan@gmail.com
+ *
+ * this file is released under the GNU General Public License
  */
 
 /* isdigit() */
@@ -200,6 +202,8 @@ int main () {
 					data[i++] = 0;	
 
 		/* init random number generator */
+		/* FIXME no console -> need to produce a random seed
+		 * via other means (timing, interrupt, whatever */
 		srandom(atoi(argv[2]));
 	}
 	/* write to file current values of cells */

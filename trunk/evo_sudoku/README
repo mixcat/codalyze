@@ -1,0 +1,43 @@
+Compile with
+
+make console
+
+to get the console version. Default
+
+make
+
+will produce a version with no output ready to be flashed (more or less).
+
+Run it with 
+
+./evo_console data $RANDOM
+
+where $RANDOM is the usual BASH random variable (it's used to initialize the
+random number generator). It will produce a file named
+
+out
+
+which contains a diff of the changes in the sudoku; first byte is position (from
+1 to 81), second byte is the digit (from 0 to 9, where 0 is 'black' or empty
+  square). Feed it through a serial connection to the Arduino board or through a
+  pipe to a blinkm simulator (to be released some time soon between here and
+  infinity).
+
+The file named
+
+data 
+
+is the file containing the sudoku. When ran in non-console mode it has a default sudoku inside (see source code for that). The file format is whatever you want, just use non-digit values for spaces in the sudoku and digits for the rest.
+
+Usual disclaimer apply (no liability, do whatever you want with it, etc). 
+
+Code is released with GNU GPL. The Makefile has been hacked together by
+incorporating an Eclipse-generated makefile, which in turn has been
+probably inspired/taken from the Arduino/blinkm/avr-gcc makefiles.
+
+lorenzo.grespan@gmail.com
+
+thanks to Kate F. for trying to teach me how to code in standard C. 
+
+This is the ugliest README I've ever seen in my life. And the code is full of
+#ifdef. I will fix them. 
