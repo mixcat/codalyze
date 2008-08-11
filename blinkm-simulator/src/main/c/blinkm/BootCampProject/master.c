@@ -29,9 +29,9 @@ void cyz_master_send_color() {
 	// send new color to slave
 	messageBuf[0] = TWI_GEN_CALL; // The first byte must always consist of General Call code or the TWI slave address.
     messageBuf[1] = 'c';          // The command or data to be included in the general call.
-    messageBuf[2] = CYZ_RGB_color_r;
-    messageBuf[3] = CYZ_RGB_color_g;
-    messageBuf[4] = CYZ_RGB_color_b;
+    messageBuf[2] = CYZ_RGB_fade_color_r;
+    messageBuf[3] = CYZ_RGB_fade_color_g;
+    messageBuf[4] = CYZ_RGB_fade_color_b;
     unsigned char success = USI_TWI_Start_Transceiver_With_Data( messageBuf, 5 );
     if (!success) {
 		USI_TWI_Master_Initialise();
