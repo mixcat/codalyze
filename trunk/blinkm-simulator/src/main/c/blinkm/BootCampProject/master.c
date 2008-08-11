@@ -15,11 +15,8 @@ int main(void)
 	TIFR   = (1 << TOV0);  /* clear interrupt flag */
   	TIMSK  = (1 << TOIE0); /* enable overflow interrupt */
 	TCCR0B = (1 << CS00);  /* start timer, no prescale */
-
 	sei(); // enable interrupts
 
-
-	CYZ_RGB_set_color(127,255,0);
 	for(;;)
 	{}
 
@@ -35,12 +32,11 @@ void cyz_master_send_color() {
     messageBuf[3] = CYZ_RGB_color_g;
     messageBuf[4] = CYZ_RGB_color_b;
     unsigned char success = USI_TWI_Start_Transceiver_With_Data( messageBuf, 5 );
-    if (success) {
-		CYZ_RGB_set_color(messageBuf[2], messageBuf[3], messageBuf[4]);
-    }
-    else {
+    if (!success) {
 		USI_TWI_Master_Initialise();
+
 		switch(USI_TWI_Get_State_Info( )) {
+
 			case USI_TWI_NO_DATA:             // Transmission buffer is empty
 				CYZ_RGB_set_color(255, 0 , 0);
 			break;
@@ -48,7 +44,7 @@ void cyz_master_send_color() {
 				CYZ_RGB_set_color(0, 255 , 0);
 			break;
 			case USI_TWI_UE_START_CON:        // Unexpected Start Condition
-				CYZ_RGB_set_color(0, 0 , 255);
+				CYZ_RGB_set_color(255, 0 , 0);
 			break;
 			case USI_TWI_UE_STOP_CON:        // Unexpected Stop Condition
 				CYZ_RGB_set_color(255, 255 , 0);
@@ -77,15 +73,12 @@ void cyz_master_send_color() {
 ISR(SIG_OVERFLOW0)
 {
 	CYZ_RGB_pulse();
-
 	static unsigned int sigcount = 0;
 	if (++sigcount == 1) { //TODO: better to use another clock, prescaled
-		//this happens every about 3 secs
+		CYZ_RGB_color_r += 126;
+		CYZ_RGB_color_g += 50;
+		CYZ_RGB_color_b -= 35;
 		// TODO: learn to predict how long beteen each overflow
 		cyz_master_send_color();
 	}
-
 }
-
-
-
