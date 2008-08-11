@@ -19,7 +19,7 @@ The new firmware has two interesting *additional features* in the works: the abi
 If you decide to download and give it a try, you'll find slave.hex and master.hex: the first is the actual blinkm firmware replacement, the other is the experimental master. You can flash the files on two different blinkms, connect the to the same i2c bus and watch the change color together.
 
 
-||command||name||cmd||char||cmd||byte||# args||# ret vals||format||implemented||
+||command||name||cmd char||cmd byte||# args||# ret vals||format||implemented||
 ||Go to RGB Color Now||n||0x6e||3||0||{‘n’,R,G,B}||no||
 ||Fade to RGB Color||c||0x63||3||0||{‘c’,R,G,B}||no||
 ||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||no||
