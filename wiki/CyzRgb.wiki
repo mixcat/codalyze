@@ -10,13 +10,34 @@ BlinkM is a Smart LED produced by [http://thingm.com ThingM]:
     
 Connect it to an I2C bus, and start sending it commands lige "show rgb color" or "fade to hsv value" and so on and so forth (id does much much more, see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet].
 
-Well, we liked the idea to do few more things with it and decided to modify the firmware. The original firmware is actually closed source, so we had to start writing a new one from scratch. *This first release is very basic*, but hopefully adding new functionalities is not very hard.
+Well, we liked the idea to do few more things with it and decided to modify the firmware. The original firmware is actually closed source, so we had to start writing a new one from scratch. *This first release is very basic*, but hopefully adding new functionalities is won't be very hard.
 
-The new firmware has two interesting important *additional features* in the works: the ability to act as a *master on the I2C bus* and *support for dallas 1-wire protocol*, to leave one pin free for your fantasy.
+The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus* and *support for dallas 1-wire protocol*, to leave one pin free for your fantasy.
 
 = Details =
 
 If you decide to download and give it a try, you'll find slave.hex and master.hex: the first is the actual blinkm firmware replacement, the other is the experimental master. You can flash the files on two different blinkms, connect the to the same i2c bus and watch the change color together.
+
+
+||command||name||cmd||char||cmd||byte||# args||# ret vals||format||implemented||
+||Go to RGB Color Now||n||0x6e||3||0||{‘n’,R,G,B}||no||
+||Fade to RGB Color||c||0x63||3||0||{‘c’,R,G,B}||no||
+||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||no||
+||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||no||
+||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||no||
+||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||no||
+||Stop Script||o||0x6f||0||0||{‘o’}||no||
+||Set Fade Speed||f||0x66||1||0||{‘f’,f}||no||
+||Set Time Adjust||t||0x74||1||0||{‘t’,t}||no||
+||Get Current RGB Color||g||0x67||0||3||{‘g’}||no||
+||Write Script Line||W||0x57||7||0||{‘W’,n,p,...}||no||
+||Read Script Line||R||0x52||2||5||{‘R’,n,p}||no||
+||Set Script Length & Repeats||L||0x4c||3||0||{‘L’,n,l,r}||no||
+||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||no||
+||Get BlinkM Address||a||0x61||0||1||{‘a’}||no||
+||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||no|| 
+||Set Startup Parameters||B||5||0||{‘B’,m,n,r,f,t}||no||
+
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
