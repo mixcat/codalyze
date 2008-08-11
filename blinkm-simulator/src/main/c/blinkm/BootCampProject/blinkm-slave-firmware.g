@@ -54,21 +54,7 @@ int main(void)
 	char rcv[4];
 	for(;;)
 	{
-		// emulation of original command goToRGB (actual command is ignored, receive any 4 bytes where 1,2,3 are R,G,B
-	    if(usiTwiDataInReceiveBuffer())
-	    {
-	    	rcv[cnt++] = usiTwiReceiveByte();
-			if (cnt==4) {
-				color.r = rcv[1];
-				color.g = rcv[2];
-				color.b = rcv[3];
-				cnt = 0;
-			}
 
-			//usiTwiTransmitByte(color.r);
-			//usiTwiTransmitByte(color.g);
-		//	usiTwiTransmitByte(color.b);
-	    }
 
 	    // Do something else while waiting for the TWI transceiver to complete.
 
