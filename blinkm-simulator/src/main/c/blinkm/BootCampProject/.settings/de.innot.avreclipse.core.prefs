@@ -1,4 +1,4 @@
-#Mon Aug 11 18:40:26 BST 2008
+#Mon Aug 11 23:33:26 BST 2008
 avrtarget/ClockFrequency=1000000
 avrtarget/ExtRAMSize=0
 avrtarget/ExtendedRAM=false
@@ -34,7 +34,7 @@ avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/BitBa
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/Bitclock=
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/EEPROMFile=
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/EEPROMFromConfig=true
-avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/FlashFile=${workspace_loc\:/blinkm-new-firmware/make/out/master.hex}
+avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/FlashFile=${workspace_loc\:/cyz_rgb/make/out/master.hex}
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/FlashFromConfig=false
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/NoSigCheck=false
 avrtarget/de.innot.avreclipse.configuration.app.release.1716721803/avrdude/NoVerify=false
