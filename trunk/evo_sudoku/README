@@ -6,7 +6,9 @@ to get the console version. Default
 
 make
 
-will produce a version with no output ready to be flashed (more or less).
+will produce a version with no output ready to be flashed (more or less). You
+need avr-gcc and a bunch of stuff. So far it works on a Mac OSX with avr-gcc,
+avr-libc etc installed via mac ports.
 
 Run it with 
 
