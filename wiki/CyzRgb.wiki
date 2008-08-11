@@ -24,7 +24,7 @@ If you decide to download and give it a try, you'll find slave.hex and master.he
 
 I'd like to hear from you. And if you have any patch to submit, you'll be welcome.
 
-_my experience in microcontroller programming as well in C is VERY limited, so if you are an expert, expect the worse... i'm a java programmer ;). And if you can stop feeling sick after reading the code, well, drop a line_
+_my experience in C is very limited. And is zero when it comes to microcontroller programming. So, if you are any good at it, expect the worse... i'm a java programmer ;). And if you can stop feeling sick after reading the code, well, drop a line_
 
 == Implemented features ==
 
@@ -46,9 +46,3 @@ _my experience in microcontroller programming as well in C is VERY limited, so i
 ||Get BlinkM Address||a||0x61||0||1||{‘a’}||no||
 ||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||no|| 
 ||Set Startup Parameters||B||5||0||{‘B’,m,n,r,f,t}||no||
-
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
