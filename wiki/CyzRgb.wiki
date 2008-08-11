@@ -22,6 +22,8 @@ If you decide to download and give it a try, you'll find slave.hex and master.he
 
 [http://codalyze.googlecode.com/files/cyz_rgb-alpha1-2008_08_11-binary.zip Download] the binary release.
 
+Get the sources with svn: {{{svn checkout http://codalyze.googlecode.com/svn/trunk/blinkm-simulator/src/main/c/blinkm/BootCampProject cyz_rgb}}}
+
 == Interested? I need help ==
 
 I'd like to hear from you. If you have any patch to submit, it will be welcome.
