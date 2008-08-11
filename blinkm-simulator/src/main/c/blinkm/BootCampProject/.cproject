@@ -24,7 +24,7 @@
 <option id="de.innot.avreclipse.toolchain.options.toolchain.size.app.release.1979471422" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size.app.release"/>
 <option id="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release.1955390743" name="AVRDude" superClass="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release"/>
 <targetPlatform id="de.innot.avreclipse.targetplatform.winavr.app.release.1142206967" name="AVR Cross-Target" superClass="de.innot.avreclipse.targetplatform.winavr.app.release"/>
-<builder autoBuildTarget="all" buildPath="${workspace_loc:/blinkm-new-firmware/make}" cleanBuildTarget="clean" enableAutoBuild="false" enableCleanBuild="true" enabledIncrementalBuild="true" id="de.innot.avreclipse.target.builder.winavr.app.release.849369776" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="AVR GNU Make Builder" parallelizationNumber="1" superClass="de.innot.avreclipse.target.builder.winavr.app.release">
+<builder autoBuildTarget="all" buildPath="${workspace_loc:/blinkm-new-firmware/make}" cleanBuildTarget="clean" enableAutoBuild="true" enableCleanBuild="true" enabledIncrementalBuild="true" id="de.innot.avreclipse.target.builder.winavr.app.release.849369776" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="AVR GNU Make Builder" parallelBuildOn="false" parallelizationNumber="-4" superClass="de.innot.avreclipse.target.builder.winavr.app.release">
 <outputEntries>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Master"/>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Slave"/>
@@ -705,7 +705,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1716721803">
+<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1232485351;de.innot.avreclipse.configuration.app.debug.1232485351.;de.innot.avreclipse.tool.compiler.winavr.app.debug.52226460;de.innot.avreclipse.compiler.winavr.input.12728750">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 <profile id="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC">
 <buildOutputProvider>
@@ -740,11 +740,11 @@
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
 <buildOutputProvider>
 <openAction enabled="true" filePath=""/>
-<parser enabled="false"/>
+<parser enabled="true"/>
 </buildOutputProvider>
 <scannerInfoProvider id="makefileGenerator">
 <runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
-<parser enabled="false"/>
+<parser enabled="true"/>
 </scannerInfoProvider>
 </profile>
 <profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
@@ -808,7 +808,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1232485351;de.innot.avreclipse.configuration.app.debug.1232485351.;de.innot.avreclipse.tool.compiler.winavr.app.debug.52226460;de.innot.avreclipse.compiler.winavr.input.12728750">
+<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1716721803">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 <profile id="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC">
 <buildOutputProvider>
@@ -843,11 +843,11 @@
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
 <buildOutputProvider>
 <openAction enabled="true" filePath=""/>
-<parser enabled="true"/>
+<parser enabled="false"/>
 </buildOutputProvider>
 <scannerInfoProvider id="makefileGenerator">
 <runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
-<parser enabled="true"/>
+<parser enabled="false"/>
 </scannerInfoProvider>
 </profile>
 <profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
@@ -1609,7 +1609,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1716721803">
+<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1232485351;de.innot.avreclipse.configuration.app.debug.1232485351.;de.innot.avreclipse.tool.compiler.winavr.app.debug.52226460;de.innot.avreclipse.compiler.winavr.input.12728750">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 <profile id="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC">
 <buildOutputProvider>
@@ -1644,11 +1644,11 @@
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
 <buildOutputProvider>
 <openAction enabled="true" filePath=""/>
-<parser enabled="false"/>
+<parser enabled="true"/>
 </buildOutputProvider>
 <scannerInfoProvider id="makefileGenerator">
 <runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
-<parser enabled="false"/>
+<parser enabled="true"/>
 </scannerInfoProvider>
 </profile>
 <profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
@@ -1712,7 +1712,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1232485351;de.innot.avreclipse.configuration.app.debug.1232485351.;de.innot.avreclipse.tool.compiler.winavr.app.debug.52226460;de.innot.avreclipse.compiler.winavr.input.12728750">
+<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1716721803">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 <profile id="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC">
 <buildOutputProvider>
@@ -1747,11 +1747,11 @@
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
 <buildOutputProvider>
 <openAction enabled="true" filePath=""/>
-<parser enabled="true"/>
+<parser enabled="false"/>
 </buildOutputProvider>
 <scannerInfoProvider id="makefileGenerator">
 <runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
-<parser enabled="true"/>
+<parser enabled="false"/>
 </scannerInfoProvider>
 </profile>
 <profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">

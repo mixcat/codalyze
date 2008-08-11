@@ -5,7 +5,7 @@
  *	PWM in Plain English:
  *	 PROBLEM:	We have three leds, each led has two positions (on/off): we can only get 8 colors.
  *				We fancy displaying 24-bit rgb colors.
- *		
+ *
  *	 SOLUTION:	We turn leds on and off very fast and trick the eye. ex: we want to display
  *				RGB{255, 165, 0} (orange): overy 255 ticks
  *				- red led is always on
@@ -16,9 +16,9 @@
  *	This code has been implemented for and tested on ATtiny45 with 3 leds connected on PB3, PB4, PB1.
  *	It should work on all avr chips, just remember to update definitions of
  *	PWM_PORT,PWM_DDR, PINRED, PINGRN, PINBLU according to your setup.
- *	
+ *
  *	Compiler: AVR-GCC
- *	
+ *
  *	Usage:
  *		1. invoke CYZ_RGB_setup(); in global space
  *		2. invoke CYZ_RGB_init(); in main
@@ -37,7 +37,7 @@
 
 /* select port and data direction register on which pin leds are */
 #define PWM_PORT PORTB
-#define PWM_DDR DDRB 
+#define PWM_DDR DDRB
 
 /* map leds to actual pins */
 #define PINRED PB3
@@ -55,9 +55,6 @@
 #define GRN_LED_ON PWM_PORT |= 1<<PINGRN
 #define BLU_LED_ON PWM_PORT |= 1<<PINBLU
 
-/* turn on all leds */
-#define ALL_LED_ON RED_LED_ON; GRN_LED_ON; BLU_LED_ON
-
 typedef struct _color {
     unsigned char r;
 	unsigned char g;
@@ -66,12 +63,11 @@ typedef struct _color {
 
 /* to be called in main file global space */
 #define CYZ_RGB_setup() \
-	Color _CYZ_RGB_color; \
-	unsigned char _CYZ_RGB_pulse_count = 0xFF
+	Color _CYZ_RGB_color
 
-#define CYZ_RGB_color_r _CYZ_RGB_color.r;
-#define CYZ_RGB_color_g _CYZ_RGB_color.g;
-#define CYZ_RGB_color_b _CYZ_RGB_color.b;
+#define CYZ_RGB_color_r _CYZ_RGB_color.r
+#define CYZ_RGB_color_g _CYZ_RGB_color.g
+#define CYZ_RGB_color_b _CYZ_RGB_color.b
 
 /* to be called only one time, usually in main */
 #define CYZ_RGB_init() \
@@ -80,7 +76,8 @@ typedef struct _color {
 
 /* to be called once for each pulse, usually on interrupt SIG_OVERFLOW0 */
 #define CYZ_RGB_pulse() \
-	if (++_CYZ_RGB_pulse_count == 0) ALL_LED_ON; \
+	static unsigned char _CYZ_RGB_pulse_count = 0xFF; \
+	if (++_CYZ_RGB_pulse_count == 0) { RED_LED_ON; GRN_LED_ON; BLU_LED_ON; } \
 	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.r) RED_LED_OFF; \
 	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.g) GRN_LED_OFF; \
 	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.b) BLU_LED_OFF
@@ -92,12 +89,12 @@ typedef struct _color {
 void _CYZ_RGB_set_color(Color* color, unsigned char r, unsigned char g, unsigned char b) {
 	color->r = r;
 	color->g = g;
-	color->b = b; 
+	color->b = b;
 }
 
 /* Configure DDR: put pins connected to leds in output mode */
 void _CYZ_RGB_setup_pins() {
-	PWM_DDR |= 1<<PINRED; 
+	PWM_DDR |= 1<<PINRED;
 	PWM_DDR |= 1<<PINGRN;
 	PWM_DDR |= 1<<PINBLU;
 }
