@@ -52,4 +52,10 @@ _my experience in C is very limited. And is zero when it comes to microcontrolle
 ||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||no||
 
 
+== Known bugs ==
+
+   * Sometimes the master gets stuck.
+   * Sometimes the slave show colors different from the master.
+   * Color fading works but is not nearly as nice as the original firmware.
+
 Matteo Caprari <matteo.caprari@gmail.com>
