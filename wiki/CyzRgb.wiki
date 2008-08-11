@@ -8,7 +8,7 @@ BlinkM is a Smart LED produced by [http://thingm.com ThingM]:
    programmable full-color RGB LED for hobbyists,
    industrial designers, prototypers, and experimenters.
     
-Just connect it to an I2C bus and start sending commands like "show rgb color" or "fade to hsv value" and so on and so forth (it does much more, see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet].
+Just connect it to an I2C bus and start sending commands like "show rgb color" or "fade to hsv value" and so on and so forth (it does much more; see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet]).
 
 A bit of explanation: I liked the idea to do a few more things with the leds and decided to modify the firmware. The original firmware is actually closed source (due to legal issues) so I had to start writing a new one from scratch. *This first release is very basic* but hopefully adding new features won't be that hard.
 
@@ -28,7 +28,7 @@ Get the sources with svn: {{{svn checkout http://codalyze.googlecode.com/svn/tru
 
 I'd like to hear from you. If you have any patch to submit it will be welcome.
 
-_my experience in C is very limited. And is zero when it comes to microcontroller programming. So, if you are any good at it, expect the worse... i'm a java programmer ;). And if you can stop feeling sick after reading the code, well, drop a line_
+_Please not that my experience in C is very limited. And it approaches zero when it comes to microcontroller programming. So, if you are any good at it, please be patient and expect the worse... i'm a java programmer ;). When you stop feeling sick after reading the code, well, drop me a line_
 
 == Implemented features ==
 
@@ -59,4 +59,4 @@ _my experience in C is very limited. And is zero when it comes to microcontrolle
    * Sometimes the slave show colors different from the master.
    * Color fading works but is not nearly as nice as the original firmware.
 
-Matteo Caprari <matteo.caprari@gmail.com>
+Matteo Caprari <matteo.caprari gmail.com>
