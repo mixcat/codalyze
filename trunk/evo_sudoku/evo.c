@@ -323,7 +323,7 @@ int main () {
 #ifdef CONSOLE
 				printf("new jump threshold: %f\n\n", jumps_threshold);
 				/* XXX debugging */
-				sleep(7);
+				/* sleep(7); */
 #endif
 
 			}
