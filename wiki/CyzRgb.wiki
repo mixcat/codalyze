@@ -18,7 +18,9 @@ The new firmware has two interesting *additional features* in the works: the abi
 
 If you decide to download and give it a try, you'll find slave.hex and master.hex: the first is the actual blinkm firmware replacement, the other is the experimental master. You can flash the files on two different blinkms, connect the to the same i2c bus and watch the change color together.
 
-[http://code.google.com/p/codalyze/source/browse/#svn/trunk/blinkm-simulator/src/main/c/blinkm/BootCampProject Browse] the source code. 
+[http://code.google.com/p/codalyze/source/browse/#svn/trunk/blinkm-simulator/src/main/c/blinkm/BootCampProject Browse] the source code.
+
+[http://codalyze.googlecode.com/files/cyz_rgb-alpha1-2008_08_11-binary.zip Download] the binary release.
 
 == Interested? I need help ==
 
