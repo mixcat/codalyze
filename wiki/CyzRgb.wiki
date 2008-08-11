@@ -49,4 +49,4 @@ _my experience in C is very limited. And is zero when it comes to microcontrolle
 ||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||no||
 ||Get BlinkM Address||a||0x61||0||1||{‘a’}||no||
 ||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||no|| 
-||Set Startup Parameters||B||5||0||{‘B’,m,n,r,f,t}||no||
+||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||no||
