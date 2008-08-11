@@ -44,6 +44,7 @@
 #define PINGRN PB4
 #define PINBLU PB1
 
+
 /******************************/
 /* turn off single leds */
 #define RED_LED_OFF PWM_PORT &= ~(1<<PINRED)
@@ -63,16 +64,32 @@ typedef struct _color {
 
 /* to be called in main file global space */
 #define CYZ_RGB_setup() \
-	Color _CYZ_RGB_color
+	Color _CYZ_RGB_color; \
+	Color _CYZ_RGB_fade_color
 
 #define CYZ_RGB_color_r _CYZ_RGB_color.r
 #define CYZ_RGB_color_g _CYZ_RGB_color.g
 #define CYZ_RGB_color_b _CYZ_RGB_color.b
 
+#define CYZ_RGB_fade_color_r _CYZ_RGB_fade_color.r
+#define CYZ_RGB_fade_color_g _CYZ_RGB_fade_color.g
+#define CYZ_RGB_fade_color_b _CYZ_RGB_fade_color.b
+
 /* to be called only one time, usually in main */
 #define CYZ_RGB_init() \
 	CYZ_RGB_set_color(0,0,0);\
 	_CYZ_RGB_setup_pins()
+
+/* add or subtract 1 to A as to get closer to B */
+#define REDUCE_DISTANCE(A,B) \
+	if (A!=B) { A += ((A>B) ? -1 : +1); }
+
+/* bring current color one step closer to target color */
+#define FADE_STEP \
+	REDUCE_DISTANCE(_CYZ_RGB_color.r, _CYZ_RGB_fade_color.r) \
+	REDUCE_DISTANCE(_CYZ_RGB_color.g, _CYZ_RGB_fade_color.g) \
+	REDUCE_DISTANCE(_CYZ_RGB_color.b, _CYZ_RGB_fade_color.b)
+
 
 /* to be called once for each pulse, usually on interrupt SIG_OVERFLOW0 */
 #define CYZ_RGB_pulse() \
@@ -80,11 +97,15 @@ typedef struct _color {
 	if (++_CYZ_RGB_pulse_count == 0) { RED_LED_ON; GRN_LED_ON; BLU_LED_ON; } \
 	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.r) RED_LED_OFF; \
 	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.g) GRN_LED_OFF; \
-	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.b) BLU_LED_OFF
+	if (_CYZ_RGB_pulse_count == _CYZ_RGB_color.b) BLU_LED_OFF; \
+	if (_CYZ_RGB_pulse_count == 0) { FADE_STEP; }
 
 /* set color for immediate display */
-#define CYZ_RGB_set_color(R, G, B)\
-	_CYZ_RGB_set_color(&_CYZ_RGB_color, R, G, B);
+#define CYZ_RGB_set_color(R, G, B) \
+	_CYZ_RGB_set_color(&_CYZ_RGB_color, R, G, B)
+
+#define CYZ_RGB_set_fade_color(R,G,B) \
+	_CYZ_RGB_set_color(&_CYZ_RGB_fade_color, R, G, B)
 
 void _CYZ_RGB_set_color(Color* color, unsigned char r, unsigned char g, unsigned char b) {
 	color->r = r;
