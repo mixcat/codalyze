@@ -25,6 +25,7 @@
  *		3. invoke CYZ_RGB_pulse(); at fixed intervals;
  *		   putting it in SIGNAL(SIG_OVERFLOW0) {} works good (initialize timers and signals, if you do)
  *		4. every time CYZ_RGB_set_color(red, green, blue) is called, the perceived color will change
+ *		   if CYZ_RGB_set_color(red, green, blue) is called, the color fades from one color to the other
  *
  *	Links:
  *	ATtiny45 - http://www.atmel.com/dyn/products/Product_card.asp?part_id=3618
@@ -76,9 +77,12 @@ typedef struct _color {
 #define CYZ_RGB_fade_color_b _CYZ_RGB_fade_color.b
 
 /* to be called only one time, usually in main */
+/* Configures initial color and DDR: put pins connected to leds in output mode */
 #define CYZ_RGB_init() \
-	CYZ_RGB_set_color(0,0,0);\
-	_CYZ_RGB_setup_pins()
+	CYZ_RGB_set_color(0,0,0); \
+	PWM_DDR |= 1<<PINRED; \
+	PWM_DDR |= 1<<PINGRN; \
+	PWM_DDR |= 1<<PINBLU;
 
 /* add or subtract 1 to A as to get closer to B */
 #define REDUCE_DISTANCE(A,B) \
@@ -104,6 +108,7 @@ typedef struct _color {
 #define CYZ_RGB_set_color(R, G, B) \
 	_CYZ_RGB_set_color(&_CYZ_RGB_color, R, G, B)
 
+/* set color to to fade in */
 #define CYZ_RGB_set_fade_color(R,G,B) \
 	_CYZ_RGB_set_color(&_CYZ_RGB_fade_color, R, G, B)
 
@@ -113,9 +118,4 @@ void _CYZ_RGB_set_color(Color* color, unsigned char r, unsigned char g, unsigned
 	color->b = b;
 }
 
-/* Configure DDR: put pins connected to leds in output mode */
-void _CYZ_RGB_setup_pins() {
-	PWM_DDR |= 1<<PINRED;
-	PWM_DDR |= 1<<PINGRN;
-	PWM_DDR |= 1<<PINBLU;
-}
+
