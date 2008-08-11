@@ -8,9 +8,9 @@ BlinkM is a Smart LED produced by [http://thingm.com ThingM]:
    programmable full-color RGB LED for hobbyists,
    industrial designers, prototypers, and experimenters.
     
-Connect it to an I2C bus, and start sending it commands lige "show rgb color" or "fade to hsv value" and so on and so forth (id does much much more, see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet].
+Connect it to an I2C bus, and start sending it commands like "show rgb color" or "fade to hsv value" and so on and so forth (id does much more, see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet].
 
-Well, we liked the idea to do few more things with it and decided to modify the firmware. The original firmware is actually closed source, so we had to start writing a new one from scratch. *This first release is very basic*, but hopefully adding new functionalities is won't be very hard.
+Well, I liked the idea to do few more things with it and decided to modify the firmware. The original firmware is actually closed source, so I had to start writing a new one from scratch. *This first release is very basic*, but hopefully adding new features won't be very hard.
 
 The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus* and *support for dallas 1-wire protocol*, to leave one pin free for your fantasy.
 
@@ -18,10 +18,19 @@ The new firmware has two interesting *additional features* in the works: the abi
 
 If you decide to download and give it a try, you'll find slave.hex and master.hex: the first is the actual blinkm firmware replacement, the other is the experimental master. You can flash the files on two different blinkms, connect the to the same i2c bus and watch the change color together.
 
+[Browse http://code.google.com/p/codalyze/source/browse/#svn/trunk/blinkm-simulator/src/main/c/blinkm/BootCampProject] the source code. 
 
-||command||name||cmd char||cmd byte||# args||# ret vals||format||implemented||
-||Go to RGB Color Now||n||0x6e||3||0||{‘n’,R,G,B}||no||
-||Fade to RGB Color||c||0x63||3||0||{‘c’,R,G,B}||no||
+== Interested? I need help ==
+
+I'd like to hear from you. And if you have any patch to submit, you'll be welcome.
+
+_my experience in microcontroller programming as well in C is VERY limited, so if you are an expert, expect the worse... i'm a java programmer ;). And if you can stop feeling sick after reading the code, well, drop a line_
+
+== Implemented features ==
+
+||command name||cmd char||cmd byte||# args||# ret vals||format||implemented||
+||*Go to RGB Color Now*||n||0x6e||3||0||{‘n’,R,G,B}||*yes*||
+||*Fade to RGB Color*||c||0x63||3||0||{‘c’,R,G,B}||*yes*||
 ||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||no||
 ||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||no||
 ||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||no||
