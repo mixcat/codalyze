@@ -15,6 +15,7 @@ int main(void)
 	TIFR   = (1 << TOV0);  /* clear interrupt flag */
   	TIMSK  = (1 << TOIE0); /* enable overflow interrupt */
 	TCCR0B = (1 << CS00);  /* start timer, no prescale */
+
 	sei(); // enable interrupts
 
 	for(;;)
@@ -72,13 +73,14 @@ void cyz_master_send_color() {
 
 ISR(SIG_OVERFLOW0)
 {
-	CYZ_RGB_pulse();
-	static unsigned int sigcount = 0;
-	if (++sigcount == 1) { //TODO: better to use another clock, prescaled
-		CYZ_RGB_color_r += 126;
-		CYZ_RGB_color_g += 50;
-		CYZ_RGB_color_b -= 35;
+	static unsigned int sigcount = -1;
+	if (++sigcount == 0) { //TODO: better to use another clock, prescaled
+		CYZ_RGB_fade_color_r += 100;
+		CYZ_RGB_fade_color_g += 70;
+		CYZ_RGB_fade_color_b += 50;
 		// TODO: learn to predict how long beteen each overflow
 		cyz_master_send_color();
 	}
+
+	CYZ_RGB_pulse();
 }
