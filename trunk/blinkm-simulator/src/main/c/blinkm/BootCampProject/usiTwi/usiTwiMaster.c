@@ -37,7 +37,7 @@
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
 #include <stdlib.h>
-#include "USI_TWI_Master.h"
+#include "usiTwiMaster.h"
 
 unsigned char USI_TWI_Master_Transfer( unsigned char );
 unsigned char USI_TWI_Master_Stop( void );
