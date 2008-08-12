@@ -7,7 +7,7 @@ Evolutionary Sudoku for Arduino + Blinkm
 
 = Details =
 
-This page details to some extent the evolutionary sudoku to be ran on the Arduino/Blinkm. See [http://code.google.com/p/codalyze/wiki/CyzRgb here] for details.
+This page details to some extent the evolutionary sudoku to be run on the Arduino/Blinkm. See [http://code.google.com/p/codalyze/wiki/CyzRgb here] for details.
 
 [http://codalyze.googlecode.com/files/evo_sudoku-v0.1.tar.gz Download] it here.
 
