@@ -42,9 +42,14 @@
 unsigned char USI_TWI_Master_Transfer( unsigned char );
 unsigned char USI_TWI_Master_Stop( void );
 
+#define PULL_SCL_HIGH PORT_USI |= (1<<PIN_USI_SCL)
+#define PULL_SCL_LOW PORT_USI &= ~(1<<PIN_USI_SCL)
+#define PULL_SDA_LOW PORT_USI &= ~(1<<PIN_USI_SDA)
+#define PULL_SDA_HIGH PORT_USI |= (1<<PIN_USI_SDA)
+
 union  USI_TWI_state
 {
-  unsigned char errorState;         // Can reuse the TWI_state for error states due to that it will not be need if there exists an error.
+  unsigned char errorState;         // Can reuse the TWI_state for error states due to that it will not be need if there exists an error. (MC: this translates to "i'm looking for trouble")
   struct
   {
     unsigned char addressMode         : 1;
@@ -59,7 +64,7 @@ union  USI_TWI_state
 void USI_TWI_Master_Initialise( void )
 {
   PORTB |= (1<<PIN_USI_SDA);           // Enable pullup on SDA, to set high as released state.
-  PULL_SCL_HIGH          // Enable pullup on SCL, to set high as released state.
+  PULL_SCL_HIGH;         // Enable pullup on SCL, to set high as released state.
 
   DDR_USI  |= (1<<PIN_USI_SCL);           // Enable SCL as output.
   DDR_USI  |= (1<<PIN_USI_SDA);           // Enable SDA as output.
@@ -147,7 +152,7 @@ unsigned char USI_TWI_Start_Transceiver_With_Data( unsigned char *msg, unsigned 
   _delay_loop_2( T2_TWI );                         // Delay for T2TWI if TWI_STANDARD_MODE
 #endif
 
-/* Generate Start Condition */ TODO: encapsulate start_condition()
+/* Generate Start Condition  TODO: encapsulate start_condition() */
   PULL_SDA_LOW;
   _delay_loop_2( T4_TWI );
   PULL_SCL_LOW;
@@ -246,11 +251,11 @@ unsigned char USI_TWI_Master_Transfer( unsigned char temp )
 ---------------------------------------------------------------*/
 unsigned char USI_TWI_Master_Stop( void )
 {
-  PULL_SDA_LOW
+  PULL_SDA_LOW;
   PULL_SCL_HIGH;
   while( !(PIN_USI & (1<<PIN_USI_SCL)) ); //TODO: timeout? what can cause a missing SCL low? stretch?
   _delay_loop_2( T4_TWI );
-  PULL_SDA_HIGH
+  PULL_SDA_HIGH;
   _delay_loop_2( T2_TWI );
 
 #ifdef SIGNAL_VERIFY
@@ -264,7 +269,4 @@ unsigned char USI_TWI_Master_Stop( void )
   return (TRUE);
 }
 
-#define PULL_SCL_HIGH PORT_USI |= (1<<PIN_USI_SCL)
-#define PULL_SCL_LOW PORT_USI &= ~(1<<PIN_USI_SCL)
-#define PULL_SDA_LOW PORT_USI &= ~(1<<PIN_USI_SDA)
-#define PULL_SDA_HIGH PORT_USI |= (1<<PIN_USI_SDA)
+
