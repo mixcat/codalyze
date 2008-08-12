@@ -248,6 +248,14 @@ unsigned char USI_TWI_Master_Transfer( unsigned char temp )
 /*---------------------------------------------------------------
  Function for generating a TWI Stop Condition. Used to release
  the TWI bus.
+
+STOP CONDITION: A SDA LOW to HIGH while SCL is HIGH
+
+__  |     ____
+  \_|____/
+    |  _______
+____|_/
+    |
 ---------------------------------------------------------------*/
 unsigned char USI_TWI_Master_Stop( void )
 {
