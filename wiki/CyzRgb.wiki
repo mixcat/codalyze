@@ -38,12 +38,12 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||no||
 ||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||no||
 ||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||no||
-||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||no||
+||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes||
 ||Stop Script||o||0x6f||0||0||{‘o’}||no||
 ||Set Fade Speed||f||0x66||1||0||{‘f’,f}||no||
 ||Set Time Adjust||t||0x74||1||0||{‘t’,t}||no||
 ||Get Current RGB Color||g||0x67||0||3||{‘g’}||no||
-||Write Script Line||W||0x57||7||0||{‘W’,n,p,...}||no||
+||Write Script Line||W||0x57||7||0||{‘W’,n,p,d,c,a1,a2,a3}||yes*||
 ||Read Script Line||R||0x52||2||5||{‘R’,n,p}||no||
 ||Set Script Length & Repeats||L||0x4c||3||0||{‘L’,n,l,r}||no||
 ||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||no||
@@ -51,7 +51,7 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||no|| 
 ||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||no||
 
-
+* duration 'd' is not supported yet, and only valid commands are go and fade to RGB
 
 == Known bugs ==
 
