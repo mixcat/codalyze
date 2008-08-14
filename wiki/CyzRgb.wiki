@@ -38,7 +38,7 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||no||
 ||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||no||
 ||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||no||
-||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes||
+||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes^1^||
 ||Stop Script||o||0x6f||0||0||{‘o’}||no||
 ||Set Fade Speed||f||0x66||1||0||{‘f’,f}||no||
 ||Set Time Adjust||t||0x74||1||0||{‘t’,t}||no||
