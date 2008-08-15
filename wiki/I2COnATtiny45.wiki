@@ -96,3 +96,4 @@ Lock bits, a complete Chip Erase is required, which erase the Flash memory.
   * [http://palmavr.sourceforge.net/cgi-bin/fc.cgi?P_PREV=&P=ATtiny45 AVR Fuse Calculator]
   * [http://www.avrtutor.com/tutorial/thermo/welcome.php avrtutor: avr tutorial]
   * [http://electrons.psychogenic.com/modules/arms/art/3/AVRGCCProgrammingGuide.php AVR-GCC Programming Guide]
+  * [http://homepage.hispeed.ch/peterfleury/avr-software.html home of another I2C library, possibly better than application note]
