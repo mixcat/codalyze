@@ -20,7 +20,10 @@ If you decide to download and give it a try, you'll find slave.hex and master.he
 
 [http://code.google.com/p/codalyze/source/browse/#svn/cyz_rgb/trunk Browse] the source code.
 
-[http://codalyze.googlecode.com/files/cyz_rgb-alpha1-2008_08_11-binary.zip Download] the binary release.
+[http://codalyze.googlecode.com/files/cyz_rgb-alpha1-2008_08_11-binary.zip Download] the latest binary release.
+
+[http://codalyze.blogspot.com/feeds/posts/default Subscribe] to news feed to follow
+developement.
 
 Get the sources with svn: {{{svn checkout http://codalyze.googlecode.com/svn/cyz_rgb/trunk cyz_rgb}}}
 
