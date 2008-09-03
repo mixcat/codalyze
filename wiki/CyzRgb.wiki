@@ -66,6 +66,5 @@ _Please not that my experience in C is very limited. And it approaches zero when
 
    * Sometimes the master gets stuck.
    * ~~Sometimes the slave show colors different from the master~~.
-   * Color fading is a bit less smooth than ~~works but is not nearly as nice as~~ the original firmware.
 
 Matteo Caprari <matteo.caprari gmail.com>
