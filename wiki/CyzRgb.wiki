@@ -52,13 +52,15 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||no||
 ||Get BlinkM Address||a||0x61||0||1||{‘a’}||no||
 ||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||no|| 
-||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||no||
+||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||yes^3^ ^x^||
 
 ^x^ Only available in subversion head.
 
 ^1^ Script number 'n' is ignored: can only play script 0
 
-^2^ Max 10 lines. Duration 'd' is not supported yet. Only valid commands are go and fade to RGB. Script lines are not persisted and will disappear when blinkm turned off. Script number 'n' is ignored, can only write script 0
+^2^ Max 10 lines. Duration 'd' is not supported yet. Only valid commands are go and fade to RGB. ~~Script lines are not persisted and will disappear when blinkm turned off~~. Script number 'n' is ignored, can only write script 0
+
+^3^ Only script will be played. timeadjust and fadespeed are ignored.
 
 == Known bugs ==
 
