@@ -44,7 +44,7 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes^1^ ^x^||
 ||Stop Script||o||0x6f||0||0||{‘o’}||yes ^x^||
 ||Set Fade Speed||f||0x66||1||0||{‘f’,f}||yes ^x^||
-||Set Time Adjust||t||0x74||1||0||{‘t’,t}||no||
+||Set Time Adjust||t||0x74||1||0||{‘t’,t}||yes^x^||
 ||Get Current RGB Color||g||0x67||0||3||{‘g’}||no||
 ||Write Script Line||W||0x57||7||0||{‘W’,n,p,d,c,a1,a2,a3}||yes^2^ ^x^||
 ||Read Script Line||R||0x52||2||5||{‘R’,n,p}||no||
@@ -60,7 +60,7 @@ _Please not that my experience in C is very limited. And it approaches zero when
 
 ^2^ Max 10 lines. ~~Duration 'd' is not supported yet.~~ Only valid commands are go and fade to RGB. ~~Script lines are not persisted and will disappear when blinkm turned off~~. Script number 'n' is ignored, can only write script 0
 
-^3^ Only script will be played. timeadjust and fadespeed are ignored.
+^3^ Only script will be played. ~~timeadjust and fadespeed are ignored.~~
 
 == Known bugs ==
 
