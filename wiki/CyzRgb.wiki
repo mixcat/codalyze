@@ -58,7 +58,7 @@ _Please not that my experience in C is very limited. And it approaches zero when
 
 ^1^ Script number 'n' is ignored: can only play script 0
 
-^2^ Max 10 lines. Duration 'd' is not supported yet. Only valid commands are go and fade to RGB. ~~Script lines are not persisted and will disappear when blinkm turned off~~. Script number 'n' is ignored, can only write script 0
+^2^ Max 10 lines. ~~Duration 'd' is not supported yet.~~ Only valid commands are go and fade to RGB. ~~Script lines are not persisted and will disappear when blinkm turned off~~. Script number 'n' is ignored, can only write script 0
 
 ^3^ Only script will be played. timeadjust and fadespeed are ignored.
 
