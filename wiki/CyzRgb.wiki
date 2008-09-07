@@ -17,7 +17,7 @@ A bit of explanation: I liked the idea to do a few more things with the leds and
 
 I usually write loads of tests, possibly _before_ the actual code; this time I was wandering in a completely new area and I knew most of the code was going to be higly disposable. Now that all hurdles have been surpassed, the refactoring stage will go hand-to-hand with writing a thorough test suite. Wish me good luck.
 
-The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus (it works)* and *support for dallas 1-wire protocol (not yest)*, to leave one pin free for your creativity.
+The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus (it works)* and *support for dallas 1-wire protocol (not yet)*, to leave one pin free for your creativity.
 
 = Download =
 
