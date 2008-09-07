@@ -68,9 +68,12 @@ _Please not that my experience in C is very limited. And it approaches zero when
 
 ^5^ only script 1. no predenfined script 0.
 
-== Known bugs ==
+== Goals for next release ==
 
-   * Sometimes the master gets stuck.
-   * ~~Sometimes the slave show colors different from the master~~.
+  * Write a comprehensive test suite
+  * Decouple cyz_cmd from cyz_rgb
+  * Decouple usiTwiSlave from cyz_cmd
+  * Reduce binary footprint (now 4072b of 4096 available)
+  * Add ability to write 2 scripts
 
 Matteo Caprari <matteo.caprari gmail.com>
