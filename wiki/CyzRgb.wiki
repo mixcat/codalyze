@@ -32,6 +32,14 @@ developement.
 
 Get the sources with svn: {{{svn checkout http://codalyze.googlecode.com/svn/cyz_rgb/trunk cyz_rgb}}}
 
+= Install =
+
+Use avrdude to flash the chip:
+{{{
+avrdude -pt45 -cavrispmkII -Pusb -b115200 -Uflash:w:slave.hex:a 
+}}}
+
+
 == Interested? I need help ==
 
 I'd like to hear from you. If you have any patch to submit it will be welcome.
