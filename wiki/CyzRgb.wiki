@@ -1,6 +1,7 @@
 #summary CYZ_RGB: An alternative firmware for [http://thingm.com/products/blinkm BlinkM]
 
 = CYZ_RGB: An alternative firmware for [http://thingm.com/products/blinkm BlinkM] =
+== Version Alpha 2 - Feature complete ==
 
 BlinkM is a Smart LED produced by [http://thingm.com ThingM]: 
 
@@ -10,9 +11,13 @@ BlinkM is a Smart LED produced by [http://thingm.com ThingM]:
     
 Just connect it to an I2C bus and start sending commands like "show rgb color" or "fade to hsv value" and so on and so forth (it does much more; see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet]).
 
-A bit of explanation: I liked the idea to do a few more things with the leds and decided to modify the firmware. The original firmware is actually closed source (due to legal issues) so I had to start writing a new one from scratch. *This first release is very basic* but hopefully adding new features won't be that hard.
+A bit of explanation: I liked the idea to do a few more things with the leds and decided to modify the firmware. The original firmware is actually closed source (due to legal issues) so I had to start writing a new one from scratch.
 
-The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus* and *support for dallas 1-wire protocol*, to leave one pin free for your creativity.
+*The latest release implements all the features of the original firmware*. The firmware has been slightly tested at a functional level, but has no unit tests.
+
+I usually write loads of tests, possibly _before_ the actual code; this time I was wandering in a completely new area and I knew most of the code was going to be higly disposable. Now that all hurdles have been surpassed, the refactoring stage will go hand-to-hand with writing a thorough test suite. Wish me good luck.
+
+The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus (it works)* and *support for dallas 1-wire protocol (not yest)*, to leave one pin free for your creativity.
 
 = Download =
 
@@ -38,21 +43,21 @@ _Please not that my experience in C is very limited. And it approaches zero when
 ||command name||cmd char||cmd byte||# args||# ret vals||format||implemented||
 ||*Go to RGB Color Now*||n||0x6e||3||0||{‘n’,R,G,B}||*yes*||
 ||*Fade to RGB Color*||c||0x63||3||0||{‘c’,R,G,B}||*yes*||
-||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||yes ^x^||
-||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||yes ^x^||
-||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||yes ^x^||
-||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes ^x^||
-||Stop Script||o||0x6f||0||0||{‘o’}||yes ^x^||
-||Set Fade Speed||f||0x66||1||0||{‘f’,f}||yes ^x^||
-||Set Time Adjust||t||0x74||1||0||{‘t’,t}||yes^x^||
-||Get Current RGB Color||g||0x67||0||3||{‘g’}||yes ^x^||
-||Write Script Line||W||0x57||7||0||{‘W’,n,p,d,c,a1,a2,a3}||yes^2^ ^x^||
-||Read Script Line||R||0x52||2||5||{‘R’,n,p}||yes^1^ ^x^||
-||Set Script Length & Repeats||L||0x4c||3||0||{‘L’,n,l,r}||yes ^x^||
-||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||yes ^x^||
-||Get BlinkM Address||a||0x61||0||1||{‘a’}||yes ^x^||
-||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||yes^4^ ^x^|| 
-||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||yes ^x^||
+||Fade to HSB Color||h||0x68||3||0||{‘h’,H,S,B}||yes||
+||Fade to Random RGB Color||C||0x43||3||0||{‘C’,R,G,B}||yes||
+||Fade to Random HSB Color||H||0x48||3||0||{‘H’,H,S,B}||yes||
+||Play Light Script||p||0x70||3||0||{‘p’,n,r,p}||yes||
+||Stop Script||o||0x6f||0||0||{‘o’}||yes||
+||Set Fade Speed||f||0x66||1||0||{‘f’,f}||yes||
+||Set Time Adjust||t||0x74||1||0||{‘t’,t}||yes||
+||Get Current RGB Color||g||0x67||0||3||{‘g’}||yes||
+||Write Script Line||W||0x57||7||0||{‘W’,n,p,d,c,a1,a2,a3}||yes^2^||
+||Read Script Line||R||0x52||2||5||{‘R’,n,p}||yes^1^||
+||Set Script Length & Repeats||L||0x4c||3||0||{‘L’,n,l,r}||yes||
+||Set BlinkM Address||A||0x41||4||0||{‘A’,a...}||yes||
+||Get BlinkM Address||a||0x61||0||1||{‘a’}||yes||
+||Get BlinkM Firmware Version||Z||0x5a||0||1||{‘z’}||yes^4^|| 
+||Set Startup Parameters||B||0x42||5||0||{‘B’,m,n,r,f,t}||yes||
 ||Pre-deﬁned light scripts||||||||||||yes ^5^||
 
 ^x^ Only available in subversion head.
