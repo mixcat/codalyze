@@ -79,9 +79,9 @@ _Please not that my experience in C is very limited. And it approaches zero when
 == Goals for next release ==
 
   * Write a comprehensive test suite
-  * Decouple cyz_cmd from cyz_rgb [done]
+  * Decouple cyz_cmd from cyz_rgb (done)
   * Decouple usiTwiSlave from cyz_cmd
-  * Reduce binary footprint (now 4072b of 4096 available) [now 3740b, still too big]
+  * Reduce binary footprint (now 4072b of 4096 available) (now 3740b, but still too big)
   * Add ability to write 2 scripts
 
 Matteo Caprari <matteo.caprari gmail.com>
