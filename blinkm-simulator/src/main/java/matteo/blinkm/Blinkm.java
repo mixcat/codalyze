@@ -1,6 +1,8 @@
 package matteo.blinkm;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileReader;
 
 
 public class Blinkm {

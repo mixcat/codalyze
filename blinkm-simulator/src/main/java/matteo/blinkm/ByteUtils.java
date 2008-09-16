@@ -53,4 +53,16 @@ public class ByteUtils {
 		rt[1] = slice(src, pos, src.length-pos);
 		return rt;
 	}
+	
+	public static byte[] shift(byte[] src, int pos, int dir) {
+		byte[] dst = new byte[src.length];
+		for (int i = pos; i < src.length; i++) {
+			dst[i-pos] = src[i];
+		}
+		for (int i = 0; i < pos; i++) {
+			dst[i] = src[i+pos];
+		}
+		return dst;
+	}
+	
 }

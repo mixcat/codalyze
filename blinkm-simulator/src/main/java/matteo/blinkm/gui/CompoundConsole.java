@@ -1,5 +1,6 @@
 package matteo.blinkm.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,8 +41,8 @@ public class CompoundConsole {
 	
 	private void start() {
 		consolePanel = new ConsolePanel();
-		simulator = new ProcessingSimulator(450, 450, 4, 4);
-		Helper helper = new Helper(simulator,4,4);
+		simulator = new ProcessingSimulator(450, 450, 9, 9);
+		Helper helper = new Helper(simulator,9,9);
 		consolePanel.setHelper(helper);
 		InheritableTagLibrary tagLibrary = CookSwing.getSwingTagLibrary ();
 		setupTags(tagLibrary);

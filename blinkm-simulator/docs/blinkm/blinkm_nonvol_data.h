@@ -17,7 +17,7 @@
 #define MAX_EE_SCRIPT_LEN 49
 
 typedef struct _script_line {
-    uint8_t dur; 
+    uint8_t dur;
     uint8_t cmd[4];    // cmd,arg1,arg2,arg3
 } script_line;
 
@@ -131,7 +131,7 @@ const script fl_script_hue_cycle PROGMEM = {
     0, // number of repeats
     {
         { 30, {'h', 0x00,0xff,0xff}},  // red
-        { 30, {'h', 0x2a,0xff,0xff}},  // yellow 
+        { 30, {'h', 0x2a,0xff,0xff}},  // yellow
         { 30, {'h', 0x54,0xff,0xff}},  // green
         { 30, {'h', 0x7e,0xff,0xff}},  // cyan
         { 30, {'h', 0xa8,0xff,0xff}},  // blue
@@ -154,7 +154,7 @@ const script fl_script_candle PROGMEM = {
     16, // number of lines
     0,  // number of repeats
     {
-        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed)
         { 50, {'h', 0x10,0xff,0xff}}, // set orange
         {  2, {'H', 0x00,0x00,0x30}},
         { 27, {'H', 0x00,0x10,0x10}},
@@ -164,7 +164,7 @@ const script fl_script_candle PROGMEM = {
         { 10, {'H', 0x00,0x00,0x40}},
         { 10, {'H', 0x00,0x00,0x20}},
         { 50, {'h', 0x0a,0xff,0xff}}, // set orange
-        {  1, {'f',   40,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   40,0x00,0x00}}, // set color_step (fade speed)
         {  5, {'H', 0x00,0x00,0xff}},
         {  1, {'H', 0x00,0x00,0x40}},
         {  1, {'H', 0x00,0x00,0x10}},
@@ -174,11 +174,11 @@ const script fl_script_candle PROGMEM = {
 };
 
 // virtual water
-const script fl_script_water PROGMEM = { 
+const script fl_script_water PROGMEM = {
     16, // number of lines
     0,  // number of repeats
     {
-        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed)
         { 20, {'h',  140,0xff,0xff}}, // set blue
         {  2, {'H', 0x05,0x00,0x30}},
         {  2, {'H', 0x05,0x00,0x10}},
@@ -188,7 +188,7 @@ const script fl_script_water PROGMEM = {
         { 10, {'H', 0x15,0x00,0x40}},
         { 10, {'H', 0x05,0x00,0x20}},
         { 20, {'h',  160,0xff,0xff}}, // set blue
-        {  1, {'f',   20,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   20,0x00,0x00}}, // set color_step (fade speed)
         {  5, {'H', 0x05,0x00,0x40}},
         {  1, {'H', 0x05,0x00,0x40}},
         {  1, {'H', 0x05,0x00,0x10}},
@@ -198,11 +198,11 @@ const script fl_script_water PROGMEM = {
 };
 
 // old neon
-const script fl_script_oldneon PROGMEM = { 
+const script fl_script_oldneon PROGMEM = {
     16, // number of lines
     0,  // number of repeats
     {
-        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   10,0x00,0x00}}, // set color_step (fade speed)
         { 20, {'h',   10,0xff,0xff}}, // set reddish orange
         {  2, {'H', 0x05,0x00,0x20}},
         {  2, {'H', 0x05,0x00,0x10}},
@@ -212,7 +212,7 @@ const script fl_script_oldneon PROGMEM = {
         { 10, {'H', 0x15,0x00,0x40}},
         { 10, {'H', 0x05,0x00,0x20}},
         { 20, {'h',   14,0xff,0xff}}, // set reddish orange
-        {  1, {'f',   30,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',   30,0x00,0x00}}, // set color_step (fade speed)
         {  5, {'H', 0x05,0x00,0xff}},
         {  1, {'H', 0x05,0x00,0x40}},
         {  1, {'H', 0x05,0x00,0x10}},
@@ -243,25 +243,25 @@ const script fl_script_thunderstorm PROGMEM = {
     10, // number of lines
     0,  // number of repeats
     {
-        {  1, {'f',    1,0x00,0x00}}, // set color_step (fade speed) 
+        {  1, {'f',    1,0x00,0x00}}, // set color_step (fade speed)
         {100, {'h',  180,0xff,0x20}}, //
         { 20, {'H',    0,0x10,0x10}}, // randomize a bit
         {100, {'h',  175,0xff,0x20}}, // set dark blueish purple
-        {  1, {'f',  200,0x00,0x00}}, // set fast fade speed 
+        {  1, {'f',  200,0x00,0x00}}, // set fast fade speed
         {  2, {'h',  188,0x00,0xff}}, // white (no saturation)
         {  2, {'h',  178,0x00,0x00}}, // black (no brightness)
         {  4, {'h',  188,0x00,0xff}}, // white (no saturation)
-        {  1, {'f',   30,0x00,0x00}}, // 
-        { 40, {'h',  172,0xff,0x10}}, // 
+        {  1, {'f',   30,0x00,0x00}}, //
+        { 40, {'h',  172,0xff,0x10}}, //
     }
 };
 
 // stop light
-const script fl_script_stoplight PROGMEM = { 
+const script fl_script_stoplight PROGMEM = {
     4, // number of lines
     0,  // number of repeats
     {
-        {  1, {'f', 100,0x00,0x00}},  // set color_step (fade speed) 
+        {  1, {'f', 100,0x00,0x00}},  // set color_step (fade speed)
         {100, {'h',   0,0xff,0xff}},  // set red
         {100, {'h',  90,0xff,0xff}},  // set 'green' (really teal)
         { 30, {'h',  48,0xff,0xff}},  // set yellow
@@ -269,27 +269,27 @@ const script fl_script_stoplight PROGMEM = {
 };
 
 // morse code  - SOS
-const script fl_script_morseSOS PROGMEM = { 
+const script fl_script_morseSOS PROGMEM = {
     17,  // number of lines
     0,  // number of repeats
     {
-        { 1,  {'f',   100,0x00,0x00}}, // set color_step (fade speed) 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        { 5,  {'c',  0x00,0x00,0x00}}, 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        { 5,  {'c',  0x00,0x00,0x00}}, 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        {10,  {'c',  0x00,0x00,0x00}}, 
-        {10,  {'c',  0xff,0xff,0xff}}, 
-        {10,  {'c',  0x00,0x00,0x00}}, 
-        {10,  {'c',  0xff,0xff,0xff}}, 
-        {10,  {'c',  0x00,0x00,0x00}}, 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        { 5,  {'c',  0x00,0x00,0x00}}, 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        { 5,  {'c',  0x00,0x00,0x00}}, 
-        { 5,  {'c',  0xff,0xff,0xff}}, 
-        {20,  {'c',  0x00,0x00,0x00}}, 
+        { 1,  {'f',   100,0x00,0x00}}, // set color_step (fade speed)
+        { 5,  {'c',  0xff,0xff,0xff}},
+        { 5,  {'c',  0x00,0x00,0x00}},
+        { 5,  {'c',  0xff,0xff,0xff}},
+        { 5,  {'c',  0x00,0x00,0x00}},
+        { 5,  {'c',  0xff,0xff,0xff}},
+        {10,  {'c',  0x00,0x00,0x00}},
+        {10,  {'c',  0xff,0xff,0xff}},
+        {10,  {'c',  0x00,0x00,0x00}},
+        {10,  {'c',  0xff,0xff,0xff}},
+        {10,  {'c',  0x00,0x00,0x00}},
+        { 5,  {'c',  0xff,0xff,0xff}},
+        { 5,  {'c',  0x00,0x00,0x00}},
+        { 5,  {'c',  0xff,0xff,0xff}},
+        { 5,  {'c',  0x00,0x00,0x00}},
+        { 5,  {'c',  0xff,0xff,0xff}},
+        {20,  {'c',  0x00,0x00,0x00}},
     }
 };
 
@@ -317,6 +317,7 @@ const script* fl_scripts[] PROGMEM = {
 
 
 // eeprom begin: muncha buncha eeprom
+/*
 uint8_t  ee_i2c_addr         EEMEM = I2C_ADDR;
 uint8_t  ee_boot_mode        EEMEM = BOOT_PLAY_SCRIPT;
 uint8_t  ee_boot_script_id   EEMEM = 0x00;
@@ -336,4 +337,5 @@ script ee_script  EEMEM = {
         { 50, {'c', 0x00,0x00,0x00}}
     }
 };
+*/
 // eeprom end

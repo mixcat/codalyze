@@ -18,3 +18,18 @@ PLAY = new byte[] { 128, 'p' };
 
 STOPALL = command(0, stopScript());
 BOOTNO = command(0, new byte[] {'B', 0, 0, 0, 20, 20});
+
+byte[][] Stest1 = {
+	{0, 'W', 0, 0, 255, 'n', 255, 0, 255},
+	{0, 'W', 0, 1, 255, 'n', 0, 255, 255},
+	{0, 'W', 0, 2, 255, 'n', 255, 255, 0}
+};
+
+byte[] Slr1 = {0, 'L', 0, 3, 0 };
+
+byte[] P0 = {0,'p',0,0,0};
+byte[] P1 = {0,'p',1,0,0};
+
+byte[] D = {0,'D'};
+byte[] a = {0, 'A'};
+byte[] g = {0, 'g'};
