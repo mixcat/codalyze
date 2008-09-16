@@ -37,6 +37,7 @@ static const int recordingPin = 13;
 #define GET_FIRMWARE_VERSION 'Z'
 #define SET_STARTUP_PARAMS 'B'
 #define CMD_SLEEP  'P'
-
+#define CMD_SEND_BYTE 'X'
+#define CMD_READ_DEBUG_BUF 'D'
 
 #endif

@@ -54,6 +54,7 @@ void loop() {
 	// now we have data
 	int first = Serial.read();
 
+      
 	/* we have to check if the first byte is the beginning of a special command */
 	switch ( first )
 	{
@@ -79,6 +80,7 @@ void cmd_blinkm(int addr) {
 
 	int cmd = Serial.read();
 	int cmdlen = blinkm_getcmdlen(cmd);
+        int reslen = blinkm_getcmdreslen(cmd);
 
 	// negative value means command not recognized
 	if ( cmdlen < 0 )
@@ -109,7 +111,13 @@ void cmd_blinkm(int addr) {
 
 	for ( int i = 0 ; i < cmdlen ; i++ )
 		full_command[i+1] = Serial.read();
-
+    
+        
+        Serial.print("Sending: [ "); Serial.print(addr, DEC); Serial.print(" ");
+        for (int i = 0; i < cmdlen+1; i++ ) {
+          Serial.print(full_command[i], DEC); Serial.print(" ");
+        }
+        Serial.println("]");
 	/* done with reading, flush before sending out */
 	Serial.flush();
 
@@ -118,6 +126,29 @@ void cmd_blinkm(int addr) {
 	Wire.send(full_command, 1+cmdlen);
 	Wire.endTransmission();
 
+
+        Serial.print("Sent: [ "); Serial.print(addr, DEC); Serial.print(" ");
+        for (int i = 0; i < cmdlen+1; i++ ) {
+          Serial.print(full_command[i], DEC); Serial.print(" ");
+        }
+        Serial.println("]");
+        Serial.flush();
+
+        if (reslen > 0 ) {
+          Wire.requestFrom(addr, reslen);
+          Serial.print("Requesting "); Serial.print(reslen); Serial.print(" bytes: [ ");
+          for (int x=0; x<reslen; x++ ) {
+            Serial.print(Wire.receive(), DEC); Serial.print(" ");
+          }
+          Wire.receive();
+          Serial.println("]");
+          Serial.flush();
+        }
+        
+
+        Serial.println("----");
+
+       
 	free(full_command);
 }  // cmd_blinkm()
 

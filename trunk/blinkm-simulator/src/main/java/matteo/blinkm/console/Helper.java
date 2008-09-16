@@ -1,7 +1,12 @@
 package matteo.blinkm.console;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 
+import matteo.blinkm.Definition;
 import matteo.blinkm.graphics.Matrix;
 import matteo.blinkm.graphics.Matrix.Direction;
 import matteo.blinkm.gui.ProcessingSimulator;
@@ -62,7 +67,7 @@ public class Helper {
 		if (serial != null && serial.available() > 0) {
 			byte[] read = serial.readBytes(); 
 			if (read != null)
-				System.out.print(new String(read));
+				System.out.println(new String(read));
 		}
 	}
 	
@@ -101,12 +106,47 @@ public class Helper {
 		serial = null;
 	}
 	
-	
 	public static void dump(char[] in) {
 		for (int i = 0; i < in.length; i++) {
 			System.out.print((int)i + " ");
 		}
+		
+		try {
+			FileReader fileReader = new FileReader(new File(""));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("|");
+	}
+	
+	public static void evo(Helper H) throws Exception {
+		Color[] colors = new Color[] {
+			Color.black,
+			Color.red,
+			Color.orange,
+			Color.yellow,
+			Color.green,
+			Color.cyan,
+			Color.blue,
+			Color.magenta,
+			Color.pink,
+			Color.lightGray
+		};
+		char[] buf = new char[2];
+		File f = new File("/Users/dikappa/Documents/workspace/evo_sudoku/out");
+		FileReader fr = new FileReader(f);
+		while(fr.read(buf) != -1) {
+			byte addr = (byte) buf[0];
+			int col = buf[1];
+			if (addr < 1 || col > 81)
+				break;
+			if (col < 0 || col > 9)
+				break;
+			Color c  = colors[col];
+			H.write(Commands.command(addr, Commands.goToRGB(c)));
+			Thread.sleep(10);
+		}	
 	}
 	
 }

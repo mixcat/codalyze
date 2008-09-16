@@ -1,6 +1,4 @@
-source("src/main/resources/console/shortcuts.bsh");
-source("src/main/resources/console/serial.bsh");
-source("src/main/resources/console/effects.bsh");
+
 
 
 byte[][] matrix = Matrix.build(H.getRows(),H.getCols());
@@ -68,3 +66,7 @@ Script rbw = new Script()
 		.l(Commands.fadeToRGB(new Color(75, 0, 130)))
 		.l(Commands.fadeToRGB(new Color(238, 130, 238)));
 */
+
+source("src/main/resources/console/shortcuts.bsh");
+source("src/main/resources/console/serial.bsh");
+source("src/main/resources/console/effects.bsh");

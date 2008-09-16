@@ -3,6 +3,17 @@
 
 #include "defines.h"
 
+int blinkm_getcmdreslen(int cmd) {
+  switch (cmd) {
+    case CMD_GET_ADDRESS:
+      return 1;
+    case CMD_GET_CURRENT_RGB:
+      return 3;
+    case CMD_READ_DEBUG_BUF:
+      return 8;
+  }
+  return 0;
+}
 
 int blinkm_getcmdlen (int cmd) {
 
@@ -26,7 +37,7 @@ int blinkm_getcmdlen (int cmd) {
 		case CMD_SET_TIME_ADJUST: 
 			return 1;
 		case CMD_GET_CURRENT_RGB: 
-			return 3;
+			return 0;
 		case CMD_WRITE_SCRIPT_LINE: 
 			return 7;
 		case CMD_READ_SCRIPT_LINE: 
@@ -43,6 +54,10 @@ int blinkm_getcmdlen (int cmd) {
 			return 5;
 		case CMD_SLEEP:
 			return 2;
+                case CMD_SEND_BYTE:
+                        return 0;
+                case CMD_READ_DEBUG_BUF:
+                        return 0;
 	}
 	return -1;
 }

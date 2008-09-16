@@ -25,7 +25,6 @@ public class TcpClient {
 	public void write(byte[] rt) {
 		if (socket == null) 
 			return;
-		System.out.println("writing buf " + rt.length);
 		try {
 			socket.getOutputStream().write(rt);
 			socket.getOutputStream().flush();
