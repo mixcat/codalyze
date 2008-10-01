@@ -15,16 +15,13 @@ function applyHash(hashString) {
 		hash = parseHash(location.hash);
 	} catch(ex) {}
 	if(hash.s) {
-		//$('.faw-feed-url[title='+hash.s+']').click();
 		$.getJSON($('.faw-feed-url[title='+hash.s+']').attr('href'), function(data) {
 			$displayFlickrStream(data);
 			if(hash.l) {
 				displayImage($('a[href='+hash.l+']').parent().find('.faw-image-tmb-link'));
 			}
-			//$('.faw-image-list-item:first a').click();
 		});
 	}
-	
 }
 
 var currentHashString = window.location.hash;
