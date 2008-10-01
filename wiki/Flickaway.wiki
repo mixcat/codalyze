@@ -4,10 +4,23 @@
 
 One simple html page with very limited content:
 
-  * remote script: loader.js
+  * remote library: jquery (google javascript libraries apis)
+  * remote script: loader.js?iv=<initial_version>
+  * remote css: reset and base from yui
   * skin name: class name of body element
   * page title
-  * remote anchors to flickr feeds 
+  * remote anchors to flickr feeds (full feed urls)
+
+Loader.js?iv=<initial_version>
+
+  * small and short-cached (~weeks)
+  * *iv* is a numeric value that describes on which version this page was generated.
+  * loader will always load the best version compatible with iv
+  * loader detects the configured skin and loads the best css file
+
+Css
+
+  * css skin files are versioned and configured as never-expire
 
 = Details =
 
