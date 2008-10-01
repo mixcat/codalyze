@@ -1,5 +1,3 @@
-(function($) {
-	
 	function buildItemView(item, width, height) {
 		var thumbnail_url = item.media.m.replace('_m.', '_s.');
 		var normal_url = item.media.m.replace('_m.','.');
@@ -50,7 +48,6 @@
 	};
 	
 	$(function() {
-		
 		$('.faw-ctrl-big, .faw-ctrl-normal').click(function() {
 			$('.faw-ctrl-big, .faw-ctrl-normal').removeClass('faw-ctrl-selected');
 			$(this).addClass('faw-ctrl-selected');
@@ -73,4 +70,3 @@
 		$('.faw-set-selection-current').click();
 		
 	});
-})(jQuery);
