@@ -4,10 +4,10 @@
 
 One simple html page with very limited content:
 
-* remote script: loader.js
-* skin name: class name of body element
-* page title
-* remote anchors to flickr feeds 
+  * remote script: loader.js
+  * skin name: class name of body element
+  * page title
+  * remote anchors to flickr feeds 
 
 = Details =
 
