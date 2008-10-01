@@ -1,0 +1,9 @@
+#summary Client-only flickr viewer
+
+= Introduction =
+
+
+
+= Details =
+
+  * excellent simple doc on http caching
