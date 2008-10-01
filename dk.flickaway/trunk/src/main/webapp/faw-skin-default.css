@@ -1,4 +1,7 @@
-.faw-skin-default, .faw-skin-default body,  .faw-skin-default *, html {
+@import url(http://yui.yahooapis.com/2.5.2/build/base/base-min.css);
+@import url(http://yui.yahooapis.com/2.5.2/build/base/reset-min.css);
+
+html, .faw-skin-default {
 	background-color: black;
 	color:white;
 }
