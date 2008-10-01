@@ -6,7 +6,6 @@ One simple html page with very limited content:
 
   * remote library: jquery (google javascript libraries apis)
   * remote script: loader.js?iv=<initial_version>
-  * remote css: reset and base from yui
   * skin name: class name of body element
   * page title
   * remote anchors to flickr feeds (full feed urls)
