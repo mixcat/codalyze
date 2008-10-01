@@ -1,0 +1,120 @@
+.faw-skin-default, .faw-skin-default body,  .faw-skin-default *, html {
+	background-color: black;
+	color:white;
+}
+
+.faw-skin-default .faw-image-tmb {
+	width: 75px;
+	height: 75px;
+}
+
+.faw-skin-default .faw-image-list a {
+	padding: 0;
+	margin: 0;
+}
+
+.faw-skin-default .faw-image-list img {
+	border: 0px;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+}
+
+br.clear {
+	clear:both;
+}
+
+.faw-skin-default .faw-image-list-item {
+	border-bottom: 3px solid white;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display:block;
+	float:left;
+}
+
+.faw-skin-default .faw-image-list-item.first-item {
+	border-left: 3px solid white;
+	
+}
+
+.faw-skin-default .faw-image-list-item.last-item {
+	border-right: 3px solid white;
+	border-left: 3px solid white;
+}
+
+.faw-skin-default .faw-image-list-item.central-item {
+	border-left: 3px solid white;
+}
+
+.faw-skin-default .faw-image-list-item.first-line {
+	border-top: 3px solid white;
+}
+
+.faw-skin-default .faw-image-list-item.last-item {
+	border-right: 3px solid white;
+}
+
+.faw-skin-default .faw-set-selection-current {
+	background-color: grey;
+}
+
+.faw-page-title {
+	font-size: 150%;
+	font-weight: bold;
+	padding-left: 0.2em;
+}
+
+.faw-skin-default .faw-controls {
+	position:absolute;
+	top: 2em;
+	font-family: sans-serif;
+	padding-left: 0.2em;
+}
+
+.faw-skin-default .faw-image-list {
+	float: left;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 6em;
+	left: 1em;
+	z-index: 99;
+}
+
+.faw-skin-default .faw-image-container {
+	position: absolute;
+	top: 5em;
+	left: 2em;
+	border: 2px solid white;
+	padding-left: 20em;
+	padding-bottom: 2em;
+	padding-top: 2em;
+	padding-right: 2em;
+}
+
+.faw-skin-default .faw-image-title {
+	position: absolute;
+	left: 25em;
+	top: 4em;
+	padding-bottom: 1px;
+	z-index: 99;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	overflow:hidden;
+	display: block;
+}
+
+.faw-skin-default .faw-ctrl {
+	color: white;
+	text-decoration: none;
+	padding: 0.2em;
+}
+
+.faw-skin-default .faw-ctrl-selected {
+	background-color: gray;
+}
+
+.faw-skin-default .faw-image-tmb-link-selected {
+	border-color: black;
+}
