@@ -1,0 +1,1 @@
+$.ajax({url:'faw-core-1.0.0.js', datatype:'script', cache:true});
