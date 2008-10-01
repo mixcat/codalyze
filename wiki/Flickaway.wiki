@@ -6,4 +6,4 @@
 
 = Details =
 
-  * excellent simple doc on http caching
+  * excellent simple doc on http caching: http://www.mnot.net/cache_docs/
