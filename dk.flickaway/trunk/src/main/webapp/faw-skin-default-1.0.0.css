@@ -1,7 +1,8 @@
+/*js-in-css:faw-skin-default-1.0.0.js*/
 @import url(http://yui.yahooapis.com/2.5.2/build/base/base-min.css);
 @import url(http://yui.yahooapis.com/2.5.2/build/base/reset-min.css);
 
-html, .faw-skin-default {
+.faw-skin-default {
 	background-color: black;
 	color:white;
 }
@@ -17,13 +18,14 @@ html, .faw-skin-default {
 }
 
 .faw-skin-default .faw-image-list img {
-	border: 0px;
+	border: 0;
 	padding: 0;
 	margin: 0;
 	vertical-align: middle;
+	background-color: white;
 }
 
-br.clear {
+.faw-skin-default .faw-image-list .clear {
 	clear:both;
 }
 
@@ -59,12 +61,17 @@ br.clear {
 }
 
 .faw-skin-default .faw-set-selection-current {
-	background-color: grey;
+	background-color: gray;
 }
 
-.faw-page-title {
+.faw-skin-default .faw-page-title {
+	position: absolute;
+	top: 0em;
+	left:0;
 	font-size: 150%;
 	font-weight: bold;
+	padding:0;
+	margin: 0;
 	padding-left: 0.2em;
 }
 
@@ -72,6 +79,7 @@ br.clear {
 	position:absolute;
 	top: 2em;
 	font-family: sans-serif;
+	padding:0.1em;
 	padding-left: 0.2em;
 }
 
@@ -85,9 +93,18 @@ br.clear {
 	z-index: 99;
 }
 
+.faw-skin-default .faw-original-location-notice {
+	color: gray;
+	font-size: 80%;
+}
+
+.faw-skin-default .faw-original-location-notice a {
+	color: gray;
+}
+
 .faw-skin-default .faw-image-container {
 	position: absolute;
-	top: 5em;
+	top: 4em;
 	left: 2em;
 	border: 2px solid white;
 	padding-left: 20em;
@@ -96,16 +113,19 @@ br.clear {
 	padding-right: 2em;
 }
 
-.faw-skin-default .faw-image-title {
-	position: absolute;
-	left: 25em;
-	top: 4em;
-	padding-bottom: 1px;
+.faw-skin-default .faw-image-header {
 	z-index: 99;
-	padding-left: 0.6em;
-	padding-right: 0.6em;
+	padding: 0;
+	padding-bottom: 0.2em;
 	overflow:hidden;
 	display: block;
+	font-family: sans-serif;
+}
+
+.faw-skin-default .faw-image-header h3 {
+	display:inline;
+	color:#ddd;
+	letter-spacing:2px;
 }
 
 .faw-skin-default .faw-ctrl {
@@ -120,4 +140,16 @@ br.clear {
 
 .faw-skin-default .faw-image-tmb-link-selected {
 	border-color: black;
+}
+
+.faw-skin-default a {
+	color: white;
+}
+
+.faw-skin-default a:hover {
+	color: white;
+}
+
+.faw-skin-default a:visited {
+	color: white;
 }

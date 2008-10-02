@@ -1,3 +1,4 @@
+/*html-in-js:faw-template-default-1.0.0.html*/
 function parseHash(hashString) {
 	var hash = {}
 	if (hashString != '') {
@@ -131,40 +132,40 @@ function $displayFlickrStream(data) {
 	
 	$('.faw-image-tmb-link').click($clickThumbnail);
 	
-	// fix thumbnail list to display as a grid
-	// TODO: this is part of the visualization system and should be in a listRenderer
-	$('.faw-image-list-item').each(function(i) {
-		if (i%4 == 0) $(this).addClass('first-item');
-		else if (i%4 == 3) { $(this).addClass('last-item').after('<br class="clear"/>'); }
-		else $(this).addClass('central-item');
-		if (i<4) $(this).addClass('first-line');
-		if (i==data.items.length-1) $(this).addClass('last-item');
-	});
-	
+	faw_skin_default.afterStreamLoaded();
 };
 
 function MAIN() {
 	
-	try {
-		hash = parseHash(location.hash);
-	} catch(ex) {}
+	try { hash = parseHash(location.hash); } catch(ex) {}
 	
-	$('.faw-ctrl-big, .faw-ctrl-normal').click($clickSizeCtrl);
-	
-	$(".faw-feed-url").each(function(i) {
-		var feedHref = $(this).attr('href');
-		$(this).attr('href', feedHref + '&format=json&jsoncallback=?')
-		.html($(this).attr('title'))
-		.appendTo('.faw-set-selection').click($clickSetSelection);
+	$.ajax({
+		url: 'faw-template-default-1.0.0.html',
+		dataType: 'text',
+		success: function(html) {
+			$('.faw-skin-default').append('<div id="faw-root-element">'+html+'</div>');
+			$('.faw-page-title').html($('head title').html());
+			$('.faw-ctrl-big, .faw-ctrl-normal').click($clickSizeCtrl);
+			$('link[rel=feed-source]').each(function() {
+				var title = $(this).attr('title');
+				var href = $(this).attr('href');
+				$('.faw-set-selection').append(
+					$('<a/>"')
+					.attr({'title':title, 'href':href + '&format=json&jsoncallback=?', 'class':'faw-feed-url faw-ctrl'})
+					.html(title)
+					.click($clickSetSelection)
+				);
+			});
+			
+			if(hash.s) {
+				$('.faw-feed-url[title='+hash.s+']').click();
+			}
+			else {
+				$('.faw-set-selection-current').click();
+			}
+			
+		}
 	});
-	
-	if(hash.s) {
-		$('.faw-feed-url[title='+hash.s+']').click();
-	}
-	else {
-		$('.faw-set-selection-current').click();
-	}
-	
 }
 
 $(MAIN);
