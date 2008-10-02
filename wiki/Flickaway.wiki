@@ -26,3 +26,8 @@ Css
 = Details =
 
   * excellent simple doc on http caching: http://www.mnot.net/cache_docs/
+
+= jot =
+
+- core(js) carries the template(html). template and core must be compatible
+- skin(css) hooks to template(html). skin and template must be compatible
