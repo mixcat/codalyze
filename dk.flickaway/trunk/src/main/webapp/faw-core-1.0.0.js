@@ -96,6 +96,7 @@ function displayImage(thumbnail) {
 }
 
 function $clickThumbnail() {
+	faw_skin_default.startWait();
 	displayImage($(this));
 	var originalLink = $(this).parent().find('a[title=faw-image-original-href]').attr('href');
 	updateHashParameter('l', originalLink);
@@ -132,6 +133,7 @@ function $displayFlickrStream(data) {
 	
 	$('.faw-image-tmb-link').click($clickThumbnail);
 	
+	
 	faw_skin_default.afterStreamLoaded();
 };
 
@@ -155,6 +157,16 @@ function MAIN() {
 					.html(title)
 					.click($clickSetSelection)
 				);
+			});
+			
+			faw_skin_default.setup();
+			$('.image-view').load(function() {faw_skin_default.stopWait();})
+			$('body').ajaxStart(function() {
+				faw_skin_default.startWait();
+			});
+			
+			$('body').ajaxStop(function() {
+				faw_skin_default.stopWait();
 			});
 			
 			if(hash.s) {

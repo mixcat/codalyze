@@ -1,0 +1,56 @@
+.stb-skin-default .stb-left {
+	width: 7em;
+	height: 2px;
+	position:fixed;
+	background-color: white;
+	z-index: 93;
+}
+
+.stb-skin-default .stb-right {
+	width: 8em;
+	height: 2px;
+	position:fixed;
+	top: -2px;
+	left: 14em;
+	background-color: white;
+	z-index: 92;
+}
+
+.stb-skin-default .stb-middle {
+	width: 14em;
+	position: relative;
+	border-top: 2px dashed black;
+	left:0em;
+	z-index: 91;
+}
+
+.stb-stripe {
+	position: relative;
+	display:block;
+	float:left;
+	width:1em;
+	height: 2px;
+	background-color: black;
+	
+	padding:0;
+	margin-right:0.5em;
+}
+
+.stb-stripes {
+	display: block;
+	padding:0;
+	margin:0;
+
+	height:2px;
+	width: 7em;	
+}
+
+#stand-by {
+	position:absolute;
+	left: 3em;
+	top:4em;
+	width: 21em;
+	height: 2px;
+	z-index: 90;
+	background-color: white;
+}

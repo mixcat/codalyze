@@ -1,4 +1,8 @@
 faw_skin_default = {
+	setup: function() {
+		standBy = {};
+		$('#stand-by').standby(null, standBy);
+	},
 	afterStreamLoaded: function() {
 		// fix thumbnail list to display as a grid
 		var length = $('.faw-image-list-item').size();
@@ -9,5 +13,13 @@ faw_skin_default = {
 			if (i<4) $(this).addClass('first-line');
 			if (i==length-1) $(this).addClass('last-item');
 		});
+	},
+	startWait: function() {
+		standBy.start();
+	},
+	
+	stopWait: function() {
+		standBy.stop();
 	}
+
 }
