@@ -60,6 +60,7 @@ function cleanString(string) {
 }
 
 function buildItemView(item, width, height) {
+	faw_skin_default.startWait()
 	var thumbnail_url = item.media.m.replace('_m.', '_s.');
 	var normal_url = item.media.m.replace('_m.','.');
 	var big_url = item.media.m.replace('_m.','_b.');
@@ -69,6 +70,7 @@ function buildItemView(item, width, height) {
 			$('<img width="75" height="75" class="faw-image-tmb"/>')
 			.attr("src", thumbnail_url)
 			.attr('alt', cleanString(item.title))
+			.load(function() {faw_skin_default.stopWait();})
 		)
 	).append(
 			$('<a title="faw-image-big"/>').attr('href', big_url)	
@@ -146,6 +148,15 @@ function MAIN() {
 		dataType: 'text',
 		success: function(html) {
 			$('.faw-skin-default').append('<div id="faw-root-element">'+html+'</div>');
+			faw_skin_default.setup();
+			$('.image-view').load(function() {faw_skin_default.stopWait();});
+			$('body').ajaxStart(function() {
+				faw_skin_default.startWait();
+			});
+			
+			$('body').ajaxStop(function() {
+				faw_skin_default.stopWait();
+			});
 			$('.faw-page-title').html($('head title').html());
 			$('.faw-ctrl-big, .faw-ctrl-normal').click($clickSizeCtrl);
 			$('link[rel=feed-source]').each(function() {
@@ -159,15 +170,7 @@ function MAIN() {
 				);
 			});
 			
-			faw_skin_default.setup();
-			$('.image-view').load(function() {faw_skin_default.stopWait();})
-			$('body').ajaxStart(function() {
-				faw_skin_default.startWait();
-			});
 			
-			$('body').ajaxStop(function() {
-				faw_skin_default.stopWait();
-			});
 			
 			if(hash.s) {
 				$('.faw-feed-url[title='+hash.s+']').click();
