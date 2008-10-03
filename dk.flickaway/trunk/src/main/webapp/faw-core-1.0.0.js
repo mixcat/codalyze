@@ -133,15 +133,15 @@ function $displayFlickrStream(data) {
 		$('.faw-container .faw-image-list').append(buildItemView(item));
 	});
 	
+	$('.faw-go-to-flickr-set').attr('href', data.link);
+	
 	$('.faw-image-tmb-link').click($clickThumbnail);
 	
 	
 	faw_skin_default.afterStreamLoaded();
 };
-
 function faw_core_main() {
 	try { hash = parseHash(location.hash); } catch(ex) {}
-	
 	$.ajax({
 		url: 'faw-template-default-1.0.0.html',
 		dataType: 'text',
@@ -171,6 +171,11 @@ function faw_core_main() {
 				);
 			});
 			
+			$('.faw-more-ctrl-toggle').click(function() {
+				$(this).toggleClass('faw-visible-bg');
+				$('.faw-more-ctrl-list').toggleClass('faw-hidden');
+			});
+			
 			if(hash.s) {
 				$('.faw-feed-url[title='+hash.s+']').click();
 			}
@@ -182,4 +187,7 @@ function faw_core_main() {
 	});
 }
 
-if (typeof(faw_skip_main) == 'undefined') $(faw_core_main);
+// setup.js needs to stop faw autostart to call it explicitly when things are ready
+try { hash = parseHash(location.hash);
+if (!hash.skip_main) faw_core_main();
+} catch(ex) {}

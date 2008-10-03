@@ -3,41 +3,90 @@
 	<head>
 		<title>Flickaway: a flickr viewer</title>
 		<style type="text/css">
+			body {
+				width: 40em;	
+				margin-left: 10em;
+				background-color: #eee;
+				font-family: sans-serif;
+			}
+			
+			p {
+				text-align: justify;	
+			}
+			
+			.faw-home-demo {
+				background-color: #33FF00;
+				padding: 0.5em;
+				border: 3px groove green;
+				color: black;
+				text-decoration: none;
+			}
+			.faw-home-hsmall {
+				font-weight: normal;
+				font-size: small;
+			}
 			
 		</style>
 	</head>
-	</body>
+	<body>
 		<h1>Flickaway: a flickr viewer</h1>
 		
 		<p>
-			Motivation: even if I like <a href="http://flickr.com">flickr</a>, sometimes I'd like to have a simpler space for my pictures.
+			Even if I like <a href="http://flickr.com">flickr</a>, sometimes I'd prefer to have a <b>simpler space</b> for my pictures.
+			I wrote this little javascript program to do <b>just that</b>.
 		</p>
 		<p>
-			I wrote this little javascript program to display my pictures in a standalone html page.
-			<ul>Features:
-				<li>It's javascript-only, no server code is required.</li>
-				<li>Images are pulled straight away from flickr, no storage is required.</li>
-				<li>Supports bookmarking</li>
-				<li>Supports history: you can use back/forward buttons</li>
-				<li>All code is open source</li>
+			Features:
+			<ul>
+				<li>It's javascript-only, <b>no server code</b> is required.</li>
+				<li>Images are pulled straight away from flickr, <b>no storage</b> is required.</li>
+				<li>Supports <b>bookmarking</b>.</li>
+				<li>Supports <b>history</b>: you can use back/forward buttons.</li>
+				<li>All code is <b>open source</b>.</li>
 			</ul>
 		</p>
 		
 		<p>
-			Try the <a href="matteo.html">DEMO</a> (my pictures). If you like it, you can...
+			Try the <a class="faw-home-demo" href="matteo.html">DEMO</a> (my pictures). And if you are so inclined...
 		</p>
 		
-		<h2>Install it on your web server (with your pictures, not mine)</h2>
+		<h2>Install it on your web server <span class="faw-home-hsmall">(it will display your pictures, not mine)</span></h2>
 		<p>
 			<ul>
-				<li>You only need to download one html file and publish it somewhere in your website</li>
-				<li>It will always be up-to-date: the html file is 'almost empty' and loads the required javascript and styles from the net.
-					As I add fetaures and fix bugs, you'll always have the latest release.</li>
+				<li>You only need to <b>download one html file</b> and publish it somewhere in your website.</li>
+				<li>It will <b>always be up-to-date</b>: the html file is 'almost empty' and loads the required javascript and and styles from the net.
+					As I add features and fix bugs, you'll always have the <b>latest release</b>.</li>
 				<li>It's skinnable, so you can style it to match your taste.</li>
 			</ul>
-			Use the <a href="setup.html">Setup wizard</a> to get started.
+			
+			Use the javascript-only <a class="faw-home-demo" href="setup.html">setup wizard</a> to get started. 
+			
 		</p>
 		
+		<h3>Bugs & bites</h3>
+		<p>
+			If you wish to see new features, notify a bug or get in touch for whatever reason, please
+			<a href="https://codalyze.fogbugz.com/default.asp?pg=pgPublicEdit">open a case</a> or mail me at matteo.caprari&nbsp;.at.&nbsp;gmail.com
+		</p>
+		<p>
+			Stuff I'm working on:
+			<ul>
+				<li>History works only in firefox (and chrome maybe). IE requires iframe games, safari some other kinky trick.</li>
+				<li>The set selection menu gets a bit crazy if there are many sets or have very long names</li>
+				<li>Automating packing files together (now it's copy'n paste).</li>
+				<li>Automate deploy on amazon s3 with metadata configuration.</li>
+				<li>Large versions of the pictures are often not available, need a way to detect that.</li>
+				<li>Documentation on writing skins.</li>
+				<li>Style this page ;-)</li>
+			</ul>
+		</p>
+		
+		<h4>For techies only</h4>
+		<ul>
+			<li><a href="http://code.google.com/p/codalyze/source/browse/#svn/dk.flickaway/trunk/src/main/webapp">Browse the source code</a></li>
+		</ul>
+		
+		<br/><br/><span>:Matteo Caprari &lt;matteo.caprari .at. gmail.com&gt;
 	
 	</body>
 </html>

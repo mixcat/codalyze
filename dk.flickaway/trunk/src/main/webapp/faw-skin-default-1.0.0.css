@@ -65,7 +65,7 @@
 }
 
 .faw-skin-default .faw-page-title {
-	position: absolute;
+	position: relative;
 	top: 0em;
 	left:0;
 	font-size: 150%;
@@ -76,7 +76,7 @@
 }
 
 .faw-skin-default .faw-controls {
-	position:absolute;
+	position: absolute;
 	top: 2em;
 	font-family: sans-serif;
 	padding:0.1em;
@@ -154,10 +154,56 @@
 	color: white;
 }
 
-.faw-image-controls {
+.faw-skin-default .faw-more-ctrl {
+	position:absolute;
+	display:block;
+	top:2.5em;
+	left:0;
+	z-index:199;
+}
+
+.faw-skin-default .faw-visible-bg {
+	background-color: white;
+	color:black;
+}
+.faw-skin-default .faw-more-ctrl ul {
+	background-color: white;
+	padding: 2em;
+	margin:0;
+}
+
+.faw-skin-default .faw-more-ctrl a {
+	color: blue;
+}
+
+.faw-skin-default .faw-hidden {
+	display: none;
+}
+
+.faw-skin-default .faw-more-ctrl-item {
+	z-index:199;
+	background-color:white;
+	color: black;
+	white-space: nowrap;
+}
+
+.faw-skin-default .faw-image-controls {
 	position:absolute;
 	top:2.5em;
 	left:2em;
 	z-index:99;
 	width: 20em;
+}
+
+.faw-skin-default .faw-shameless-plug {
+	text-align: right;
+	color: #333;
+}
+
+.faw-skin-default .faw-shameless-plug a {
+	color: #333;
+}
+
+.faw-skin-default .faw-shameless-plug a:hover {
+	color: white;
 }
