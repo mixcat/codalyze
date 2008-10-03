@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<title>Flickaway setup page</title>
+    <script  type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAzv6LCTqn-Jhe93v0nBTGNhQb3O0x4dztNxAvrepTdvTFTNegShQ-DhqQopDINGuTzTWai6QGdkRtBg"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script>
+    	faw_skip_main = true;
+    </script>
+    <script type="text/javascript" src="setup.js"></script>
+    <style type="text/css">
+    	body {
+    		background-color: black;
+    		color: white;
+    	}
+    	
+    	a {
+    		color:white;
+    	}
+    	#faw-setup {
+    		position: absolute;
+    		top:0;
+    		left:0;
+ 			padding: 1em;
+ 			z-index: 999;
+ 			font-family: sans-serif;
+    	}
+    	
+    	.faw-setup-begin {
+    		font-size: 150%;
+    	}
+    	
+    	.faw-setup-begin input {
+    		font-size: inherit;
+    		width: 30em;
+    		background-color: yellow;
+    		border: 3px inset gray;
+    	}
+    	
+    	.faw-setup-begin button {
+    		font-size: inherit;
+    	}
+    	
+    	.feed-url-get {
+    		font-size: 130%;
+    	}
+    	
+    	.faw-setup-preview {
+    		position:absolute;
+    		left: 0em;
+    		top:0;
+    		width: 100em;
+    		white-space: nowrap;
+    		display:none;
+    		background-color: yellow;
+    		padding: 2px;
+    		color: black;
+    		text-align: left;
+    		font-size: 130%;
+    		z-axis: 999;
+    		height:2em;
+    	}
+    	
+    	.faw-setup-wait {
+    		position:absolute;
+    		left: 0em;
+    		top:0;
+    		width: 100em;
+    		white-space: nowrap;
+    		display:none;
+    		background-color: yellow;
+    		padding: 2px;
+    		color: black;
+    		text-align: left;
+    		font-size: 130%;
+    		z-axis: 999;
+    		height:2em;
+    	}
+    	
+    	.faw-setup-done {
+    		position:absolute;
+    		left: 0em;
+    		top:0;
+    		width: 30em;
+    		display:none;
+    		padding: 2px;
+    		color: white;
+    		font-size: 130%;
+    		padding-left:1em;
+    	}
+    	
+    	.faw-setup-skeleton {
+    		width: 600px;
+    		height: 600px;
+    		background-color: yellow;
+    		color: black;
+    		border: 3px inset gray;
+    	}
+    	
+    	.faw-setup-instructions {
+    		margin:0;
+    		padding-left:2em;
+    		padding-bottom: 1em;
+    		color: white;
+    		font-size: big;
+    	}
+    	
+    	#prev {
+    		width: 80em;
+    		height: 80em;
+    		position: absolute;
+    		top: -500em;
+    		left: -500;
+    		border:0;
+    	}
+    	
+    </style>
+  </head>
+
+  <body class="faw-skin-default">
+  	<div id="faw-setup">
+	  	<div class="faw-setup-begin">
+	  		Your <a href="flickaway.html">flickaway</a> page is just two clicks away.<br/><br/>
+	  		Enter your flickr homepage url in the field below and press the big button.<br/><br/>
+		    <input type="text"  id="feed-url-input" value="http://flickr.com/photos/groveway/"/>
+		    <button id="feed-url-input-submit">next: preview</button>
+	    </div>
+	    <div class="faw-setup-wait">Wait...</div>
+	    <div class="faw-setup-preview">
+	    	This is a usable preview of your flickaway page
+	    	<button class="feed-url-get">next: get it!</button>
+	    </div>
+	    
+	    <div class="faw-setup-done">
+	    	<h3>Almost done. Now follow the instructions:</h3>
+	    	<ol class="faw-setup-instructions">
+	    		<li>Copy the html code below in a new html file.</li>
+	    		<li>Publish the file on any web server.</li>
+	    		<li>That's it. Have fun.</li>
+	    	</ol>
+	    	<a href="setup.html">Click here to start over</a>
+		    <textarea class="faw-setup-skeleton"></textarea>
+	    </div>
+	    
+	    <iframe id="prev"  src="skeleton.html#skip_main=1"></iframe>
+	    
+	    <div id="stand-by" class="stb-skin-default">
+			<div class="stb-middle"></div>
+		</div>
+    </div>
+  </body>
+</html>
