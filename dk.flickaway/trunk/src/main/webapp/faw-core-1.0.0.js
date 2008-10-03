@@ -139,8 +139,7 @@ function $displayFlickrStream(data) {
 	faw_skin_default.afterStreamLoaded();
 };
 
-function MAIN() {
-	
+function faw_core_main() {
 	try { hash = parseHash(location.hash); } catch(ex) {}
 	
 	$.ajax({
@@ -159,18 +158,18 @@ function MAIN() {
 			});
 			$('.faw-page-title').html($('head title').html());
 			$('.faw-ctrl-big, .faw-ctrl-normal').click($clickSizeCtrl);
-			$('link[rel=feed-source]').each(function() {
+			$('link[rel=feed-source]').each(function(i) {
 				var title = $(this).attr('title');
 				var href = $(this).attr('href');
+				var className = 'faw-feed-url faw-ctrl';
+				if (i==0) className += ' faw-set-selection-current';
 				$('.faw-set-selection').append(
 					$('<a/>"')
-					.attr({'title':title, 'href':href + '&format=json&jsoncallback=?', 'class':'faw-feed-url faw-ctrl'})
+					.attr({'title':title, 'href':href + '&format=json&jsoncallback=?', 'class':className})
 					.html(title)
 					.click($clickSetSelection)
 				);
 			});
-			
-			
 			
 			if(hash.s) {
 				$('.faw-feed-url[title='+hash.s+']').click();
@@ -183,4 +182,4 @@ function MAIN() {
 	});
 }
 
-$(MAIN);
+if (typeof(faw_skip_main) == 'undefined') $(faw_core_main);

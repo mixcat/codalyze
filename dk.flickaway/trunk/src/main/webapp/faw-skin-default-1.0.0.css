@@ -153,3 +153,11 @@
 .faw-skin-default a:visited {
 	color: white;
 }
+
+.faw-image-controls {
+	position:absolute;
+	top:2.5em;
+	left:2em;
+	z-index:99;
+	width: 20em;
+}
