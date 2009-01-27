@@ -65,6 +65,9 @@ void loop() {
 			cmd_blinkm(first);
 	}
 
+        digitalWrite(4, HIGH);
+        digitalWrite(5, HIGH);
+
 }  // loop()
 
 
@@ -113,26 +116,28 @@ void cmd_blinkm(int addr) {
 		full_command[i+1] = Serial.read();
     
         
-        Serial.print("Sending: [ "); Serial.print(addr, DEC); Serial.print(" ");
-        for (int i = 0; i < cmdlen+1; i++ ) {
-          Serial.print(full_command[i], DEC); Serial.print(" ");
-        }
-        Serial.println("]");
+        //Serial.print("Sending: [ "); Serial.print(addr, DEC); Serial.print(" ");
+        //for (int i = 0; i < cmdlen+1; i++ ) {
+          //Serial.print(full_command[i], DEC); Serial.print(" ");
+        //}
+        //Serial.println("]");
 	/* done with reading, flush before sending out */
-	Serial.flush();
+	//Serial.flush();
 
 	/* send the full command to the specified address */
 	Wire.beginTransmission(addr);
+        //Serial.println("sent addr");
 	Wire.send(full_command, 1+cmdlen);
+        //Serial.println("sent command");
 	Wire.endTransmission();
+        Wire.begin();
 
-
-        Serial.print("Sent: [ "); Serial.print(addr, DEC); Serial.print(" ");
-        for (int i = 0; i < cmdlen+1; i++ ) {
-          Serial.print(full_command[i], DEC); Serial.print(" ");
-        }
-        Serial.println("]");
-        Serial.flush();
+        //Serial.print("Sent: [ "); Serial.print(addr, DEC); Serial.print(" ");
+        //for (int i = 0; i < cmdlen+1; i++ ) {
+          //Serial.print(full_command[i], DEC); Serial.print(" ");
+        //}
+        //Serial.println("]");
+        //Serial.flush();
 
         if (reslen > 0 ) {
           Wire.requestFrom(addr, reslen);
@@ -146,7 +151,7 @@ void cmd_blinkm(int addr) {
         }
         
 
-        Serial.println("----");
+        //Serial.println("----");
 
        
 	free(full_command);
