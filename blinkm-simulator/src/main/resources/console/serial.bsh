@@ -27,3 +27,6 @@ W(addr, data) {
 C(addr, data) {
 	return command(addr, data);
 }
+
+setAddress(a) {
+	byte[] E = {0, 'A',a,0x0d,0x0d,a}; H.write(E);}

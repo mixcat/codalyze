@@ -33,3 +33,14 @@ byte[] P1 = {0,'p',1,0,0};
 byte[] D = {0,'D'};
 byte[] a = {0, 'A'};
 byte[] g = {0, 'g'};
+
+A(addr) {
+	W(STOPALL);
+	H.setAddress(addr);
+	Thread.sleep(500);
+	W(addr, Gred);
+	Thread.sleep(500);
+	W(addr, Gblue);
+	Thread.sleep(500);
+	W(addr, Fgreen);
+}
