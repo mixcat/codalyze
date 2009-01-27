@@ -41,6 +41,10 @@ public class Helper {
 		return rows;
 	}
 
+	public void setAddress(int a) {
+		byte[] cmd = {0, 'A', (byte)a, (byte)0xd0 , (byte)0x0d, (byte)a};
+		writeSerial(cmd);
+	}
 	public static byte[] $(String name) {
 		return selectors.get(name);
 	}
