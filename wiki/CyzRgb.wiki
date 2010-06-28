@@ -1,7 +1,7 @@
 #summary CYZ_RGB: An alternative firmware for [http://thingm.com/products/blinkm BlinkM]
 
 = CYZ_RGB: An alternative firmware for [http://thingm.com/products/blinkm BlinkM] =
-== Version Alpha 2 - Feature complete ==
+== Version Beta 1 ==
 
 BlinkM is a Smart LED produced by [http://thingm.com ThingM]: 
 
@@ -9,23 +9,23 @@ BlinkM is a Smart LED produced by [http://thingm.com ThingM]:
    programmable full-color RGB LED for hobbyists,
    industrial designers, prototypers, and experimenters.
     
-Just connect it to an I2C bus and start sending commands like "show rgb color" or "fade to hsv value" and so on and so forth (it does much more; see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet]).
+Just connect it to an I2C bus and start sending commands like "Show RGB Color" or "Fade to HSV Value" and so on and so forth (it does much more; see the human-readable [http://thingm.com/fileadmin/thingm/downloads/BlinkM_datasheet.pdf data sheet]).
 
-A bit of explanation: I liked the idea to do a few more things with the leds and decided to modify the firmware. The original firmware is actually closed source (due to legal issues) so I had to start writing a new one from scratch.
+The original BlinkM firmware from ThingM is closed source due to licensing issues, so CYZ_RGB was written to provide an open-source implementation which can be shared and extended to support additional features.
 
-*The latest release implements all the features of the original firmware*. The firmware has been slightly tested at a functional level, but has no unit tests.
+The latest release implements all documented features of the original firmware with the exception of the built in light scripts which are sacrificed to make room for the extended features of CYZ_RGB.
 
-I usually write loads of tests, possibly _before_ the actual code; this time I was wandering in a completely new area and I knew most of the code was going to be higly disposable. Now that all hurdles have been surpassed, the refactoring stage will go hand-to-hand with writing a thorough test suite. Wish me good luck.
+In addition to the stock features of the BlinkM firmware, CYZ_RGB implements a 16-bit PWM routine and a logarithmic dimming table to provide smoother fades and more accurate color mixing. The normal BlinkM firmware controls the LED duty cycle on a linear curve, but the perceived brightness of the light output does not correspond to a linear scale. There is little difference between #808080 and #ffffff on a standard BlinkM although the expectation would be for the former color to be roughly half as bright as the latter. CYZ_RGB fixes this problem and fades are more linear.
 
-The new firmware has two interesting *additional features* in the works: the ability to act as a *master on the I2C bus (it works)* and *support for dallas 1-wire protocol (not yet)*, to leave one pin free for your creativity.
+Future work on CYZ_RGB may include expanding the I2C master-mode operation, adding support for 1Wire instead of I2C, supporting external timing/clocking for script synchronization, or supporting more advanced color transitions and fade easing. Of course, help is always appreciated!
 
 = Download =
 
-If you decide to download and give it a try, you'll find slave.hex and master.hex: the first is the actual blinkm firmware replacement, the other is the experimental master. You can flash the files on two different blinkms, connect them the to the same i2c bus and watch they change color together.
+If you decide to download and give it a try, you'll find a hex file that can be burned to your BlinkM, MaxM, or other similarly wired ATTiny44, ATTiny45, or ATTiny85 microcontroller. A binary including support for running the device in I2C master mode is not distributed in this release.
 
 [http://code.google.com/p/codalyze/source/browse/#svn/cyz_rgb/trunk Browse] the source code.
 
-[http://codalyze.googlecode.com/files/cyz_rgb-alpha2-2008_09_07-binary.zip Download] the latest binary release (alpha2).
+[http://code.google.com/p/codalyze/downloads/detail?name=cyz_rgb-beta1-2010_06_28-binary.zip Download] the latest binary release (beta1).
 
 [http://codalyze.blogspot.com/feeds/posts/default Subscribe] to news feed to follow
 developement.
